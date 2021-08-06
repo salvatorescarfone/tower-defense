@@ -8,7 +8,6 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setTitle("Tower Defender");
-		config.setWindowSizeLimits(600,400, 1280,675);
 		new Lwjgl3Application(new MainGame(),config);
 	}
 }
