@@ -1,10 +1,12 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.utils.ScreenUtils;
-
 
 /* This is the First Screen that the User is met with. It's the MainMenuScreen. In here are rendered all
  * graphics for the main menu and the user is met with instructions on how to start the game (click
@@ -14,34 +16,69 @@ import com.badlogic.gdx.utils.ScreenUtils;
 public class MainMenuScreen implements Screen {
     final MainGame game;
     OrthographicCamera camera;
+
+    Texture optionsButtonActive;
+    Texture optionsButtonInactive;
+    //Texture background;
+
+
+
+    private static final float START_TEXT_HEIGHT=50;
+    private static final float OPTION_BUTTON_WIDTH=100;
+    private static final float OPTION_BUTTON_HEIGHT=99;
+    private static final float OPTION_BUTTON_X=MainGame.WINDOW_WIDTH - OPTION_BUTTON_WIDTH;
+    private static final float OPTION_BUTTON_Y=0f;
+    //Used to display click to Start on Screen
+    final GlyphLayout startText;
+
+
     /*Constructor for the MainMenu*/
     public MainMenuScreen(final MainGame game){
         this.game=game;
         camera = new OrthographicCamera();
-        camera.setToOrtho(false,game.display.width,game.display.height);
+        camera.setToOrtho(false, MainGame.WINDOW_WIDTH,MainGame.WINDOW_HEIGHT);
 
+        startText= new GlyphLayout();
+        startText.setText(game.font, "Welcome to Tower Defence, click or tap anywhere to begin!");
+
+        optionsButtonActive = new Texture("options_active.jpg");
+        optionsButtonInactive = new Texture("options_inactive.jpg");
     }
     /*Method called when this Screen becomes the current screen for a game*/
     @Override
     public void show() {
-
     }
     /*Renders all the graphics for the main Menu*/
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0, 1);
-
-        camera.update();
         game.batch.setProjectionMatrix(camera.combined);
+        camera.update();
 
         game.batch.begin();
-        game.font.draw(game.batch, "Welcome to Tower Defence, click or tap anywhere to begin!", game.display.width/2, game.display.height/2);
-        game.batch.end();
-        //If mouse is pressed or Screen is touched: set new GameScreen, dispose of this Screen
-        if (Gdx.input.isTouched()) {
-            game.setScreen(new GameScreen(game));
-            dispose();
+
+        game.font.draw(game.batch,startText,(MainGame.WINDOW_WIDTH/2f -  startText.width / 3), (START_TEXT_HEIGHT + startText.height / 3));
+        if (Gdx.input.getX() < OPTION_BUTTON_X + OPTION_BUTTON_WIDTH && Gdx.input.getX() > OPTION_BUTTON_X && MainGame.WINDOW_HEIGHT - Gdx.input.getY() < OPTION_BUTTON_Y + OPTION_BUTTON_HEIGHT && MainGame.WINDOW_HEIGHT - Gdx.input.getY() > OPTION_BUTTON_Y){
+            game.batch.draw(optionsButtonActive,OPTION_BUTTON_X,OPTION_BUTTON_Y,OPTION_BUTTON_WIDTH,OPTION_BUTTON_HEIGHT);
+            if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
+                game.setScreen(new OptionsScreen(game));
+                this.dispose();
+
+            }
         }
+        else {
+            game.batch.draw(optionsButtonInactive, OPTION_BUTTON_X, OPTION_BUTTON_Y, OPTION_BUTTON_WIDTH, OPTION_BUTTON_HEIGHT);
+            //If mouse is pressed or Screen is touched: set new GameScreen, dispose of this Screen
+            if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+                this.dispose();
+                game.setScreen(new GameScreen(game));
+            }
+        }
+
+        game.batch.end();
+
+
+
     }
     /*Called when the Screen is resized.*/
     @Override
@@ -65,6 +102,6 @@ public class MainMenuScreen implements Screen {
     /*Called when this screen should release all resources*/
     @Override
     public void dispose() {
-
     }
+
 }

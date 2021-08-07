@@ -1,8 +1,6 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -14,14 +12,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class MainGame extends Game {
 		SpriteBatch batch;
 		BitmapFont font;
-		Graphics.DisplayMode display;
+		/*Values of game window: The window isn't resizable*/
+		public final static int WINDOW_WIDTH=1280;
+		public final static int WINDOW_HEIGHT=675;
 		/*Create a MainGame*/
 		public void create() {
 			batch = new SpriteBatch();
 			// Use LibGDX's default Arial font.
 			font = new BitmapFont();
-			//Get current Graphics.DisplayMode
-			display = Gdx.graphics.getDisplayMode();
 			//Set The First Screen to MainMenu!
 			this.setScreen(new MainMenuScreen(this));
 		}

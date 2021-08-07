@@ -17,7 +17,6 @@ public class Enemy {
     public Enemy(int atkPower, boolean airBorn) {
         hitBox = new Rectangle();
         hitBox.width = 128;
-        hitBox.width = 128;
         hitBox.height = 128;
         hitBox.x = 1280 - (64f / 2f);
         this.atkPower = atkPower;
@@ -40,7 +39,7 @@ public class Enemy {
                 index++;
             }
         }
-        animation = new Animation(0.25f, animationFrames);
+        animation = new Animation<>(0.25f, animationFrames);
     }
 
     public void EnemyMovement() {
