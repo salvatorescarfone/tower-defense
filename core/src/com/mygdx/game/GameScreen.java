@@ -22,8 +22,7 @@ public class GameScreen implements Screen {
     Tower tower;
     int coins;
     Enemy enemy;
-
-
+    MainCharacter hero;
 
     /*Constructor method for the GameScreen*/
     public GameScreen(final MainGame game){
@@ -39,6 +38,7 @@ public class GameScreen implements Screen {
         camera.setToOrtho(false, 1280, 675);
         coins = 0;
         enemy = new Enemy(100, false);
+        hero = new MainCharacter();
     }
 
     @Override
@@ -49,6 +49,9 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         enemy.elapsedTime += Gdx.graphics.getDeltaTime();
+        hero.elapsedTime += Gdx.graphics.getDeltaTime();
+
+
         ScreenUtils.clear(1, 1, 1, 0);
         camera.update();
         batch.setProjectionMatrix(camera.combined);
@@ -56,7 +59,10 @@ public class GameScreen implements Screen {
         batch.draw(background, 0, 0);
         lifeTxt.draw(batch, "Life: " + tower.towerLife + " Coins: " + coins, 250, 660);
         batch.draw(tower.towerImage, 0, 0);
+
         batch.draw(enemy.animation.getKeyFrame(enemy.elapsedTime, true), enemy.hitBox.x, enemy.hitBox.y);
+        batch.draw(hero.animation.getKeyFrame(hero.elapsedTime, true), hero.hitBox.x, hero.hitBox.y);
+
         batch.end();
 
         enemy.EnemyMovement();
@@ -96,6 +102,7 @@ public class GameScreen implements Screen {
         background.dispose();
         tower.towerImage.dispose();
         enemy.enemyImg.dispose();
+        hero.textureAtlas.dispose();
     }
 }
 
