@@ -1,0 +1,19 @@
+archer_enemy_idle.png
+size: 125, 65
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+1
+  rotate: false
+  xy: 5, 5
+  size: 55, 55
+  orig: 55, 55
+  offset: 0, 0
+  index: -1
+2
+  rotate: false
+  xy: 65, 5
+  size: 55, 55
+  orig: 55, 55
+  offset: 0, 0
+  index: -1

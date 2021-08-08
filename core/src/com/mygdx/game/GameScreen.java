@@ -49,8 +49,6 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         enemy.elapsedTime += Gdx.graphics.getDeltaTime();
-        hero.elapsedTime += Gdx.graphics.getDeltaTime();
-
 
         ScreenUtils.clear(1, 1, 1, 0);
         camera.update();
@@ -61,7 +59,7 @@ public class GameScreen implements Screen {
         batch.draw(tower.towerImage, 0, 0);
 
         batch.draw(enemy.animation.getKeyFrame(enemy.elapsedTime, true), enemy.hitBox.x, enemy.hitBox.y);
-        batch.draw(hero.animation.getKeyFrame(hero.elapsedTime, true), hero.hitBox.x, hero.hitBox.y);
+        animate(hero,"hero_idle.atlas", 5);//5 fps
 
         batch.end();
 
@@ -104,6 +102,14 @@ public class GameScreen implements Screen {
         enemy.enemyImg.dispose();
         hero.textureAtlas.dispose();
     }
+
+
+    public void animate(Animatable a, String selectAnimationAtlas, float frameRate){
+        a.elapsedTime += Gdx.graphics.getDeltaTime();
+        a.animate(selectAnimationAtlas, 1f/frameRate);
+        batch.draw(a.animation.getKeyFrame(a.elapsedTime, true), a.hitBox.x, a.hitBox.y);
+    }
+
 }
 
 
