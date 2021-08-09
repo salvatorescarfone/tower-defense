@@ -7,7 +7,8 @@ import com.mygdx.game.MainGame;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-		config.setWindowSizeLimits(500,500,MainGame.WINDOW_WIDTH,MainGame.WINDOW_HEIGHT);
+		config.setWindowedMode(900,600);
+		config.setResizable(false);
 		config.setTitle("Tower Defender");
 		new Lwjgl3Application(new MainGame(),config);
 	}

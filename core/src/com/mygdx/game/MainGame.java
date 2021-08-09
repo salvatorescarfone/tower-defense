@@ -1,8 +1,12 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import jdk.internal.org.jline.utils.Display;
 
 /* Main app that contains graphics elements for the game: from design, camera, background
  * and more.
@@ -12,16 +16,19 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class MainGame extends Game {
 		SpriteBatch batch;
 		BitmapFont font;
-		/*Values of game window: The window isn't resizable*/
-		public final static int WINDOW_WIDTH=1280;
-		public final static int WINDOW_HEIGHT=675;
+		OrthographicCamera camera;
+		ExtendViewport viewport;
 		/*Create a MainGame*/
 		public void create() {
 			batch = new SpriteBatch();
 			// Use LibGDX's default Arial font.
 			font = new BitmapFont();
+			camera = new OrthographicCamera();
+			camera.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+			viewport = new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),camera);
 			//Set The First Screen to MainMenu!
 			this.setScreen(new MainMenuScreen(this));
+
 		}
 
 		public void render() {
@@ -34,5 +41,10 @@ public class MainGame extends Game {
 		public void dispose() {
 			batch.dispose();
 			font.dispose();
+		}
+		public void resize(int width, int height){
+			viewport.update(width,height,true);
+			camera.setToOrtho(false,width,height);
+			batch.setProjectionMatrix(camera.combined);
 		}
 }

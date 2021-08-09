@@ -1,9 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -15,8 +13,6 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 public class MainMenuScreen implements Screen {
     final MainGame game;
-    OrthographicCamera camera;
-
     Texture optionsButtonActive;
     Texture optionsButtonInactive;
     //Texture background;
@@ -26,7 +22,6 @@ public class MainMenuScreen implements Screen {
     private static final float START_TEXT_HEIGHT=50;
     private static final float OPTION_BUTTON_WIDTH=100;
     private static final float OPTION_BUTTON_HEIGHT=99;
-    private static final float OPTION_BUTTON_X=MainGame.WINDOW_WIDTH - OPTION_BUTTON_WIDTH;
     private static final float OPTION_BUTTON_Y=0f;
     //Used to display click to Start on Screen
     final GlyphLayout startText;
@@ -35,9 +30,6 @@ public class MainMenuScreen implements Screen {
     /*Constructor for the MainMenu*/
     public MainMenuScreen(final MainGame game){
         this.game=game;
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, MainGame.WINDOW_WIDTH,MainGame.WINDOW_HEIGHT);
-
         startText= new GlyphLayout();
         startText.setText(game.font, "Welcome to Tower Defence, click or tap anywhere to begin!");
 
@@ -48,28 +40,36 @@ public class MainMenuScreen implements Screen {
     @Override
     public void show() {
     }
+
+    /*Called when the Screen is resized.*/
+    @Override
+    public void resize(int width, int height) {
+        game.resize(width,height);
+    }
+
     /*Renders all the graphics for the main Menu*/
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0, 1);
-        game.batch.setProjectionMatrix(camera.combined);
-        camera.update();
+        game.batch.setProjectionMatrix(game.camera.combined);
+        game.camera.update();
 
         game.batch.begin();
 
-        game.font.draw(game.batch,startText,(MainGame.WINDOW_WIDTH/2f -  startText.width / 3), (START_TEXT_HEIGHT + startText.height / 3));
-        if (Gdx.input.getX() < OPTION_BUTTON_X + OPTION_BUTTON_WIDTH && Gdx.input.getX() > OPTION_BUTTON_X && MainGame.WINDOW_HEIGHT - Gdx.input.getY() < OPTION_BUTTON_Y + OPTION_BUTTON_HEIGHT && MainGame.WINDOW_HEIGHT - Gdx.input.getY() > OPTION_BUTTON_Y){
-            game.batch.draw(optionsButtonActive,OPTION_BUTTON_X,OPTION_BUTTON_Y,OPTION_BUTTON_WIDTH,OPTION_BUTTON_HEIGHT);
-            if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
+        game.font.draw(game.batch,startText,(Gdx.graphics.getWidth()/2f -  startText.width / 3), (START_TEXT_HEIGHT + startText.height / 3));
+        if (Gdx.input.getX() < Gdx.graphics.getWidth() - OPTION_BUTTON_WIDTH + OPTION_BUTTON_WIDTH && Gdx.input.getX() > Gdx.graphics.getWidth() - OPTION_BUTTON_WIDTH &&
+                Gdx.graphics.getHeight() - Gdx.input.getY() < OPTION_BUTTON_Y + OPTION_BUTTON_HEIGHT && Gdx.graphics.getHeight() - Gdx.input.getY() > OPTION_BUTTON_Y){
+            game.batch.draw(optionsButtonActive,Gdx.graphics.getWidth() - OPTION_BUTTON_WIDTH,OPTION_BUTTON_Y,OPTION_BUTTON_WIDTH,OPTION_BUTTON_HEIGHT);
+            if (Gdx.input.justTouched()){
                 game.setScreen(new OptionsScreen(game));
                 this.dispose();
 
             }
         }
         else {
-            game.batch.draw(optionsButtonInactive, OPTION_BUTTON_X, OPTION_BUTTON_Y, OPTION_BUTTON_WIDTH, OPTION_BUTTON_HEIGHT);
+            game.batch.draw(optionsButtonInactive,Gdx.graphics.getWidth() - OPTION_BUTTON_WIDTH, OPTION_BUTTON_Y, OPTION_BUTTON_WIDTH, OPTION_BUTTON_HEIGHT);
             //If mouse is pressed or Screen is touched: set new GameScreen, dispose of this Screen
-            if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+            if (Gdx.input.justTouched()) {
                 this.dispose();
                 game.setScreen(new GameScreen(game));
             }
@@ -80,10 +80,7 @@ public class MainMenuScreen implements Screen {
 
 
     }
-    /*Called when the Screen is resized.*/
-    @Override
-    public void resize(int width, int height) {
-    }
+    
     /*Called when the Screen is paused, usually when it's not visible*/
     @Override
     public void pause() {
@@ -102,6 +99,8 @@ public class MainMenuScreen implements Screen {
     /*Called when this screen should release all resources*/
     @Override
     public void dispose() {
+        optionsButtonActive.dispose();
+        optionsButtonActive.dispose();
     }
 
 }
