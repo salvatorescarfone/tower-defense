@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 
@@ -22,10 +23,14 @@ public class GameScreen implements Screen {
     Tower tower;
     int coins;
     Enemy enemy;
-    MainCharacter hero;
+    Hero hero;
+    ShapeRenderer shapeRenderer;
 
     /*Constructor method for the GameScreen*/
     public GameScreen(final MainGame game){
+
+        //draw hitbox borders
+        shapeRenderer = new ShapeRenderer();
 
         this.game=game;
         tower = new Tower();    //Tower Constructor, creates texture, life, hit-box of tower
@@ -38,7 +43,7 @@ public class GameScreen implements Screen {
         camera.setToOrtho(false, 1280, 675);
         coins = 0;
         enemy = new Enemy(100, false);
-        hero = new MainCharacter();
+        hero = new Hero();
     }
 
     @Override
@@ -48,26 +53,31 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        enemy.elapsedTime += Gdx.graphics.getDeltaTime();
 
         ScreenUtils.clear(1, 1, 1, 0);
         camera.update();
         batch.setProjectionMatrix(camera.combined);
+
         batch.begin();
         batch.draw(background, 0, 0);
         lifeTxt.draw(batch, "Life: " + tower.towerLife + " Coins: " + coins, 250, 660);
-        batch.draw(tower.towerImage, 0, 0);
-
-        batch.draw(enemy.animation.getKeyFrame(enemy.elapsedTime, true), enemy.hitBox.x, enemy.hitBox.y);
-        animate(hero,"hero_idle.atlas", 5);//5 fps
-
+        batch.draw(tower.img, 0, 0);
+        animate(hero,"hero_idle.atlas", 5);
+        animate(enemy,"archer_enemy_running.atlas", 10);
         batch.end();
+
+        shapeRenderer.setProjectionMatrix(camera.combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);//important!!! without this hitboxes and textures won't be aligned
+        drawHitbox(hero);
+        drawHitbox(enemy);
+        drawHitbox(tower);
+        shapeRenderer.end();
 
         enemy.EnemyMovement();
 
         //controllo collisione
         if (enemy.hitBox.overlaps(tower.hitBox)) {
-            enemy.hitBox.x = 200;
+            enemy.hitBox.x = tower.hitBox.x+tower.hitBox.width;
             if (TimeUtils.nanoTime() - tower.lastDamageTime >= (1000000000 / 2)) {
                 tower.DamageTower(enemy.atkPower);
             }
@@ -98,17 +108,24 @@ public class GameScreen implements Screen {
     public void dispose() {
         batch.dispose();
         background.dispose();
-        tower.towerImage.dispose();
-        enemy.enemyImg.dispose();
+        tower.img.dispose();
+        enemy.img.dispose();
+        tower.img.dispose();
         hero.textureAtlas.dispose();
+        shapeRenderer.dispose();
     }
 
 
     public void animate(Animatable a, String selectAnimationAtlas, float frameRate){
         a.elapsedTime += Gdx.graphics.getDeltaTime();
-        a.animate(selectAnimationAtlas, 1f/frameRate);
+        a.animate(selectAnimationAtlas,1f/frameRate);
         batch.draw(a.animation.getKeyFrame(a.elapsedTime, true), a.hitBox.x, a.hitBox.y);
     }
+
+    public void drawHitbox(Drawable d){
+        shapeRenderer.rect(d.hitBox.x,d.hitBox.y,d.hitBox.width, d.hitBox.height);
+    }
+
 
 }
 

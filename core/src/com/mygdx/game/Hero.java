@@ -7,25 +7,27 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
 
-public class MainCharacter extends Animatable{
+public class Hero extends Animatable{
 
-    Texture img;
     Rectangle weaponHitBox;
     Texture weaponImg;
     int atk;
 
-    MainCharacter() {
-        super.hitBox = new Rectangle((200f - 128f), 100f, 128f, 128f);
-        weaponHitBox = new Rectangle((200f - (128f / 2f)), 164f, 64f, 64f);
+    Hero() {
+        super(435f, 310f, 57f, 86f);//Hitbox not drawn on character
+        //weaponHitBox = new Rectangle((200f - (128f / 2f)), 164f, 64f, 64f);
         int atk=5;
-        img = new Texture("MainCharacter.png");
-        weaponImg=new Texture("Weapon.png");
+        img = new Texture("hero_idle_1.png");
+        //weaponImg=new Texture("Weapon.png");
+
     }
+
 
 
 }

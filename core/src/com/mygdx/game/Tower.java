@@ -5,20 +5,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.TimeUtils;
 
-public class Tower {
-    Rectangle hitBox;
-    Texture towerImage;
+public class Tower extends Drawable{
+
     long lastDamageTime;
     int towerLife;
 
     public Tower() {
-        hitBox = new Rectangle();
-        hitBox.x=0;
-        hitBox.y=0;
-        hitBox.height= 660;
-        hitBox.width=200;
+        super(0f,0f,477f,628f);//real dimensions 477x628 ????
         towerLife=10000;
-        towerImage = new Texture("temp.png");
+        img = new Texture("tower.png");
         lastDamageTime= TimeUtils.nanoTime();
     }
     public void DamageTower(int enemyAtk) {

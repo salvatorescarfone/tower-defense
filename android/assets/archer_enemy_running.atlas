@@ -1,0 +1,61 @@
+archer_enemy_running.png
+size: 189, 373
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+archer_running (1)
+  rotate: false
+  xy: 5, 5
+  size: 87, 87
+  orig: 87, 87
+  offset: 0, 0
+  index: -1
+archer_running (2)
+  rotate: false
+  xy: 97, 5
+  size: 87, 87
+  orig: 87, 87
+  offset: 0, 0
+  index: -1
+archer_running (3)
+  rotate: false
+  xy: 5, 97
+  size: 87, 87
+  orig: 87, 87
+  offset: 0, 0
+  index: -1
+archer_running (4)
+  rotate: false
+  xy: 97, 97
+  size: 87, 87
+  orig: 87, 87
+  offset: 0, 0
+  index: -1
+archer_running (5)
+  rotate: false
+  xy: 5, 189
+  size: 87, 87
+  orig: 87, 87
+  offset: 0, 0
+  index: -1
+archer_running (6)
+  rotate: false
+  xy: 97, 189
+  size: 87, 87
+  orig: 87, 87
+  offset: 0, 0
+  index: -1
+archer_running (7)
+  rotate: false
+  xy: 5, 281
+  size: 87, 87
+  orig: 87, 87
+  offset: 0, 0
+  index: -1
+archer_running (8)
+  rotate: false
+  xy: 97, 281
+  size: 87, 87
+  orig: 87, 87
+  offset: 0, 0
+  index: -1
