@@ -1,0 +1,54 @@
+hero_death.png
+size: 763, 109
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Death
+  rotate: false
+  xy: 0, 0
+  size: 109, 109
+  orig: 109, 109
+  offset: 0, 0
+  index: 3
+Death
+  rotate: false
+  xy: 109, 0
+  size: 109, 109
+  orig: 109, 109
+  offset: 0, 0
+  index: 4
+Death
+  rotate: false
+  xy: 218, 0
+  size: 109, 109
+  orig: 109, 109
+  offset: 0, 0
+  index: 5
+Death
+  rotate: false
+  xy: 327, 0
+  size: 109, 109
+  orig: 109, 109
+  offset: 0, 0
+  index: 6
+Death
+  rotate: false
+  xy: 436, 0
+  size: 109, 109
+  orig: 109, 109
+  offset: 0, 0
+  index: 7
+Death
+  rotate: false
+  xy: 545, 0
+  size: 109, 109
+  orig: 109, 109
+  offset: 0, 0
+  index: 8
+Death
+  rotate: false
+  xy: 654, 0
+  size: 109, 109
+  orig: 109, 109
+  offset: 0, 0
+  index: 9

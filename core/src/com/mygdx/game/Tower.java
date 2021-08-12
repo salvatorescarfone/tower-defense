@@ -11,7 +11,7 @@ public class Tower extends Drawable{
     int towerLife;
 
     public Tower() {
-        super(0f,0f,477f,628f);//real dimensions 477x628 ????
+        super(50f,0f,325f,628f);
         towerLife=10000;
         img = new Texture("tower.png");
         lastDamageTime= TimeUtils.nanoTime();

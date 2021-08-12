@@ -16,6 +16,7 @@ public class Animatable extends Drawable{
     Animation<TextureRegion> animation;
     float elapsedTime = 0f;
     String currentAtlasUrl;
+    boolean currentlyLooping = true;
 
     Animatable(String initialAnimationAtlas,float x, float y, float width, float height){
         super(x,y,width,height);
@@ -27,7 +28,7 @@ public class Animatable extends Drawable{
         elapsedTime += Gdx.graphics.getDeltaTime();
         textureAtlas = new TextureAtlas(Gdx.files.internal(this.currentAtlasUrl));
         animation = new Animation<TextureRegion>(1f/fps, textureAtlas.getRegions());
-        batch.draw(animation.getKeyFrame(elapsedTime, true), hitBox.x, hitBox.y);
+        batch.draw(animation.getKeyFrame(elapsedTime, currentlyLooping), hitBox.x, hitBox.y);
     }
 
 

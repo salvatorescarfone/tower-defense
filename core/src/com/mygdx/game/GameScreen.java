@@ -37,7 +37,7 @@ public class GameScreen implements Screen {
         lifeTxt.setColor(Color.BLACK);
         lifeTxt.setFixedWidthGlyphs(".2f");
         batch = new SpriteBatch();
-        background = new Texture("backgrounds/sfondo.jpg");
+        background = new Texture("backgrounds/white.png");
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1280, 675);
         coins = 0;
@@ -60,32 +60,27 @@ public class GameScreen implements Screen {
         batch.begin();
         batch.draw(background, 0, 0);
         lifeTxt.draw(batch, "Life: " + tower.towerLife + " Coins: " + coins, 250, 660);
-        batch.draw(tower.img, 0, 0);
-
-        hero.animate(batch,5f);
-        enemy.animate(batch, 5f);
 
 
-        //animate(enemy,"archer_enemy_running.atlas", 10);
+        tower.draw(batch);
+        hero.animate(batch,11f);
+        enemy.animate(batch, 11f);
         batch.end();
 
         shapeRenderer.setProjectionMatrix(camera.combined);//important!!! without this hitboxes and textures won't be aligned
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(0,0,0,0);
         drawHitbox(hero);
         drawHitbox(enemy);
         drawHitbox(tower);
         shapeRenderer.end();
 
-        enemy.EnemyMovement();
+        enemy.EnemyMovement(tower);
+
+
 
         //controllo collisione
-        if (enemy.hitBox.overlaps(tower.hitBox)) {
-            enemy.hitBox.x = tower.hitBox.x+tower.hitBox.width;
-            enemy.Running();
-            if (TimeUtils.nanoTime() - tower.lastDamageTime >= (1000000000 / 2)) {
-                tower.DamageTower(enemy.atkPower);
-            }
-        }
+
     }
 
     @Override
