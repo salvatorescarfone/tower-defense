@@ -1,0 +1,19 @@
+archer_idle.png
+size: 174, 87
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+archer_idle (1)
+  rotate: false
+  xy: 0, 0
+  size: 87, 87
+  orig: 87, 87
+  offset: 0, 0
+  index: -1
+archer_idle (2)
+  rotate: false
+  xy: 87, 0
+  size: 87, 87
+  orig: 87, 87
+  offset: 0, 0
+  index: -1

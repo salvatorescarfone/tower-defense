@@ -1,6 +1,6 @@
 package com.mygdx.game;
 
-/*Main class Regarding every animatable object or character on the screen.
+/*Main class Regarding every drawable object or character on the screen.
  *
  */
 

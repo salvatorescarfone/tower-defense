@@ -13,7 +13,7 @@ public class Enemy extends Animatable{
 
     public Enemy(int atkPower, boolean airBorn) {
 
-        super(1280 - (64f/2f), 0, 128f, 128f);
+        super("characters/archer/archer_idle.atlas",1280 - (64f/2f), 0, 128f, 128f);
         this.atkPower = atkPower;
 
         //this.airBorn = airBorn;
@@ -33,5 +33,17 @@ public class Enemy extends Animatable{
     public void EnemyMovement() {
 
         hitBox.x -= 3;
+    }
+
+    public void Idle(){
+        this.currentAtlasUrl = "characters/archer/archer_idle.atlas";
+    }
+
+    public void Running(){
+        this.currentAtlasUrl = "characters/archer/archer_running.atlas";
+    }
+
+    public void Death(){
+        this.currentAtlasUrl = "characters/archer/archer_idle.atlas";
     }
 }

@@ -6,10 +6,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Rectangle;
 
 
@@ -18,15 +15,21 @@ public class Animatable extends Drawable{
     TextureAtlas textureAtlas;
     Animation<TextureRegion> animation;
     float elapsedTime = 0f;
+    String currentAtlasUrl;
 
-    Animatable(float x, float y, float width, float height){
+    Animatable(String initialAnimationAtlas,float x, float y, float width, float height){
         super(x,y,width,height);
+        this.currentAtlasUrl = initialAnimationAtlas;
     }
 
     //add method visibility
-    void animate(String selectAnimationAtlas, float frameDuration){
-        textureAtlas = new TextureAtlas(Gdx.files.internal(selectAnimationAtlas));
-        animation = new Animation<TextureRegion>(frameDuration, textureAtlas.getRegions());
+    void animate(SpriteBatch batch, float fps){
+        elapsedTime += Gdx.graphics.getDeltaTime();
+        textureAtlas = new TextureAtlas(Gdx.files.internal(this.currentAtlasUrl));
+        animation = new Animation<TextureRegion>(1f/fps, textureAtlas.getRegions());
+        batch.draw(animation.getKeyFrame(elapsedTime, true), hitBox.x, hitBox.y);
     }
+
+
 
 }
