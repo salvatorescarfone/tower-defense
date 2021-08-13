@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -14,6 +15,7 @@ import jdk.internal.org.jline.utils.Display;
  */
 
 public class MainGame extends Game {
+		Music music;
 		SpriteBatch batch;
 		BitmapFont font;
 		OrthographicCamera camera;
@@ -26,6 +28,9 @@ public class MainGame extends Game {
 			camera = new OrthographicCamera();
 			camera.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 			viewport = new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),camera);
+			//music = Gdx.audio.newMusic(Gdx.files.internal(""));
+			//music.play();
+			//music.setLooping(true);
 			//Set The First Screen to MainMenu!
 			this.setScreen(new MainMenuScreen(this));
 

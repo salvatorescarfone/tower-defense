@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -15,26 +16,39 @@ public class MainMenuScreen implements Screen {
     final MainGame game;
     Texture optionsButtonActive;
     Texture optionsButtonInactive;
-    //Texture background;
+    Texture background;
+    Hero hero;
+    Enemy enemy;
+    Tower tower;
+    Texture title;
 
 
 
     private static final float START_TEXT_HEIGHT=50;
-    private static final float OPTION_BUTTON_WIDTH=100;
-    private static final float OPTION_BUTTON_HEIGHT=99;
+    private static final float OPTION_BUTTON_WIDTH=50;
+    private static final float OPTION_BUTTON_HEIGHT=49;
     private static final float OPTION_BUTTON_Y=0f;
     //Used to display click to Start on Screen
     final GlyphLayout startText;
-
 
     /*Constructor for the MainMenu*/
     public MainMenuScreen(final MainGame game){
         this.game=game;
         startText= new GlyphLayout();
+        game.font.setColor(Color.BLACK);
         startText.setText(game.font, "Welcome to Tower Defence, click or tap anywhere to begin!");
 
-        optionsButtonActive = new Texture("options_active.jpg");
-        optionsButtonInactive = new Texture("options_inactive.jpg");
+        optionsButtonActive = new Texture("Buttons/options_active.jpg");
+        optionsButtonInactive = new Texture("Buttons/options_inactive.jpg");
+
+        tower = new Tower(60f, 60f);
+        hero = new Hero((Gdx.graphics.getWidth()/2f) - (57f/2f),60f);
+        enemy = new Enemy (5,false,Gdx.graphics.getWidth(),50f);
+
+        title = new Texture("backgrounds/MainMenuTitle.png");
+
+        background = new Texture("backgrounds/white.png");
+        //title= new Texture("");
     }
     /*Method called when this Screen becomes the current screen for a game*/
     @Override
@@ -55,9 +69,23 @@ public class MainMenuScreen implements Screen {
         game.camera.update();
 
         game.batch.begin();
+        game.batch.draw(background,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        game.batch.draw(tower.img,tower.hitBox.x,tower.hitBox.y,200,600);
+        game.batch.draw(title,Gdx.graphics.getWidth()/2f - title.getWidth()/2f,Gdx.graphics.getHeight()/2f - title.getHeight()/2f, title.getWidth(),title.getHeight());
+        hero.animate(game.batch,11f);
+        enemy.animate(game.batch,11f);
 
+        if (!enemy.hitBox.overlaps(hero.hitBox)){
+                enemy.hitBox.x -=enemy.runSpeed;
+        }
+        else{
+
+            enemy.Idle();
+
+        }
+        //Drawing options buttons and input management for accessing menus
         game.font.draw(game.batch,startText,(Gdx.graphics.getWidth()/2f -  startText.width / 3), (START_TEXT_HEIGHT + startText.height / 3));
-        if (Gdx.input.getX() < Gdx.graphics.getWidth() - OPTION_BUTTON_WIDTH + OPTION_BUTTON_WIDTH && Gdx.input.getX() > Gdx.graphics.getWidth() - OPTION_BUTTON_WIDTH &&
+        if (Gdx.input.getX() < Gdx.graphics.getWidth()  && Gdx.input.getX() > Gdx.graphics.getWidth() - OPTION_BUTTON_WIDTH &&
                 Gdx.graphics.getHeight() - Gdx.input.getY() < OPTION_BUTTON_Y + OPTION_BUTTON_HEIGHT && Gdx.graphics.getHeight() - Gdx.input.getY() > OPTION_BUTTON_Y){
             game.batch.draw(optionsButtonActive,Gdx.graphics.getWidth() - OPTION_BUTTON_WIDTH,OPTION_BUTTON_Y,OPTION_BUTTON_WIDTH,OPTION_BUTTON_HEIGHT);
             if (Gdx.input.justTouched()){
@@ -101,6 +129,8 @@ public class MainMenuScreen implements Screen {
     public void dispose() {
         optionsButtonActive.dispose();
         optionsButtonActive.dispose();
+        title.dispose();
+        background.dispose();
     }
 
 }

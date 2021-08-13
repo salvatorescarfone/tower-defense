@@ -32,7 +32,7 @@ public class GameScreen implements Screen {
         shapeRenderer = new ShapeRenderer();
 
         this.game=game;
-        tower = new Tower();    //Tower Constructor, creates texture, life, hit-box of tower
+        tower = new Tower(50f, 0f);    //Tower Constructor, creates texture, life, hit-box of tower
         lifeTxt = new BitmapFont();
         lifeTxt.setColor(Color.BLACK);
         lifeTxt.setFixedWidthGlyphs(".2f");
@@ -41,8 +41,8 @@ public class GameScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1280, 675);
         coins = 0;
-        enemy = new Enemy(100, false);
-        hero = new Hero();
+        enemy = new Enemy(100, false,1280f - (64f/2f), 0f);
+        hero = new Hero(280f, 385f);
     }
 
     @Override

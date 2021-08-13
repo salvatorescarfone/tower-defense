@@ -19,8 +19,8 @@ public class Hero extends Animatable{
     Texture weaponImg;
     int atk;
 
-    Hero() {
-        super("characters/hero/hero_idle.atlas", 280f, 385f, 57f, 86f);//Hitbox not drawn on character
+    Hero(float x, float y) {
+        super("characters/hero/hero_idle.atlas", x, y, 57f, 86f);//Hitbox not drawn on character
         //weaponHitBox = new Rectangle((200f - (128f / 2f)), 164f, 64f, 64f);
         int atk=5;
         //img = new Texture("hero_idle_1.png");

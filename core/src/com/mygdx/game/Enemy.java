@@ -13,9 +13,9 @@ public class Enemy extends Animatable{
     //boolean airBorn;
     int runSpeed = 3;
 
-    public Enemy(int atkPower, boolean airBorn) {
+    public Enemy(int atkPower, boolean airBorn, float x, float y) {
 
-        super("characters/archer/archer_running.atlas",1280 - (64f/2f), 0, 128f, 128f);
+        super("characters/archer/archer_running.atlas",x , y, 128f, 128f);
         this.atkPower = atkPower;
 
         //this.airBorn = airBorn;
