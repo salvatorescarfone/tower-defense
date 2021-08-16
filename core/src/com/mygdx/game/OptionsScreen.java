@@ -53,8 +53,8 @@ public class OptionsScreen implements Screen {
         game.batch.setProjectionMatrix(game.camera.combined);
         game.camera.update();
         game.batch.begin();
+        game.batch.draw(background,0f,0f, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         game.font.draw(game.batch,optionsText,Gdx.graphics.getWidth()/2f - optionsText.width/3f, Gdx.graphics.getHeight() - optionsText.height/3f);
-        game.batch.draw(background,0f,0f, background.getWidth(), background.getHeight());
         //Get QuitGame Bounds, highlights it if mouse hovers over it and set action if mouse button is pressed
         if (Gdx.input.getX() < Gdx.graphics.getWidth()/2f + BUTTONS_WIDTH*.5f && Gdx.input.getX() > Gdx.graphics.getWidth()/2f - BUTTONS_WIDTH/2f
             && Gdx.graphics.getHeight() - Gdx.input.getY() < Gdx.graphics.getHeight()/2f + BUTTONS_HEIGHT*.5f && Gdx.graphics.getHeight() - Gdx.input.getY() > Gdx.graphics.getHeight()/2f - BUTTONS_HEIGHT/2f){

@@ -1,9 +1,5 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.TimeUtils;
 
 public class Enemy extends Animatable{
@@ -12,6 +8,7 @@ public class Enemy extends Animatable{
     int atkPower;
     //boolean airBorn;
     int runSpeed = 3;
+    long lastEnemyDamage;
 
     public Enemy(int atkPower, boolean airBorn, float x, float y) {
 
@@ -33,20 +30,21 @@ public class Enemy extends Animatable{
     }
 
     public void Attack(Tower t){
-        if (this.hitBox.overlaps(t.hitBox)) {
-            this.hitBox.x = t.hitBox.x+t.hitBox.width;
+        if (this.hitBox.x < t.hitBox.x + t.hitBox.width + 200f) {
 
-            if (TimeUtils.nanoTime() - t.lastDamageTime >= (1000000000 / 2)) {
+            if (TimeUtils.nanoTime() - this.lastEnemyDamage >=(1000000000/2)) {
                 t.DamageTower(this.atkPower);
+                this.lastEnemyDamage = TimeUtils.nanoTime();
             }
         }
     }
 
     public void EnemyMovement(Tower t) {
-        if(this.hitBox.x < t.hitBox.x+t.hitBox.width+200){
+        if(this.hitBox.x <= t.hitBox.x+t.hitBox.width+200f){
             this.runSpeed = 0;
             this.LowAttack();
             this.LoopLowAttack();
+            this.Attack(t);
         }
 
         else
