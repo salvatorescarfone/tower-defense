@@ -48,7 +48,6 @@ public class MainMenuScreen implements Screen {
         title = new Texture("backgrounds/MainMenuTitle.png");
 
         background = new Texture("backgrounds/white.png");
-        //title= new Texture("");
     }
     /*Method called when this Screen becomes the current screen for a game*/
     @Override

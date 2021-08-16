@@ -7,17 +7,19 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 
 public class GameScreen implements Screen {
     final MainGame game;
-
-
-    /*Things that were initially in MainGame*/
-    SpriteBatch batch;
+    String[] enemiesAtlases = {"characters/archer/archer_running.atlas"};
+    long lastEnemySpawn;
+    private static final int maxEnemyOnScreen = 3;
+    int enemyCount;
+    Array<Enemy> enemies;
     Texture background;
-    OrthographicCamera camera;
     BitmapFont lifeTxt;
     Tower tower;
     int coins;
@@ -30,19 +32,26 @@ public class GameScreen implements Screen {
 
         //draw hitbox borders
         shapeRenderer = new ShapeRenderer();
-
+        enemyCount=0;
         this.game=game;
         tower = new Tower(50f, 0f);    //Tower Constructor, creates texture, life, hit-box of tower
         lifeTxt = new BitmapFont();
         lifeTxt.setColor(Color.BLACK);
         lifeTxt.setFixedWidthGlyphs(".2f");
-        batch = new SpriteBatch();
         background = new Texture("backgrounds/white.png");
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, 1280, 675);
         coins = 0;
-        enemy = new Enemy(100, false,1280f - (64f/2f), 0f);
         hero = new Hero(280f, 385f);
+        enemies = new Array<>();
+        spawnEnemy();
+    }
+
+    public void spawnEnemy(){
+        int enemySelect = MathUtils.random(0,0);
+        Enemy enemy = new Enemy(100,false,Gdx.graphics.getWidth(),0);
+        enemies.add(enemy);
+        enemyCount++;
+        lastEnemySpawn = TimeUtils.nanoTime();
+
     }
 
     @Override
@@ -54,28 +63,34 @@ public class GameScreen implements Screen {
     public void render(float delta) {
 
         ScreenUtils.clear(1, 1, 1, 0);
-        camera.update();
-        batch.setProjectionMatrix(camera.combined);
+        game.camera.update();
+        game.batch.setProjectionMatrix(game.camera.combined);
 
-        batch.begin();
-        batch.draw(background, 0, 0);
-        lifeTxt.draw(batch, "Life: " + tower.towerLife + " Coins: " + coins, 250, 660);
+        game.batch.begin();
+        game.batch.draw(background, 0, 0);
+        lifeTxt.draw(game.batch, "Life: " + tower.towerLife + " Coins: " + coins + " Score: " + game.score, 250, 660);
+        tower.draw(game.batch);
+        hero.animate(game.batch,11f);
+        for (Enemy enemy : enemies){
+            enemy.animate(game.batch,11f);
+            enemy.EnemyMovement(tower);
+        }
+        if (TimeUtils.nanoTime() - lastEnemySpawn > 3000000000L && enemyCount < maxEnemyOnScreen){
+            spawnEnemy();
+        }
 
+        game.batch.end();
 
-        tower.draw(batch);
-        hero.animate(batch,11f);
-        enemy.animate(batch, 11f);
-        batch.end();
-
-        shapeRenderer.setProjectionMatrix(camera.combined);//important!!! without this hitboxes and textures won't be aligned
+        shapeRenderer.setProjectionMatrix(game.camera.combined);//important!!! without this hitboxes and textures won't be aligned
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(0,0,0,0);
         drawHitbox(hero);
-        drawHitbox(enemy);
+        for (Enemy enemy: enemies){
+            drawHitbox(enemy);
+        }
         drawHitbox(tower);
         shapeRenderer.end();
 
-        enemy.EnemyMovement(tower);
 
 
 
@@ -105,12 +120,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        batch.dispose();
         background.dispose();
-        tower.img.dispose();
-        enemy.img.dispose();
-        tower.img.dispose();
-        hero.textureAtlas.dispose();
         shapeRenderer.dispose();
     }
 

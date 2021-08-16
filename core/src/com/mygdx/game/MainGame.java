@@ -16,6 +16,7 @@ import jdk.internal.org.jline.utils.Display;
 
 public class MainGame extends Game {
 		Music music;
+		int score = 0;			//Total Score of the game in process
 		SpriteBatch batch;
 		BitmapFont font;
 		OrthographicCamera camera;
