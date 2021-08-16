@@ -1,0 +1,96 @@
+archer_high_attack.png
+size: 832, 50
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+tile000
+  rotate: false
+  xy: 0, 0
+  size: 64, 50
+  orig: 64, 50
+  offset: 0, 0
+  index: -1
+tile001
+  rotate: false
+  xy: 64, 0
+  size: 64, 50
+  orig: 64, 50
+  offset: 0, 0
+  index: -1
+tile002
+  rotate: false
+  xy: 128, 0
+  size: 64, 50
+  orig: 64, 50
+  offset: 0, 0
+  index: -1
+tile003
+  rotate: false
+  xy: 192, 0
+  size: 64, 50
+  orig: 64, 50
+  offset: 0, 0
+  index: -1
+tile004
+  rotate: false
+  xy: 256, 0
+  size: 64, 50
+  orig: 64, 50
+  offset: 0, 0
+  index: -1
+tile005
+  rotate: false
+  xy: 320, 0
+  size: 64, 50
+  orig: 64, 50
+  offset: 0, 0
+  index: -1
+tile006
+  rotate: false
+  xy: 384, 0
+  size: 64, 50
+  orig: 64, 50
+  offset: 0, 0
+  index: -1
+tile007
+  rotate: false
+  xy: 448, 0
+  size: 64, 50
+  orig: 64, 50
+  offset: 0, 0
+  index: -1
+tile008
+  rotate: false
+  xy: 512, 0
+  size: 64, 50
+  orig: 64, 50
+  offset: 0, 0
+  index: -1
+tile009
+  rotate: false
+  xy: 576, 0
+  size: 64, 50
+  orig: 64, 50
+  offset: 0, 0
+  index: -1
+tile010
+  rotate: false
+  xy: 640, 0
+  size: 64, 50
+  orig: 64, 50
+  offset: 0, 0
+  index: -1
+tile011
+  rotate: false
+  xy: 704, 0
+  size: 64, 50
+  orig: 64, 50
+  offset: 0, 0
+  index: -1
+tile012
+  rotate: false
+  xy: 768, 0
+  size: 64, 50
+  orig: 64, 50
+  offset: 0, 0
+  index: -1
