@@ -2,12 +2,13 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import jdk.internal.org.jline.utils.Display;
 
 /* Main app that contains graphics elements for the game: from design, camera, background
  * and more.
@@ -19,11 +20,20 @@ public class MainGame extends Game {
 		int score = 0;			//Total Score of the game in process
 		SpriteBatch batch;
 		BitmapFont font;
+		ShapeRenderer shapeRenderer;
 		OrthographicCamera camera;
 		ExtendViewport viewport;
+		Graphics.DisplayMode display;
+		float width;
+		float height;
 		/*Create a MainGame*/
 		public void create() {
 			batch = new SpriteBatch();
+			shapeRenderer = new ShapeRenderer();
+			display = Gdx.graphics.getDisplayMode();
+			Gdx.graphics.setFullscreenMode(display);
+			width= display.width;
+			height=display.height;
 			// Use LibGDX's default Arial font.
 			font = new BitmapFont();
 			camera = new OrthographicCamera();
@@ -47,6 +57,8 @@ public class MainGame extends Game {
 		public void dispose() {
 			batch.dispose();
 			font.dispose();
+			//music.dispose();
+			shapeRenderer.dispose();
 		}
 		public void resize(int width, int height){
 			viewport.update(width,height,true);

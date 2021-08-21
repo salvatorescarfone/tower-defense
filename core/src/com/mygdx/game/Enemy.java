@@ -4,18 +4,15 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 public class Enemy extends Animatable{
 
-    float elapsedTime;
     int atkPower;
-    //boolean airBorn;
     int runSpeed = 3;
     long lastEnemyDamage;
-
-    public Enemy(int atkPower, boolean airBorn, float x, float y) {
+    boolean airBorn;
+    public Enemy(int atkPower,boolean airBorn, float x, float y) {
 
         super("characters/archer/archer_running.atlas",x , y, 128f, 128f);
         this.atkPower = atkPower;
-
-        //this.airBorn = airBorn;
+        this.airBorn = airBorn;
 
         /*
         if (airBorn) {

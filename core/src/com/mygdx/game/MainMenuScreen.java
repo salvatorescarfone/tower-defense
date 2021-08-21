@@ -24,9 +24,9 @@ public class MainMenuScreen implements Screen {
 
 
 
-    private static final float START_TEXT_HEIGHT=50;
-    private static final float OPTION_BUTTON_WIDTH=50;
-    private static final float OPTION_BUTTON_HEIGHT=49;
+    private static final float START_TEXT_HEIGHT=50f;
+    private static final float OPTION_BUTTON_WIDTH=50f;
+    private static final float OPTION_BUTTON_HEIGHT=49f;
     private static final float OPTION_BUTTON_Y=0f;
     //Used to display click to Start on Screen
     final GlyphLayout startText;
@@ -68,9 +68,9 @@ public class MainMenuScreen implements Screen {
         game.camera.update();
 
         game.batch.begin();
-        game.batch.draw(background,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        game.batch.draw(background,0,0,game.width,game.height);
         game.batch.draw(tower.img,tower.hitBox.x,tower.hitBox.y,200,600);
-        game.batch.draw(title,Gdx.graphics.getWidth()/2f - title.getWidth()/2f,Gdx.graphics.getHeight()/2f - title.getHeight()/2f, title.getWidth(),title.getHeight());
+        game.batch.draw(title,game.width/2f - title.getWidth()/2f,game.height/2f - title.getHeight()/2f, title.getWidth(),title.getHeight());
         hero.animate(game.batch,11f);
         enemy.animate(game.batch,11f);
 
@@ -83,10 +83,10 @@ public class MainMenuScreen implements Screen {
 
         }
         //Drawing options buttons and input management for accessing menus
-        game.font.draw(game.batch,startText,(Gdx.graphics.getWidth()/2f -  startText.width / 3), (START_TEXT_HEIGHT + startText.height / 3));
-        if (Gdx.input.getX() < Gdx.graphics.getWidth()  && Gdx.input.getX() > Gdx.graphics.getWidth() - OPTION_BUTTON_WIDTH &&
-                Gdx.graphics.getHeight() - Gdx.input.getY() < OPTION_BUTTON_Y + OPTION_BUTTON_HEIGHT && Gdx.graphics.getHeight() - Gdx.input.getY() > OPTION_BUTTON_Y){
-            game.batch.draw(optionsButtonActive,Gdx.graphics.getWidth() - OPTION_BUTTON_WIDTH,OPTION_BUTTON_Y,OPTION_BUTTON_WIDTH,OPTION_BUTTON_HEIGHT);
+        game.font.draw(game.batch,startText,(game.width/2f -  startText.width / 3), (START_TEXT_HEIGHT + startText.height / 3));
+        if (Gdx.input.getX() < game.width  && Gdx.input.getX() > game.width - OPTION_BUTTON_WIDTH &&
+                game.height - Gdx.input.getY() < OPTION_BUTTON_Y + OPTION_BUTTON_HEIGHT && game.height - Gdx.input.getY() > OPTION_BUTTON_Y){
+            game.batch.draw(optionsButtonActive,game.width - OPTION_BUTTON_WIDTH,OPTION_BUTTON_Y,OPTION_BUTTON_WIDTH,OPTION_BUTTON_HEIGHT);
             if (Gdx.input.justTouched()){
                 game.setScreen(new OptionsScreen(game));
                 this.dispose();
@@ -94,7 +94,7 @@ public class MainMenuScreen implements Screen {
             }
         }
         else {
-            game.batch.draw(optionsButtonInactive,Gdx.graphics.getWidth() - OPTION_BUTTON_WIDTH, OPTION_BUTTON_Y, OPTION_BUTTON_WIDTH, OPTION_BUTTON_HEIGHT);
+            game.batch.draw(optionsButtonInactive,game.width - OPTION_BUTTON_WIDTH, OPTION_BUTTON_Y, OPTION_BUTTON_WIDTH, OPTION_BUTTON_HEIGHT);
             //If mouse is pressed or Screen is touched: set new GameScreen, dispose of this Screen
             if (Gdx.input.justTouched()) {
                 this.dispose();
@@ -103,8 +103,6 @@ public class MainMenuScreen implements Screen {
         }
 
         game.batch.end();
-
-
 
     }
     

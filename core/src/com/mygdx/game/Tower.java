@@ -1,8 +1,6 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.TimeUtils;
 
 public class Tower extends Drawable{
@@ -12,7 +10,7 @@ public class Tower extends Drawable{
 
     public Tower(float x, float y) {
         super(x,y,325f,628f);
-        towerLife=10000;
+        towerLife=1000;
         img = new Texture("tower.png");
         lastDamageTime= TimeUtils.nanoTime();
     }
@@ -26,10 +24,6 @@ public class Tower extends Drawable{
             towerLife = 0;
         }
 
-        if (towerLife <= 0) {
-            /*Close game*/
-            Gdx.app.exit();
-        }
     }
 
 }

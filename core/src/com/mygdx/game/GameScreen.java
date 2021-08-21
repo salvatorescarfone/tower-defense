@@ -1,9 +1,9 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -11,6 +11,8 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
+
+import java.util.Iterator;
 
 public class GameScreen implements Screen {
     final MainGame game;
@@ -23,15 +25,12 @@ public class GameScreen implements Screen {
     BitmapFont lifeTxt;
     Tower tower;
     int coins;
-    Enemy enemy;
     Hero hero;
-    ShapeRenderer shapeRenderer;
 
     /*Constructor method for the GameScreen*/
     public GameScreen(final MainGame game){
 
-        //draw hitbox borders
-        shapeRenderer = new ShapeRenderer();
+        //draw hit box borders
         enemyCount=0;
         this.game=game;
         tower = new Tower(50f, 0f);    //Tower Constructor, creates texture, life, hit-box of tower
@@ -78,23 +77,26 @@ public class GameScreen implements Screen {
         if (TimeUtils.nanoTime() - lastEnemySpawn > 3000000000L && enemyCount < maxEnemyOnScreen){
             spawnEnemy();
         }
+        /*Debug code to exit game early*/
+        if (Gdx.input.isKeyJustPressed(Input.Keys.Q)){
+            Gdx.app.exit();
+        }
+        if (tower.towerLife == 0){
+            this.dispose();
+            game.setScreen(new GameOverScreen(game));
+        }
 
         game.batch.end();
-
-        shapeRenderer.setProjectionMatrix(game.camera.combined);//important!!! without this hitboxes and textures won't be aligned
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(0,0,0,0);
-        drawHitbox(hero);
+        //important!!! without this hit boxes and textures won't be aligned
+        game.shapeRenderer.setProjectionMatrix(game.camera.combined);
+        game.shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        game.shapeRenderer.setColor(0,0,0,0);
+        drawHitBox(hero);
         for (Enemy enemy: enemies){
-            drawHitbox(enemy);
+            drawHitBox(enemy);
         }
-        drawHitbox(tower);
-        shapeRenderer.end();
-
-
-
-
-        //controllo collisione
+        drawHitBox(tower);
+        game.shapeRenderer.end();
 
     }
 
@@ -121,7 +123,10 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
         background.dispose();
-        shapeRenderer.dispose();
+        for (Iterator<Enemy> i = enemies.iterator(); i.hasNext(); ) {
+            Enemy enemy = i.next();
+            i.remove();
+            }
     }
 
     /*
@@ -132,8 +137,8 @@ public class GameScreen implements Screen {
     }
      */
 
-    public void drawHitbox(Drawable d){
-        shapeRenderer.rect(d.hitBox.x,d.hitBox.y,d.hitBox.width, d.hitBox.height);
+    public void drawHitBox(Drawable d){
+        game.shapeRenderer.rect(d.hitBox.x,d.hitBox.y,d.hitBox.width, d.hitBox.height);
     }
 
 

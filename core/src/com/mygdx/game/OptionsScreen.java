@@ -53,57 +53,52 @@ public class OptionsScreen implements Screen {
         game.batch.setProjectionMatrix(game.camera.combined);
         game.camera.update();
         game.batch.begin();
-        game.batch.draw(background,0f,0f, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        game.font.draw(game.batch,optionsText,Gdx.graphics.getWidth()/2f - optionsText.width/3f, Gdx.graphics.getHeight() - optionsText.height/3f);
+        game.batch.draw(background,0f,0f, game.width, game.height);
+        game.font.draw(game.batch,optionsText,game.width/2f - optionsText.width/3f, game.height - optionsText.height/3f);
         //Get QuitGame Bounds, highlights it if mouse hovers over it and set action if mouse button is pressed
-        if (Gdx.input.getX() < Gdx.graphics.getWidth()/2f + BUTTONS_WIDTH*.5f && Gdx.input.getX() > Gdx.graphics.getWidth()/2f - BUTTONS_WIDTH/2f
-            && Gdx.graphics.getHeight() - Gdx.input.getY() < Gdx.graphics.getHeight()/2f + BUTTONS_HEIGHT*.5f && Gdx.graphics.getHeight() - Gdx.input.getY() > Gdx.graphics.getHeight()/2f - BUTTONS_HEIGHT/2f){
-            game.batch.draw(quitGameActive,Gdx.graphics.getWidth()/2f - BUTTONS_WIDTH/2f,Gdx.graphics.getHeight()/2f - BUTTONS_HEIGHT/2f,BUTTONS_WIDTH,BUTTONS_HEIGHT);
+        if (Gdx.input.getX() < game.width/2f + BUTTONS_WIDTH*.5f && Gdx.input.getX() > game.width/2f - BUTTONS_WIDTH/2f
+            && game.height - Gdx.input.getY() < game.height/2f + BUTTONS_HEIGHT*.5f && game.height - Gdx.input.getY() > game.height/2f - BUTTONS_HEIGHT/2f){
+            game.batch.draw(quitGameActive,game.width/2f - BUTTONS_WIDTH/2f,game.height/2f - BUTTONS_HEIGHT/2f,BUTTONS_WIDTH,BUTTONS_HEIGHT);
             if (Gdx.input.justTouched()){
                 Gdx.app.exit();
                 this.dispose();
             }
         }
-        else{ game.batch.draw(quitGameInactive,Gdx.graphics.getWidth()/2f - BUTTONS_WIDTH/2f,Gdx.graphics.getHeight()/2f - BUTTONS_HEIGHT/2f,BUTTONS_WIDTH,BUTTONS_HEIGHT); }
-        //Get QuitMenu Bounds, highlights it id mouse hovers over it and set action if mouse button is pressed
-        if (Gdx.input.getX() < Gdx.graphics.getWidth()/2f + BUTTONS_WIDTH*.5f && Gdx.input.getX() > Gdx.graphics.getWidth()/2f - BUTTONS_WIDTH/2f
-                && Gdx.graphics.getHeight() - Gdx.input.getY() < Gdx.graphics.getHeight()/2f - BUTTONS_HEIGHT*.5f -10f  && Gdx.graphics.getHeight() - Gdx.input.getY() > Gdx.graphics.getHeight()/2f - BUTTONS_HEIGHT*1.5f -10f ) {
-            game.batch.draw(quitMenuActive, Gdx.graphics.getWidth() / 2f - BUTTONS_WIDTH / 2f, Gdx.graphics.getHeight()/2f - BUTTONS_HEIGHT * 1.5f - 10f, BUTTONS_WIDTH, BUTTONS_HEIGHT);
+        else{ game.batch.draw(quitGameInactive,game.width/2f - BUTTONS_WIDTH/2f,game.height/2f - BUTTONS_HEIGHT/2f,BUTTONS_WIDTH,BUTTONS_HEIGHT); }
+        //Get QuitMenu Bounds, highlights it if mouse hovers over it and set action if mouse button is pressed
+        if (Gdx.input.getX() < game.width/2f + BUTTONS_WIDTH*.5f && Gdx.input.getX() > game.width/2f - BUTTONS_WIDTH/2f
+                && game.height - Gdx.input.getY() < game.height/2f - BUTTONS_HEIGHT*.5f -10f  && game.height - Gdx.input.getY() > game.height/2f - BUTTONS_HEIGHT*1.5f -10f ) {
+            game.batch.draw(quitMenuActive, game.width / 2f - BUTTONS_WIDTH / 2f, game.height/2f - BUTTONS_HEIGHT * 1.5f - 10f, BUTTONS_WIDTH, BUTTONS_HEIGHT);
             if (Gdx.input.justTouched()) {
                 this.dispose();
                 game.setScreen(new MainMenuScreen(game));
             }
         }
-        else{ game.batch.draw(quitMenuInactive, Gdx.graphics.getWidth() / 2f - BUTTONS_WIDTH / 2f, Gdx.graphics.getHeight() / 2f - BUTTONS_HEIGHT * 1.5f - 10f, BUTTONS_WIDTH, BUTTONS_HEIGHT); }
-        if (Gdx.input.getX() < Gdx.graphics.getWidth()/2f + BUTTONS_WIDTH*.5f && Gdx.input.getX() > Gdx.graphics.getWidth()/2f - BUTTONS_WIDTH/2f
-                && Gdx.graphics.getHeight() - Gdx.input.getY() < Gdx.graphics.getHeight()/2f - BUTTONS_HEIGHT*1.5f -20f  && Gdx.graphics.getHeight() - Gdx.input.getY() > Gdx.graphics.getHeight()/2f - BUTTONS_HEIGHT*2.5f -20f  /*&& game.music.isPlaying()*/) {
-            game.batch.draw(musicOnActive, Gdx.graphics.getWidth() / 2f - BUTTONS_WIDTH / 2f, Gdx.graphics.getHeight() / 2f - BUTTONS_HEIGHT * 2.5f - 20f, BUTTONS_WIDTH, BUTTONS_HEIGHT);
-
+        else{ game.batch.draw(quitMenuInactive, game.width / 2f - BUTTONS_WIDTH / 2f, game.height / 2f - BUTTONS_HEIGHT * 1.5f - 10f, BUTTONS_WIDTH, BUTTONS_HEIGHT); }
+        if (Gdx.input.getX() < game.width/2f + BUTTONS_WIDTH*.5f && Gdx.input.getX() > game.width/2f - BUTTONS_WIDTH/2f
+                && game.height - Gdx.input.getY() < game.height/2f - BUTTONS_HEIGHT*1.5f -20f  && game.height - Gdx.input.getY() > game.height/2f - BUTTONS_HEIGHT*2.5f -20f  /*&& game.music.isPlaying()*/) {
+            game.batch.draw(musicOnActive, game.width / 2f - BUTTONS_WIDTH / 2f, game.height / 2f - BUTTONS_HEIGHT * 2.5f - 20f, BUTTONS_WIDTH, BUTTONS_HEIGHT);
         }
         else {
-            game.batch.draw(musicOnInactive, Gdx.graphics.getWidth() / 2f - BUTTONS_WIDTH / 2f, Gdx.graphics.getHeight() / 2f - BUTTONS_HEIGHT * 2.5f - 20f, BUTTONS_WIDTH, BUTTONS_HEIGHT);
+            game.batch.draw(musicOnInactive, game.width / 2f - BUTTONS_WIDTH / 2f, game.height / 2f - BUTTONS_HEIGHT * 2.5f - 20f, BUTTONS_WIDTH, BUTTONS_HEIGHT);
         }
         game.batch.end();
     }
 
     @Override
     public void resize(int width, int height) {
-        game.resize(width,height);
     }
 
     @Override
     public void pause() {
-
     }
 
     @Override
     public void resume() {
-
     }
 
     @Override
     public void hide() {
-
     }
 
     @Override
