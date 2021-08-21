@@ -27,4 +27,11 @@ public class Animatable extends Drawable{
         animation = new Animation<TextureRegion>(1f/fps, textureAtlas.getRegions());
         batch.draw(animation.getKeyFrame(elapsedTime, currentlyLooping), hitBox.x, hitBox.y);
     }
+    void stop(SpriteBatch batch, float delta){
+        elapsedTime=delta;
+        textureAtlas = new TextureAtlas(Gdx.files.internal(this.currentAtlasUrl));
+        animation = new Animation<TextureRegion>(1f, textureAtlas.getRegions());
+        batch.draw(animation.getKeyFrame(elapsedTime, currentlyLooping), hitBox.x, hitBox.y);
+
+    }
 }

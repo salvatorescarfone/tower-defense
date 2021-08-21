@@ -27,16 +27,20 @@ public class GameScreen implements Screen {
     int enemyCount;
     Array<Enemy> enemies;
     Texture background;
+    Texture pauseText;
     BitmapFont lifeTxt;
     Tower tower;
     int coins;
     Hero hero;
-
+    boolean paused;
+    long pauseTime;
     /*Constructor method for the GameScreen*/
     public GameScreen(final MainGame game){
         //draw hit box borders
         enemyCount=0;
+        pauseTime=0;
         this.game=game;
+        pauseText = new Texture("GameScreen/Pause.png");
         tower = new Tower(50f, 0f);    //Tower Constructor, creates texture, life, hit-box of tower
         lifeTxt = new BitmapFont();
         lifeTxt.setColor(Color.BLACK);
@@ -46,6 +50,7 @@ public class GameScreen implements Screen {
         hero = new Hero(280f, 385f);
         enemies = new Array<>();
         spawnEnemy();
+        paused=false;
     }
     public void spawnEnemy(){
         int enemySelect = MathUtils.random(0,0);
@@ -61,24 +66,46 @@ public class GameScreen implements Screen {
         game.batch.setProjectionMatrix(game.camera.combined);
         game.batch.begin();
         game.batch.draw(background, 0, 0);
+        if (paused){
+            if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
+                paused=false;
+                //This calculates the time elapsed while paused in nanoseconds
+                pauseTime = TimeUtils.nanoTime() - pauseTime;
+            }
+            for (Enemy enemy: enemies){
+                enemy.stop(game.batch,delta);
+            }
+            hero.stop(game.batch,delta);
+            game.batch.draw(pauseText, game.width/2f - pauseText.getWidth()/2f, game.height/2f - pauseText.getHeight());
+        }
+        else{
+            for (Enemy enemy: enemies){
+                enemy.EnemyMovement(tower);
+                enemy.animate(game.batch,11f);
+
+            }
+            if (TimeUtils.nanoTime() - lastEnemySpawn - pauseTime > 3000000000L && enemyCount < maxEnemyOnScreen){
+                spawnEnemy();
+                pauseTime=0;
+            }
+            if (tower.towerLife == 0){
+                this.dispose();
+                game.setScreen(new GameOverScreen(game));
+            }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
+                paused=true;
+                //Start counting pause time
+                pauseTime=TimeUtils.nanoTime();
+            }
+            hero.animate(game.batch,11f);
+        }
         lifeTxt.draw(game.batch, "Life: " + tower.towerLife + " Coins: " + coins + " Score: " + game.score, 250, 660);
         tower.draw(game.batch);
-        hero.animate(game.batch,11f);
-        for (Enemy enemy : enemies){
-            enemy.animate(game.batch,11f);
-            enemy.EnemyMovement(tower);
-        }
-        if (TimeUtils.nanoTime() - lastEnemySpawn > 3000000000L && enemyCount < maxEnemyOnScreen){
-            spawnEnemy();
-        }
         /*Debug code to exit game early*/
         if (Gdx.input.isKeyJustPressed(Input.Keys.Q)){
             Gdx.app.exit();
         }
-        if (tower.towerLife == 0){
-            this.dispose();
-            game.setScreen(new GameOverScreen(game));
-        }
+
         game.batch.end();
         //important!!! without this hit boxes and textures won't be aligned
         game.shapeRenderer.setProjectionMatrix(game.camera.combined);
