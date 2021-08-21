@@ -14,7 +14,6 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
  * and more.
  *
  */
-
 public class MainGame extends Game {
 		Music music;
 		int score = 0;			//Total Score of the game in process
@@ -46,7 +45,6 @@ public class MainGame extends Game {
 			this.setScreen(new MainMenuScreen(this));
 
 		}
-
 		public void render() {
 			/* Without this call, the Screen that you set in the create()
 			 * method will not be rendered if you override the render method in your Game class!

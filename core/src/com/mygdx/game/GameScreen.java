@@ -14,6 +14,11 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 import java.util.Iterator;
 
+/* This is the Screen where the core of the game resides. In here all "actors" such as hero, enemies and the tower
+ * are drawn on the scene and act in a particular way. The hero is piloted by the user while the enemies are randomly
+ * spawned on screen.
+ */
+
 public class GameScreen implements Screen {
     final MainGame game;
     String[] enemiesAtlases = {"characters/archer/archer_running.atlas"};
@@ -29,7 +34,6 @@ public class GameScreen implements Screen {
 
     /*Constructor method for the GameScreen*/
     public GameScreen(final MainGame game){
-
         //draw hit box borders
         enemyCount=0;
         this.game=game;
@@ -43,28 +47,18 @@ public class GameScreen implements Screen {
         enemies = new Array<>();
         spawnEnemy();
     }
-
     public void spawnEnemy(){
         int enemySelect = MathUtils.random(0,0);
         Enemy enemy = new Enemy(100,false,Gdx.graphics.getWidth(),0);
         enemies.add(enemy);
         enemyCount++;
         lastEnemySpawn = TimeUtils.nanoTime();
-
     }
-
-    @Override
-    public void show() {
-
-    }
-
     @Override
     public void render(float delta) {
-
         ScreenUtils.clear(1, 1, 1, 0);
         game.camera.update();
         game.batch.setProjectionMatrix(game.camera.combined);
-
         game.batch.begin();
         game.batch.draw(background, 0, 0);
         lifeTxt.draw(game.batch, "Life: " + tower.towerLife + " Coins: " + coins + " Score: " + game.score, 250, 660);
@@ -85,7 +79,6 @@ public class GameScreen implements Screen {
             this.dispose();
             game.setScreen(new GameOverScreen(game));
         }
-
         game.batch.end();
         //important!!! without this hit boxes and textures won't be aligned
         game.shapeRenderer.setProjectionMatrix(game.camera.combined);
@@ -97,28 +90,17 @@ public class GameScreen implements Screen {
         }
         drawHitBox(tower);
         game.shapeRenderer.end();
-
     }
-
     @Override
-    public void resize(int width, int height) {
-
-    }
-
+    public void resize(int width, int height) { }
     @Override
-    public void pause() {
-
-    }
-
+    public void pause() { }
     @Override
-    public void resume() {
-
-    }
-
+    public void resume() { }
     @Override
-    public void hide() {
-
-    }
+    public void show() { }
+    @Override
+    public void hide() { }
 
     @Override
     public void dispose() {
@@ -128,7 +110,9 @@ public class GameScreen implements Screen {
             i.remove();
             }
     }
-
+    public void drawHitBox(Drawable d){
+        game.shapeRenderer.rect(d.hitBox.x,d.hitBox.y,d.hitBox.width, d.hitBox.height);
+    }
     /*
     public void animate(Animatable a, String selectAnimationAtlas, float frameRate){
         a.elapsedTime += Gdx.graphics.getDeltaTime();
@@ -136,12 +120,6 @@ public class GameScreen implements Screen {
         batch.draw(a.animation.getKeyFrame(a.elapsedTime, true), a.hitBox.x, a.hitBox.y);
     }
      */
-
-    public void drawHitBox(Drawable d){
-        game.shapeRenderer.rect(d.hitBox.x,d.hitBox.y,d.hitBox.width, d.hitBox.height);
-    }
-
-
 }
 
 

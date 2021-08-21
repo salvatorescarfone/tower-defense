@@ -4,14 +4,8 @@ package com.mygdx.game;
  *
  */
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
-
 
 public class Hero extends Animatable{
 
@@ -26,8 +20,6 @@ public class Hero extends Animatable{
         //img = new Texture("hero_idle_1.png");
         //weaponImg=new Texture("Weapon.png");
     }
-
-
     public void Idle(){
         this.currentAtlasUrl = "characters/hero/hero_idle.atlas";
     }

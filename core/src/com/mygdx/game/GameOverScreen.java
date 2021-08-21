@@ -150,5 +150,4 @@ public class GameOverScreen implements Screen {
     public void hide() { }
     @Override
     public void show() { }
-
 }

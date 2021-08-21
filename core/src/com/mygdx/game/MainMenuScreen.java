@@ -22,8 +22,6 @@ public class MainMenuScreen implements Screen {
     Tower tower;
     Texture title;
 
-
-
     private static final float START_TEXT_HEIGHT=50f;
     private static final float OPTION_BUTTON_WIDTH=50f;
     private static final float OPTION_BUTTON_HEIGHT=49f;
@@ -37,36 +35,28 @@ public class MainMenuScreen implements Screen {
         startText= new GlyphLayout();
         game.font.setColor(Color.BLACK);
         startText.setText(game.font, "Welcome to Tower Defence, click or tap anywhere to begin!");
-
         optionsButtonActive = new Texture("Buttons/options_active.jpg");
         optionsButtonInactive = new Texture("Buttons/options_inactive.jpg");
-
         tower = new Tower(60f, 60f);
         hero = new Hero((Gdx.graphics.getWidth()/2f) - (57f/2f),60f);
         enemy = new Enemy (5,false,Gdx.graphics.getWidth(),50f);
-
         title = new Texture("backgrounds/MainMenuTitle.png");
-
         background = new Texture("backgrounds/white.png");
     }
     /*Method called when this Screen becomes the current screen for a game*/
     @Override
-    public void show() {
-    }
-
+    public void show() { }
     /*Called when the Screen is resized.*/
     @Override
     public void resize(int width, int height) {
         game.resize(width,height);
     }
-
     /*Renders all the graphics for the main Menu*/
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0, 1);
         game.batch.setProjectionMatrix(game.camera.combined);
         game.camera.update();
-
         game.batch.begin();
         game.batch.draw(background,0,0,game.width,game.height);
         game.batch.draw(tower.img,tower.hitBox.x,tower.hitBox.y,200,600);
@@ -78,9 +68,7 @@ public class MainMenuScreen implements Screen {
                 enemy.hitBox.x -=enemy.runSpeed;
         }
         else{
-
             enemy.Idle();
-
         }
         //Drawing options buttons and input management for accessing menus
         game.font.draw(game.batch,startText,(game.width/2f -  startText.width / 3), (START_TEXT_HEIGHT + startText.height / 3));
@@ -101,25 +89,7 @@ public class MainMenuScreen implements Screen {
                 game.setScreen(new GameScreen(game));
             }
         }
-
         game.batch.end();
-
-    }
-    
-    /*Called when the Screen is paused, usually when it's not visible*/
-    @Override
-    public void pause() {
-
-    }
-    /*Called to resume a paused Screen*/
-    @Override
-    public void resume() {
-
-    }
-    /*Called when this screen is no longer the current screen for a Game*/
-    @Override
-    public void hide() {
-
     }
     /*Called when this screen should release all resources*/
     @Override
@@ -129,5 +99,14 @@ public class MainMenuScreen implements Screen {
         title.dispose();
         background.dispose();
     }
+    /*Called when the Screen is paused, usually when it's not visible*/
+    @Override
+    public void pause() { }
+    /*Called to resume a paused Screen*/
+    @Override
+    public void resume() { }
+    /*Called when this screen is no longer the current screen for a Game*/
+    @Override
+    public void hide() { }
 
 }

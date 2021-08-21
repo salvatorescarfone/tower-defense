@@ -14,8 +14,8 @@ public class Tower extends Drawable{
         img = new Texture("tower.png");
         lastDamageTime= TimeUtils.nanoTime();
     }
-    public void DamageTower(int enemyAtk) {
 
+    public void DamageTower(int enemyAtk) {
         lastDamageTime = TimeUtils.nanoTime();
         if (towerLife >= enemyAtk) {
             towerLife -= enemyAtk;
@@ -23,7 +23,5 @@ public class Tower extends Drawable{
         else {
             towerLife = 0;
         }
-
     }
-
 }

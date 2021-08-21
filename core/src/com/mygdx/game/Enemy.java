@@ -13,7 +13,6 @@ public class Enemy extends Animatable{
         super("characters/archer/archer_running.atlas",x , y, 128f, 128f);
         this.atkPower = atkPower;
         this.airBorn = airBorn;
-
         /*
         if (airBorn) {
             super.hitBox.y = 500;
@@ -23,12 +22,10 @@ public class Enemy extends Animatable{
             enemyImg = new Texture("walking_enemy.png");
         }
           */
-
     }
 
     public void Attack(Tower t){
         if (this.hitBox.x < t.hitBox.x + t.hitBox.width + 200f) {
-
             if (TimeUtils.nanoTime() - this.lastEnemyDamage >=(1000000000/2)) {
                 t.DamageTower(this.atkPower);
                 this.lastEnemyDamage = TimeUtils.nanoTime();

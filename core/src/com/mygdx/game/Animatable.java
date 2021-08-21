@@ -5,9 +5,7 @@ package com.mygdx.game;
  */
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.math.Rectangle;
 
 
 public class Animatable extends Drawable{
@@ -22,7 +20,6 @@ public class Animatable extends Drawable{
         super(x,y,width,height);
         this.currentAtlasUrl = initialAnimationAtlas;
     }
-
     //add method visibility
     void animate(SpriteBatch batch, float fps){
         elapsedTime += Gdx.graphics.getDeltaTime();
@@ -30,7 +27,4 @@ public class Animatable extends Drawable{
         animation = new Animation<TextureRegion>(1f/fps, textureAtlas.getRegions());
         batch.draw(animation.getKeyFrame(elapsedTime, currentlyLooping), hitBox.x, hitBox.y);
     }
-
-
-
 }

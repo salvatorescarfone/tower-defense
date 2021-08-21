@@ -21,5 +21,4 @@ public class Drawable {
     public void draw(SpriteBatch batch){
         batch.draw(this.img, this.hitBox.x, this.hitBox.y, this.hitBox.width, this.hitBox.height);
     }
-
 }
