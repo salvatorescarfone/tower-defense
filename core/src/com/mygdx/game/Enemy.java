@@ -10,7 +10,7 @@ public class Enemy extends Animatable{
     boolean airBorn;
     public Enemy(int atkPower,boolean airBorn, float x, float y) {
 
-        super("characters/archer/archer_running.atlas",x , y, 128f, 128f);
+        super("characters/archer/running.atlas",x , y, 94f, 86f);
         this.atkPower = atkPower;
         this.airBorn = airBorn;
         /*
@@ -46,24 +46,24 @@ public class Enemy extends Animatable{
     }
 
     public void Idle(){
-        this.currentAtlasUrl = "characters/archer/archer_idle.atlas";
+        this.currentAtlasUrl = "characters/archer/idle.atlas";
     }
 
     public void Running(){
-        this.currentAtlasUrl = "characters/archer/archer_running.atlas";
+        this.currentAtlasUrl = "characters/archer/running.atlas";
     }
 
     public void Death(){
-        this.currentAtlasUrl = "characters/archer/archer_idle.atlas";
+        this.currentAtlasUrl = "characters/archer/idle.atlas";
     }
 
     public void LowAttack(){
-        this.currentAtlasUrl = "characters/archer/archer_start_low_attack.atlas";
+        this.currentAtlasUrl = "characters/archer/lowattack.atlas";
         this.currentlyLooping=false;
     }
 
     public void LoopLowAttack(){
-        this.currentAtlasUrl = "characters/archer/archer_loop_low_attack.atlas";
+        this.currentAtlasUrl = "characters/archer/looplowattack.atlas";
         this.currentlyLooping = true;
     }
 

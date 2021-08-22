@@ -38,8 +38,8 @@ public class MainMenuScreen implements Screen {
         optionsButtonActive = new Texture("Buttons/options_active.jpg");
         optionsButtonInactive = new Texture("Buttons/options_inactive.jpg");
         tower = new Tower(60f, 60f);
-        hero = new Hero((Gdx.graphics.getWidth()/2f) - (57f/2f),60f);
-        enemy = new Enemy (5,false,Gdx.graphics.getWidth(),50f);
+        hero = new Hero((game.width/2f) - (57f/2f),60f);
+        enemy = new Enemy (5,false,game.width,60f);
         title = new Texture("backgrounds/MainMenuTitle.png");
         background = new Texture("backgrounds/white.png");
     }
