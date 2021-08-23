@@ -4,28 +4,21 @@ package com.mygdx.game;
  *
  */
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Rectangle;
-
 public class Hero extends Animatable{
-
-    Rectangle weaponHitBox;
-    Texture weaponImg;
-    int atk;
-
+    float width;
+    float height;
     Hero(float x, float y) {
-        super("characters/hero/hero_idle.atlas", x, y, 57f, 86f);//Hitbox not drawn on character
-        //weaponHitBox = new Rectangle((200f - (128f / 2f)), 164f, 64f, 64f);
-        int atk=5;
-        //img = new Texture("hero_idle_1.png");
-        //weaponImg=new Texture("Weapon.png");
+        super("animations/hero/hero_idle.atlas", x, y, 57f, 86f);//Hitbox not drawn on character
+        width=57f;
+        height=86f;
+
     }
     public void Idle(){
-        this.currentAtlasUrl = "characters/hero/hero_idle.atlas";
+        this.currentAtlasUrl = "animations/hero/hero_idle.atlas";
     }
 
     public void Death(){
-        this.currentAtlasUrl = "characters/hero/hero_death.atlas";
+        this.currentAtlasUrl = "animations/hero/hero_death.atlas";
     }
 
 }

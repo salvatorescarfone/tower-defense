@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -32,6 +33,7 @@ public class GameScreen implements Screen {
     Tower tower;
     int coins;
     Hero hero;
+    Weapon weapon;
     boolean paused;
     long pauseTime;
     /*Constructor method for the GameScreen*/
@@ -48,6 +50,7 @@ public class GameScreen implements Screen {
         background = new Texture("backgrounds/white.png");
         coins = 0;
         hero = new Hero(280f, 385f);
+        weapon = new Weapon(280 + hero.width*1.5f,385f + hero.height/2f);
         enemies = new Array<>();
         spawnEnemy();
         paused=false;
@@ -98,6 +101,7 @@ public class GameScreen implements Screen {
                 pauseTime=TimeUtils.nanoTime();
             }
             hero.animate(game.batch,11f);
+            weapon.draw(game.batch, delta);
         }
         lifeTxt.draw(game.batch, "Life: " + tower.towerLife + " Coins: " + coins + " Score: " + game.score, 250, 660);
         tower.draw(game.batch);
@@ -111,11 +115,12 @@ public class GameScreen implements Screen {
         game.shapeRenderer.setProjectionMatrix(game.camera.combined);
         game.shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         game.shapeRenderer.setColor(0,0,0,0);
-        drawHitBox(hero);
+        drawHitBox(hero.hitBox);
         for (Enemy enemy: enemies){
-            drawHitBox(enemy);
+            drawHitBox(enemy.hitBox);
         }
-        drawHitBox(tower);
+        drawHitBox(tower.hitBox);
+        drawHitBox(weapon.sprite.getBoundingRectangle());
         game.shapeRenderer.end();
     }
     @Override
@@ -137,8 +142,8 @@ public class GameScreen implements Screen {
             i.remove();
             }
     }
-    public void drawHitBox(Drawable d){
-        game.shapeRenderer.rect(d.hitBox.x,d.hitBox.y,d.hitBox.width, d.hitBox.height);
+    public void drawHitBox(Rectangle r){
+        game.shapeRenderer.rect(r.x,r.y,r.width, r.height);
     }
     /*
     public void animate(Animatable a, String selectAnimationAtlas, float frameRate){
