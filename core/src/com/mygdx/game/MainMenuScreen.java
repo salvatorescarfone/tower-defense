@@ -14,8 +14,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 public class MainMenuScreen implements Screen {
     final MainGame game;
-    Texture optionsButtonActive;
-    Texture optionsButtonInactive;
+    MyButton optionsButton;
     Texture background;
     Hero hero;
     Enemy enemy;
@@ -32,11 +31,12 @@ public class MainMenuScreen implements Screen {
     /*Constructor for the MainMenu*/
     public MainMenuScreen(final MainGame game){
         this.game=game;
+        optionsButton = new MyButton("Buttons/options_active.jpg", "Buttons/options_inactive.jpg",
+                game.width - OPTION_BUTTON_WIDTH,OPTION_BUTTON_Y,OPTION_BUTTON_WIDTH,OPTION_BUTTON_HEIGHT, game.width,
+                game.height);
         startText= new GlyphLayout();
         game.font.setColor(Color.BLACK);
         startText.setText(game.font, "Welcome to Tower Defence, click or tap anywhere to begin!");
-        optionsButtonActive = new Texture("Buttons/options_active.jpg");
-        optionsButtonInactive = new Texture("Buttons/options_inactive.jpg");
         tower = new Tower(60f, 60f);
         hero = new Hero((game.width/2f) - (57f/2f),60f);
         enemy = new Enemy (5,false,game.width,60f);
@@ -72,30 +72,21 @@ public class MainMenuScreen implements Screen {
         }
         //Drawing options buttons and input management for accessing menus
         game.font.draw(game.batch,startText,(game.width/2f -  startText.width / 3), (START_TEXT_HEIGHT + startText.height / 3));
-        if (Gdx.input.getX() < game.width  && Gdx.input.getX() > game.width - OPTION_BUTTON_WIDTH &&
-                game.height - Gdx.input.getY() < OPTION_BUTTON_Y + OPTION_BUTTON_HEIGHT && game.height - Gdx.input.getY() > OPTION_BUTTON_Y){
-            game.batch.draw(optionsButtonActive,game.width - OPTION_BUTTON_WIDTH,OPTION_BUTTON_Y,OPTION_BUTTON_WIDTH,OPTION_BUTTON_HEIGHT);
-            if (Gdx.input.justTouched()){
-                game.setScreen(new OptionsScreen(game));
-                this.dispose();
-
-            }
+        optionsButton.draw(game.batch);
+        if (optionsButton.isActive() && Gdx.input.justTouched()){
+            this.dispose();
+            game.setScreen(new OptionsScreen(game));
         }
-        else {
-            game.batch.draw(optionsButtonInactive,game.width - OPTION_BUTTON_WIDTH, OPTION_BUTTON_Y, OPTION_BUTTON_WIDTH, OPTION_BUTTON_HEIGHT);
-            //If mouse is pressed or Screen is touched: set new GameScreen, dispose of this Screen
-            if (Gdx.input.justTouched()) {
-                this.dispose();
-                game.setScreen(new GameScreen(game));
-            }
+        else if(!optionsButton.isActive() && Gdx.input.justTouched()){
+            this.dispose();
+            game.setScreen(new GameScreen(game));
         }
         game.batch.end();
     }
     /*Called when this screen should release all resources*/
     @Override
     public void dispose() {
-        optionsButtonActive.dispose();
-        optionsButtonActive.dispose();
+        optionsButton.dispose();
         title.dispose();
         background.dispose();
     }

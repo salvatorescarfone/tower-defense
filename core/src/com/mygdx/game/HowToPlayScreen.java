@@ -9,13 +9,12 @@ import com.badlogic.gdx.utils.ScreenUtils;
 public class HowToPlayScreen implements Screen {
     final MainGame game;
     Texture background;
-    Texture backInactive;
-    Texture backActive;
+    MyButton backButton;
     public HowToPlayScreen(final MainGame game){
         this.game=game;
+        backButton = new MyButton("HowToPlayScreen/Back_Active.png", "HowToPlayScreen/Back_Inactive.png",
+                game.width - 150f, 0f,150f, 50f, game.width, game.height);
         background = new Texture("HowToPlayScreen/background.png");
-        backInactive = new Texture("HowToPlayScreen/Back_Inactive.png");
-        backActive = new Texture("HowToPlayScreen/Back_Active.png");
     }
 
     @Override
@@ -25,16 +24,10 @@ public class HowToPlayScreen implements Screen {
         game.camera.update();
         game.batch.begin();
         game.batch.draw(background,0f,0f,game.width,game.height);
-        if (Gdx.input.getX() < game.width && Gdx.input.getX() > game.width - backActive.getWidth()
-            && game.height - Gdx.input.getY() < backActive.getHeight() && game.height - Gdx.input.getY() > 0f) {
-            game.batch.draw(backActive, game.width - backActive.getWidth(), 0f);
-            if (Gdx.input.justTouched()){
-                this.dispose();
-                game.setScreen(new OptionsScreen(game));
-            }
-        }
-        else {
-            game.batch.draw(backInactive, game.width - backActive.getWidth(), 0f);
+        backButton.draw(game.batch);
+        if (Gdx.input.justTouched() && backButton.isActive()){
+            this.dispose();
+            game.setScreen(new MainMenuScreen(game));
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.Q)){
             Gdx.app.exit();
@@ -44,8 +37,7 @@ public class HowToPlayScreen implements Screen {
 
     @Override
     public void dispose() {
-        backActive.dispose();
-        backInactive.dispose();
+        backButton.dispose();
         background.dispose();
     }
 

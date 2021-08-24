@@ -20,10 +20,8 @@ public class GameOverScreen implements Screen {
     Texture gameOver;
     Preferences pref;
     Texture background;
-    Texture newGameActive;
-    Texture newGameInactive;
-    Texture quitGameActive;
-    Texture quitGameInactive;
+    MyButton newGameButton;
+    MyButton quitGameButton;
     int personalBest;
     int lastScore;
     float scoreTextWidth;
@@ -31,19 +29,19 @@ public class GameOverScreen implements Screen {
     final GlyphLayout actualScoreText;
     final GlyphLayout personalBestText;
     final GlyphLayout lastScoreText;
-    private final float buttonWidth;
-    private final float buttonHeight;
+    private static final float BUTTON_WIDTH=150f;
+    private static final float BUTTON_HEIGHT=50f;
     public GameOverScreen (final MainGame game){
         this.game = game;
+        newGameButton= new MyButton("GameOverScreen/NewGame_Active.png","GameOverScreen/NewGame_Inactive.png",
+                game.width/2f - BUTTON_WIDTH/2f, game.height/2f - BUTTON_HEIGHT/2f, BUTTON_WIDTH,BUTTON_HEIGHT,
+                game.width, game.height);
+        quitGameButton= new MyButton("GameOverScreen/QuitGame_Active.png", "GameOverScreen/QuitGame_Inactive.png",
+                game.width/2f - BUTTON_WIDTH/2f, game.height/2f - BUTTON_HEIGHT*1.5f - 10f, BUTTON_WIDTH,
+                BUTTON_HEIGHT, game.width, game.height);
         gameOver = new Texture("GameOverScreen/GameOver.png");
         pref = Gdx.app.getPreferences("highScore");
         background = new Texture("GameOverScreen/Stars.png");
-        newGameActive = new Texture ("GameOverScreen/NewGame_Active.png");
-        newGameInactive = new Texture ("GameOverScreen/NewGame_Inactive.png");
-        quitGameActive = new Texture ("GameOverScreen/QuitGame_Active.png");
-        quitGameInactive = new Texture("GameOverScreen/QuitGame_Inactive.png");
-        buttonWidth = newGameActive.getWidth();
-        buttonHeight = newGameActive.getHeight();
         if (!pref.contains("pb")){
             this.setHighScore();
             personalBest = 0;
@@ -100,32 +98,20 @@ public class GameOverScreen implements Screen {
         game.font.draw(game.batch,personalBestText,scoreTextWidth - personalBestText.width / 3f,scoreTextHeight - actualScoreText.height -20f - lastScoreText.height + personalBestText.height /3f);
         game.font.draw(game.batch,lastScoreText,scoreTextWidth - lastScoreText.width / 3f,scoreTextHeight - actualScoreText.height -10f + lastScoreText.height /3f);
         /*Draw new Game Button Centered on the screen and set Input response*/
-        if (Gdx.input.getX() < game.width/2f + buttonWidth/2f && Gdx.input.getX() > game.width/2f - buttonWidth/2f
-            && game.height - Gdx.input.getY() < game.height/2f + buttonHeight/2f && game.height - Gdx.input.getY() > game.height/2f - buttonHeight/2f){
-            game.batch.draw(newGameActive,game.width/2f - buttonWidth/2f, game.height/2f - buttonHeight/2f, buttonWidth,buttonHeight);
-            if (Gdx.input.justTouched()){
-                this.dispose();
-                game.score=0;
-                game.setScreen(new MainMenuScreen(game));
-            }
-        }
-        else{
-            game.batch.draw(newGameInactive,game.width/2f - buttonWidth/2f, game.height/2f - buttonHeight/2f, buttonWidth,buttonHeight);
+        newGameButton.draw(game.batch);
+        if (newGameButton.isActive() && Gdx.input.justTouched()){
+            this.dispose();
+            game.score=0;
+            game.setScreen(new MainMenuScreen(game));
         }
         /*Draw quit Button below new Game Button and set Input response*/
-        if (Gdx.input.getX() < game.width/2f + buttonWidth/2f && Gdx.input.getX() > game.width/2f - buttonWidth/2f
-            && game.height - Gdx.input.getY() < game.height/2f -10f - buttonHeight/2f && game.height - Gdx.input.getY() > game.height/2f - buttonHeight*1.5f - 10f){
-            game.batch.draw(quitGameActive,game.width/2f - buttonWidth/2f, game.height/2f - buttonHeight*1.5f - 10f, buttonWidth,buttonHeight);
+        quitGameButton.draw(game.batch);
+        if (quitGameButton.isActive() && Gdx.input.justTouched()){
             if (Gdx.input.justTouched()){
                 this.dispose();
                 Gdx.app.exit();
             }
         }
-        else {
-            game.batch.draw(quitGameInactive,game.width/2f - buttonWidth/2f, game.height/2f - buttonHeight*1.5f - 10f, buttonWidth,buttonHeight);
-
-        }
-
         /*Debug to exit game*/
         if (Gdx.input.isKeyJustPressed(Input.Keys.Q)){
             Gdx.app.exit();
@@ -136,10 +122,8 @@ public class GameOverScreen implements Screen {
     public void dispose() {
         gameOver.dispose();
         background.dispose();
-        quitGameActive.dispose();
-        quitGameInactive.dispose();
-        newGameInactive.dispose();
-        newGameActive.dispose();
+        quitGameButton.dispose();
+        newGameButton.dispose();
     }
     @Override
     public void resize(int width, int height) { }
