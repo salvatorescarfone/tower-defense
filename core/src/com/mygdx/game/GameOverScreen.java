@@ -64,12 +64,16 @@ public class GameOverScreen implements Screen {
             setHighScore(game.score);
         }
         game.font.setColor(Color.WHITE);
-        actualScoreText= new GlyphLayout(game.font,"Your Score: " + game.score);
-        personalBestText = new GlyphLayout(game.font,"Previous Personal Best: " + personalBest);
-        lastScoreText = new GlyphLayout(game.font,"Last Score: " + lastScore);
+        actualScoreText= new GlyphLayout(game.font,createStr("Your Score: ",game.score));
+        personalBestText = new GlyphLayout(game.font,createStr("Previous Personal Best: ",personalBest));
+        lastScoreText = new GlyphLayout(game.font,createStr("Last Score: ",lastScore));
         scoreTextHeight = game.height - gameOver.getHeight() - 10f;
         scoreTextWidth = game.width /2f;
     }
+    private String createStr(String str,int score){
+        return str.concat(Integer.toString(score));
+    }
+
     private void setLastScore(int lastScore){
         pref.putInteger("lastScore",lastScore);
         pref.flush();

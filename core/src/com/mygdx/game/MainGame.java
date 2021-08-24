@@ -36,8 +36,8 @@ public class MainGame extends Game {
 			// Use LibGDX's default Arial font.
 			font = new BitmapFont();
 			camera = new OrthographicCamera();
-			camera.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-			viewport = new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),camera);
+			camera.setToOrtho(false,width, height);
+			viewport = new ExtendViewport(width, height,camera);
 			//music = Gdx.audio.newMusic(Gdx.files.internal(""));
 			//music.play();
 			//music.setLooping(true);

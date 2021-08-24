@@ -15,31 +15,32 @@ public class Weapon {
     final int MOVING_COLS = 30;
     Animation<TextureRegion> idleAnimation;
     Animation<TextureRegion> movingAnimation;
-    final float SPEED = 3f;
     TextureRegion reg;
     Sprite sprite;
     float stateTime;
-    boolean isMoving;
     boolean isIdling;
     Vector2 mouse;
-    Vector2 spriteCenter;
+    Vector2 position;
+    Vector2 velocity;
+    Vector2 idlePos;
+    final float speedMax = 100f;
 
     public Weapon(float x, float y){
         isIdling=true;
-        isMoving=false;
-        reg = new TextureRegion();
+        reg=new TextureRegion();
         idleAnimation = createAnimation(new Texture("animations/fireball/idle.png"),IDLE_COLS,IDLE_ROWS,0.025f);
         movingAnimation = createAnimation(new Texture("animations/fireball/moving.png"),MOVING_COLS,MOVING_ROWS,0.05f);
         stateTime= 0f;
-        reg= idleAnimation.getKeyFrame(0);
+        reg = idleAnimation.getKeyFrame(0);
         sprite = new Sprite(reg);
-        sprite.setX(x);
-        sprite.setY(y);
+        sprite.setPosition(x,y);
+        idlePos=new Vector2(x,y);
         mouse=new Vector2();
-        spriteCenter= new Vector2(sprite.getX() + sprite.getWidth()/2f,sprite.getY() + sprite.getHeight()/2f);
+        position= new Vector2(x,y);
+        velocity = new Vector2();
     }
 
-
+    /*Create animation with TextureRegion[][] method*/
     private Animation<TextureRegion> createAnimation(Texture sheet, int cols, int rows, float frameDuration){
         TextureRegion[][] tmp = TextureRegion.split(sheet,sheet.getWidth() / cols,
                 sheet.getHeight() / rows);
@@ -58,23 +59,47 @@ public class Weapon {
     /*Gets new frame, sets frame, draws sprite on screen*/
     public void draw(SpriteBatch batch, float delta){
         stateTime += delta;
+        update(delta);
         if (isIdling){
-            reg= idleAnimation.getKeyFrame(stateTime,true);
+            sprite.setRegion(idleAnimation.getKeyFrame(stateTime,true));
         }
         else {
-            reg = movingAnimation.getKeyFrame(stateTime, true);
+            sprite.setRegion(movingAnimation.getKeyFrame(stateTime, true));
+            sprite.flip(true,false);
         }
-        sprite.setRegion(reg);
-        mouse.x = Gdx.input.getX();
-        mouse.y = Gdx.input.getY();
-        sprite.setRotation((spriteCenter.angleDeg(mouse)));
+        //sprite.setRotation((spriteCenter.angleDeg(mouse)));
         sprite.draw(batch);
     }
 
     public void update(float delta){
+        //If mouse is pressed while sprite is Idling: start attack
+        if (Gdx.input.justTouched() && isIdling){
+            mouse.x = Gdx.input.getX();
+            mouse.y =Gdx.graphics.getHeight() - Gdx.input.getY();
+            isIdling=false;
+            //Reset size for move animation
+            sprite.setSize(68f,9f);
+
+        }
+        if (!isIdling){
+            //moveFireball
+            shootTowards(mouse.x - sprite.getWidth(), mouse.y - sprite.getHeight());
+            if (position.x != mouse.x && position.y != mouse.y) {
+                position.add(velocity.x*delta, velocity.y*delta);
+                sprite.setPosition(position.x, position.y);
+            }
+            else{
+                sprite.setBounds(idlePos.x,idlePos.y,10f,26f);
+                isIdling=true;
+            }
+        }
 
     }
 
+    private void shootTowards(float targetX, float targetY){
+        //Get normal direction vertex to the wanted position and sets speed
+        velocity.set(targetX - position.x, targetY - position.y).nor().scl(Math.min(position.dst(targetX,targetY),speedMax));
+    }
 
 }
 

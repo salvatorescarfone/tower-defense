@@ -22,7 +22,6 @@ import java.util.Iterator;
 
 public class GameScreen implements Screen {
     final MainGame game;
-    String[] enemiesAtlases = {"characters/archer/archer_running.atlas"};
     long lastEnemySpawn;
     private static final int maxEnemyOnScreen = 3;
     int enemyCount;
@@ -54,9 +53,9 @@ public class GameScreen implements Screen {
         enemies = new Array<>();
         spawnEnemy();
         paused=false;
+        game.score=MathUtils.random(0,100);
     }
     public void spawnEnemy(){
-        int enemySelect = MathUtils.random(0,0);
         Enemy enemy = new Enemy(100,false,Gdx.graphics.getWidth(),0);
         enemies.add(enemy);
         enemyCount++;
@@ -103,7 +102,7 @@ public class GameScreen implements Screen {
             hero.animate(game.batch,11f);
             weapon.draw(game.batch, delta);
         }
-        lifeTxt.draw(game.batch, "Life: " + tower.towerLife + " Coins: " + coins + " Score: " + game.score, 250, 660);
+        lifeTxt.draw(game.batch, createStr(tower.towerLife,coins,game.score), 250, 660);
         tower.draw(game.batch);
         /*Debug code to exit game early*/
         if (Gdx.input.isKeyJustPressed(Input.Keys.Q)){
@@ -152,6 +151,15 @@ public class GameScreen implements Screen {
         batch.draw(a.animation.getKeyFrame(a.elapsedTime, true), a.hitBox.x, a.hitBox.y);
     }
      */
+    private String createStr(int life, int coins, int score){
+        String str= "Life: ";
+        str= str.concat(Integer.toString(life));
+        str= str.concat(" Coins: ");
+        str = str.concat(Integer.toString(coins));
+        str = str.concat(" Score: ");
+        str = str.concat(Integer.toString(score));
+        return str;
+    }
 }
 
 
