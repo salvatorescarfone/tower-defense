@@ -24,7 +24,7 @@ public class Enemy extends Animatable{
             this.currentAtlasUrl=("animations/knight/running.atlas");
             this.atkPower = 200;
             this.life=5;
-            this.hitBox.width=86f;
+
         }
     }
 
@@ -39,7 +39,7 @@ public class Enemy extends Animatable{
         }
         else{
             if (this.hitBox.overlaps(t.hitBox)){
-                if (TimeUtils.nanoTime() - this.lastEnemyDamage >= (1000000000 / 2)) {
+                if (TimeUtils.nanoTime() - this.lastEnemyDamage >= (1000000000)) {
                     t.DamageTower(this.atkPower);
                     this.lastEnemyDamage = TimeUtils.nanoTime();
                 }
@@ -48,23 +48,26 @@ public class Enemy extends Animatable{
     }
 
     public void EnemyMovement(Tower t) {
-        if (this.select == 0) {
-            if (this.hitBox.x <= t.hitBox.x + t.hitBox.width + 200f && !this.isDead()) {
-                this.runSpeed = 0;
-                this.Attack();
-                this.LoopAttack();
-                this.doDamage(t);
-            } else
-                hitBox.x -= runSpeed;
+        if (this.isDead()){
+            this.hitBox.x=this.hitBox.x;
         }
         else {
-            if (this.hitBox.overlaps(t.hitBox) && !this.isDead()) {
-                this.runSpeed=0;
-                this.Attack();
-                this.doDamage(t);
-            }
-            else{
-                hitBox.x-=runSpeed;
+            if (this.select == 0) {
+                if (this.hitBox.x <= t.hitBox.x + t.hitBox.width + 200f && !this.isDead()) {
+                    this.runSpeed = 0;
+                    this.Attack();
+                    this.LoopAttack();
+                    this.doDamage(t);
+                } else
+                    hitBox.x -= runSpeed;
+            } else {
+                if (this.hitBox.x <= 247f && !this.isDead()) {
+                    this.runSpeed = 0;
+                    this.Attack();
+                    this.doDamage(t);
+                } else {
+                    hitBox.x -= runSpeed;
+                }
             }
         }
     }
@@ -77,18 +80,21 @@ public class Enemy extends Animatable{
             this.currentAtlasUrl= "animations/knight/idle.atlas";
         }
     }
-    public void Death(){
+    private void Death(){
         if (this.select==0) {
             this.currentAtlasUrl = "animations/archer/death.atlas";
+            this.hitBox.height=30f;
+            this.hitBox.width=100f;
         }
         else{
             this.currentAtlasUrl = "animations/knight/death.atlas";
+            this.hitBox.height=40f;
         }
         this.currentlyLooping=false;
 
     }
 
-    public void Attack(){
+    private void Attack(){
         if (this.select==0) {
             this.currentAtlasUrl = "animations/archer/lowattack.atlas";
             this.currentlyLooping=false;
@@ -96,21 +102,25 @@ public class Enemy extends Animatable{
         else{
             this.currentAtlasUrl = "animations/knight/attack.atlas";
             this.currentlyLooping=true;
+            this.hitBox.width=100f;
         }
     }
 
-    public void LoopAttack(){
+    private void LoopAttack(){
         this.currentAtlasUrl = "animations/archer/looplowattack.atlas";
         this.currentlyLooping = true;
     }
     public void gotHit(){
-        this.life--;
+        if (this.life!=0){
+            this.life--;
+        }
         //Sound reproduction..
     }
     public boolean isDead(){
         boolean isDead=false;
         if (this.life==0){
             isDead=true;
+            this.Death();
         }
         return isDead;
     }

@@ -23,7 +23,7 @@ public class Weapon {
     float y;
     float targetX;
     float targetY;
-    final float speedMax = 400f;
+    final float speedMax = 600f;
 
     public Weapon(float x, float y){
         this.x=x;
@@ -66,19 +66,15 @@ public class Weapon {
     }
 
     public void update(float delta){
-        mouse.x =Gdx.graphics.getHeight() - Gdx.input.getX();
+        mouse.x =Gdx.input.getX();
         mouse.y=Gdx.graphics.getHeight() - Gdx.input.getY();
         //If mouse is pressed while sprite is Idling: start attack
         if (Gdx.input.justTouched() && isIdling){
             targetX = Gdx.input.getX();
-            if (targetX < idlePos.x){
-                //Input Not Listened
-                isIdling=true;
-            }
-            else {
-                targetY =Gdx.graphics.getHeight() - Gdx.input.getY();
-                isIdling = false;
-            }
+
+            targetY =Gdx.graphics.getHeight() - Gdx.input.getY();
+            isIdling = false;
+
         }
         if (!isIdling){
             //moveFireball
@@ -115,11 +111,10 @@ public class Weapon {
     private float calculateAngle(){
         float scale= 120f/Gdx.graphics.getHeight();
         float angle=-70f + scale*mouse.y;
-        if (mouse.x > Gdx.graphics.getWidth()*0.75f && angle >=30f){
-            angle--;
-        }
-        if (mouse.x > Gdx.graphics.getWidth()*0.75f && angle <=-30f){
-            angle++;
+        if (mouse.x <= idlePos.x){
+            angle= - scale*mouse.y;
+            angle-=90;
+
         }
 
         if (mouse.y<=10f){

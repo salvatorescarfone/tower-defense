@@ -88,7 +88,7 @@ public class GameScreen implements Screen {
                     enemy.animate(game.batch, 11f);
                 }
                 else{
-                    enemy.animate(game.batch, 10000f);
+                    enemy.animate(game.batch, 5f);
                 }
                 if (weapon.hits(enemy)){
                     enemy.gotHit();
@@ -99,7 +99,6 @@ public class GameScreen implements Screen {
                         else{
                             game.score+=10;
                         }
-                        enemy.Death();
                         timeOfDeath=TimeUtils.millis();
                     }
                 }
@@ -135,7 +134,7 @@ public class GameScreen implements Screen {
 
         game.batch.end();
         //important!!! without this hit boxes and textures won't be aligned
-        game.shapeRenderer.setProjectionMatrix(game.camera.combined);
+        /*game.shapeRenderer.setProjectionMatrix(game.camera.combined);
         game.shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         game.shapeRenderer.setColor(0,0,0,0);
         drawHitBox(hero.hitBox);
@@ -144,7 +143,7 @@ public class GameScreen implements Screen {
         }
         drawHitBox(tower.hitBox);
         drawHitBox(weapon.sprite.getBoundingRectangle());
-        game.shapeRenderer.end();
+        game.shapeRenderer.end();*/
     }
     @Override
     public void resize(int width, int height) { }
