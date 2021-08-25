@@ -115,6 +115,13 @@ public class Weapon {
     private float calculateAngle(){
         float scale= 120f/Gdx.graphics.getHeight();
         float angle=-70f + scale*mouse.y;
+        if (mouse.x > Gdx.graphics.getWidth()*0.75f && angle >=30f){
+            angle--;
+        }
+        if (mouse.x > Gdx.graphics.getWidth()*0.75f && angle <=-30f){
+            angle++;
+        }
+
         if (mouse.y<=10f){
             angle=-70f;
         }

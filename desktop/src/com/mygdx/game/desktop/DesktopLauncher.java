@@ -9,7 +9,7 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setTitle("Tower Sage");
-		config.setWindowedMode(1280,720);
+		config.setWindowedMode(1280,680);
 		config.setResizable(false);
 		config.setWindowIcon("GameScreen/game_icon.png");
 		new Lwjgl3Application(new MainGame(),config);

@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 /* This is the First Screen that the User is met with. It's the MainMenuScreen. In here are rendered all
@@ -40,7 +41,7 @@ public class MainMenuScreen implements Screen {
                 "                                  Press Q to exit");
         tower = new Tower(60f, 60f);
         hero = new Hero((game.width/2f) - (57f/2f),60f);
-        enemy = new Enemy (5,false,game.width,60f);
+        enemy = new Enemy (MathUtils.random(0,1),true);
         title = new Texture("backgrounds/MainMenuTitle.png");
         background = new Texture("backgrounds/white.png");
     }

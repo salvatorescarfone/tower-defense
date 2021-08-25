@@ -22,23 +22,21 @@ import java.util.Iterator;
 
 public class GameScreen implements Screen {
     final MainGame game;
-    long lastEnemySpawn;
-    private static final int maxEnemyOnScreen = 3;
-    int enemyCount;
     Array<Enemy> enemies;
+    boolean hasEnemy;
     Texture background;
     Texture pauseText;
     BitmapFont lifeTxt;
     Tower tower;
-    int coins;
     Hero hero;
     Weapon weapon;
     boolean paused;
     long pauseTime;
+    long timeOfDeath;
     /*Constructor method for the GameScreen*/
     public GameScreen(final MainGame game){
         //draw hit box borders
-        enemyCount=0;
+        hasEnemy=false;
         pauseTime=0;
         this.game=game;
         pauseText = new Texture("GameScreen/Pause.png");
@@ -47,19 +45,15 @@ public class GameScreen implements Screen {
         lifeTxt.setColor(Color.BLACK);
         lifeTxt.setFixedWidthGlyphs(".2f");
         background = new Texture("backgrounds/white.png");
-        coins = 0;
         hero = new Hero(280f, 385f);
         weapon = new Weapon(280 + hero.width*1.5f,385f + hero.height/2f);
         enemies = new Array<>();
-        spawnEnemy();
         paused=false;
-        game.score=MathUtils.random(0,100);
+        timeOfDeath=0;
     }
     public void spawnEnemy(){
-        Enemy enemy = new Enemy(100,false,Gdx.graphics.getWidth(),0);
+        Enemy enemy = new Enemy(MathUtils.random(0,1),false);
         enemies.add(enemy);
-        enemyCount++;
-        lastEnemySpawn = TimeUtils.nanoTime();
     }
     @Override
     public void render(float delta) {
@@ -67,6 +61,7 @@ public class GameScreen implements Screen {
         game.camera.update();
         game.batch.setProjectionMatrix(game.camera.combined);
         game.batch.begin();
+
         game.batch.draw(background, 0, 0);
         if (paused){
             if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
@@ -82,16 +77,42 @@ public class GameScreen implements Screen {
             game.batch.draw(pauseText, game.width/2f - pauseText.getWidth()/2f, game.height/2f - pauseText.getHeight());
         }
         else{
-            if (TimeUtils.nanoTime() - lastEnemySpawn - pauseTime > 3000000000L && enemyCount < maxEnemyOnScreen){
+            if (!hasEnemy){
                 spawnEnemy();
-                pauseTime=0;
+                hasEnemy=true;
             }
+
             for (Enemy enemy: enemies){
                 enemy.EnemyMovement(tower);
-                enemy.animate(game.batch,11f);
-                if (weapon.hits(enemy)){
-                    //decrease enemy life or kill it
+                if (!enemy.isDead()) {
+                    enemy.animate(game.batch, 11f);
                 }
+                else{
+                    enemy.animate(game.batch, 10000f);
+                }
+                if (weapon.hits(enemy)){
+                    enemy.gotHit();
+                    if (enemy.isDead() && timeOfDeath ==0){
+                        if (enemy.select==0){
+                            game.score+=5;
+                        }
+                        else{
+                            game.score+=10;
+                        }
+                        enemy.Death();
+                        timeOfDeath=TimeUtils.millis();
+                    }
+                }
+            }
+            if (TimeUtils.millis() - timeOfDeath >1000) {
+                for (Iterator<Enemy> iterator = enemies.iterator(); iterator.hasNext(); ) {
+                    Enemy e = iterator.next();
+                    if (e.isDead()) {
+                        iterator.remove();
+                        hasEnemy = false;
+                    }
+                }
+                timeOfDeath=0;
             }
             if (tower.towerLife == 0){
                 this.dispose();
@@ -105,7 +126,7 @@ public class GameScreen implements Screen {
             hero.animate(game.batch,11f);
             weapon.draw(game.batch, delta);
         }
-        lifeTxt.draw(game.batch, createStr(tower.towerLife,coins,game.score), 250, 660);
+        lifeTxt.draw(game.batch, createStr(tower.towerLife,game.score), 250, 660);
         tower.draw(game.batch);
         /*Debug code to exit game early*/
         if (Gdx.input.isKeyJustPressed(Input.Keys.Q)){
@@ -139,26 +160,14 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
         background.dispose();
-        for (Iterator<Enemy> i = enemies.iterator(); i.hasNext(); ) {
-            Enemy enemy = i.next();
-            i.remove();
-            }
+
     }
     public void drawHitBox(Rectangle r){
         game.shapeRenderer.rect(r.x,r.y,r.width, r.height);
     }
-    /*
-    public void animate(Animatable a, String selectAnimationAtlas, float frameRate){
-        a.elapsedTime += Gdx.graphics.getDeltaTime();
-        a.animate(selectAnimationAtlas,1f/frameRate);
-        batch.draw(a.animation.getKeyFrame(a.elapsedTime, true), a.hitBox.x, a.hitBox.y);
-    }
-     */
-    private String createStr(int life, int coins, int score){
+    private String createStr(int life, int score){
         String str= "Life: ";
         str= str.concat(Integer.toString(life));
-        str= str.concat(" Coins: ");
-        str = str.concat(Integer.toString(coins));
         str = str.concat(" Score: ");
         str = str.concat(Integer.toString(score));
         return str;
