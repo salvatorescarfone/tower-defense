@@ -21,7 +21,7 @@ public class MainMenuScreen implements Screen {
     Tower tower;
     Texture title;
 
-    private static final float START_TEXT_HEIGHT=50f;
+    private static final float START_TEXT_HEIGHT=25f;
     private static final float OPTION_BUTTON_WIDTH=50f;
     private static final float OPTION_BUTTON_HEIGHT=49f;
     private static final float OPTION_BUTTON_Y=0f;
@@ -36,7 +36,8 @@ public class MainMenuScreen implements Screen {
                 game.height);
         startText= new GlyphLayout();
         game.font.setColor(Color.BLACK);
-        startText.setText(game.font, "Welcome to Tower Defence, click or tap anywhere to begin!");
+        startText.setText(game.font, "Welcome to Tower Defense, click or tap anywhere to begin!\n" +
+                "                                  Press Q to exit");
         tower = new Tower(60f, 60f);
         hero = new Hero((game.width/2f) - (57f/2f),60f);
         enemy = new Enemy (5,false,game.width,60f);
@@ -71,7 +72,7 @@ public class MainMenuScreen implements Screen {
             enemy.Idle();
         }
         //Drawing options buttons and input management for accessing menus
-        game.font.draw(game.batch,startText,(game.width/2f -  startText.width / 3), (START_TEXT_HEIGHT + startText.height / 3));
+        game.font.draw(game.batch,startText,(game.width/2f -  startText.width / 2), (START_TEXT_HEIGHT + startText.height / 3));
         optionsButton.draw(game.batch);
         if (optionsButton.isActive() && Gdx.input.justTouched()){
             this.dispose();

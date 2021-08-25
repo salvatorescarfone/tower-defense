@@ -22,17 +22,19 @@ public class MainGame extends Game {
 		ShapeRenderer shapeRenderer;
 		OrthographicCamera camera;
 		ExtendViewport viewport;
-		Graphics.DisplayMode display;
+		//Graphics.DisplayMode display;
 		float width;
 		float height;
 		/*Create a MainGame*/
 		public void create() {
+			width = Gdx.graphics.getWidth();
+			height = Gdx.graphics.getHeight();
 			batch = new SpriteBatch();
 			shapeRenderer = new ShapeRenderer();
-			display = Gdx.graphics.getDisplayMode();
-			Gdx.graphics.setFullscreenMode(display);
-			width= display.width;
-			height=display.height;
+			//display = Gdx.graphics.getDisplayMode();
+			//Gdx.graphics.setFullscreenMode(display);
+			//width= display.width;
+			//height=display.height;
 			// Use LibGDX's default Arial font.
 			font = new BitmapFont();
 			camera = new OrthographicCamera();

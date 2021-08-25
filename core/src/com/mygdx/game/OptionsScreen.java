@@ -52,7 +52,7 @@ public class OptionsScreen implements Screen {
         game.camera.update();
         game.batch.begin();
         game.batch.draw(background,0f,0f, game.width, game.height);
-        game.font.draw(game.batch,optionsText,game.width/2f - optionsText.width/3f, game.height - optionsText.height/3f);
+        game.font.draw(game.batch,optionsText,game.width/2f - optionsText.width/2f, game.height - optionsText.height/3f);
         quitGameButton.draw(game.batch);
         if (quitGameButton.isActive() && Gdx.input.justTouched()){
             Gdx.app.exit();
