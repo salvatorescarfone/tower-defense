@@ -81,8 +81,8 @@ public class Weapon {
             shootTowards(targetX , targetY);
             position.add(velocity.x*delta, velocity.y * delta);
             sprite.setPosition(position.x, position.y);
-            if (sprite.getX() > Gdx.graphics.getWidth() || sprite.getY() <= 0f
-                    || sprite.getY() > Gdx.graphics.getHeight()){
+            if (sprite.getX() > Gdx.graphics.getWidth() || sprite.getX() <=0
+                    || sprite.getY() <= 0f || sprite.getY() > Gdx.graphics.getHeight()){
                 setIdle();
             }
         }

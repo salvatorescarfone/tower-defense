@@ -42,7 +42,7 @@ public class GameScreen implements Screen {
         pauseText = new Texture("GameScreen/Pause.png");
         tower = new Tower(50f, 0f);    //Tower Constructor, creates texture, life, hit-box of tower
         lifeTxt = new BitmapFont();
-        lifeTxt.setColor(Color.BLACK);
+        lifeTxt.setColor(Color.WHITE);
         lifeTxt.setFixedWidthGlyphs(".2f");
         background = new Texture("backgrounds/white.png");
         hero = new Hero(280f, 385f);
@@ -57,12 +57,12 @@ public class GameScreen implements Screen {
     }
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(1, 1, 1, 0);
+        ScreenUtils.clear(0, 0, 0, 0);
         game.camera.update();
         game.batch.setProjectionMatrix(game.camera.combined);
         game.batch.begin();
 
-        game.batch.draw(background, 0, 0);
+        //game.batch.draw(background, 0, 0);
         if (paused){
             if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
                 paused=false;
