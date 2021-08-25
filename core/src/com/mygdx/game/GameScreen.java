@@ -78,17 +78,20 @@ public class GameScreen implements Screen {
                 enemy.stop(game.batch,delta);
             }
             hero.stop(game.batch,delta);
+            weapon.stop(game.batch,delta);
             game.batch.draw(pauseText, game.width/2f - pauseText.getWidth()/2f, game.height/2f - pauseText.getHeight());
         }
         else{
-            for (Enemy enemy: enemies){
-                enemy.EnemyMovement(tower);
-                enemy.animate(game.batch,11f);
-
-            }
             if (TimeUtils.nanoTime() - lastEnemySpawn - pauseTime > 3000000000L && enemyCount < maxEnemyOnScreen){
                 spawnEnemy();
                 pauseTime=0;
+            }
+            for (Enemy enemy: enemies){
+                enemy.EnemyMovement(tower);
+                enemy.animate(game.batch,11f);
+                if (weapon.hits(enemy)){
+                    //decrease enemy life or kill it
+                }
             }
             if (tower.towerLife == 0){
                 this.dispose();

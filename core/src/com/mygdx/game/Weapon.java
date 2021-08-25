@@ -9,50 +9,48 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 public class Weapon {
-    final int IDLE_COLS = 1;
-    final int IDLE_ROWS = 60;
-    final int MOVING_ROWS = 2;
-    final int MOVING_COLS = 30;
+    final int COLS = 60;
+    final int ROWS = 1;
     Animation<TextureRegion> idleAnimation;
-    Animation<TextureRegion> movingAnimation;
-    TextureRegion reg;
     Sprite sprite;
     float stateTime;
-    boolean isIdling;
+    boolean isIdling = true;
     Vector2 mouse;
     Vector2 position;
     Vector2 velocity;
     Vector2 idlePos;
-    final float speedMax = 100f;
+    float x;
+    float y;
+    float targetX;
+    float targetY;
+    final float speedMax = 400f;
 
     public Weapon(float x, float y){
-        isIdling=true;
-        reg=new TextureRegion();
-        idleAnimation = createAnimation(new Texture("animations/fireball/idle.png"),IDLE_COLS,IDLE_ROWS,0.025f);
-        movingAnimation = createAnimation(new Texture("animations/fireball/moving.png"),MOVING_COLS,MOVING_ROWS,0.05f);
+        this.x=x;
+        this.y=y;
+        idleAnimation = createAnimation(new Texture("animations/fireball/idle_flipped.png"));
         stateTime= 0f;
-        reg = idleAnimation.getKeyFrame(0);
-        sprite = new Sprite(reg);
+        sprite = new Sprite(idleAnimation.getKeyFrame(0));
         sprite.setPosition(x,y);
-        idlePos=new Vector2(x,y);
+        idlePos=new Vector2(x + sprite.getWidth()/2f,y + sprite.getHeight()/2f);
         mouse=new Vector2();
         position= new Vector2(x,y);
         velocity = new Vector2();
     }
 
     /*Create animation with TextureRegion[][] method*/
-    private Animation<TextureRegion> createAnimation(Texture sheet, int cols, int rows, float frameDuration){
-        TextureRegion[][] tmp = TextureRegion.split(sheet,sheet.getWidth() / cols,
-                sheet.getHeight() / rows);
-        TextureRegion[] frames = new TextureRegion[cols * rows];
+    private Animation<TextureRegion> createAnimation(Texture sheet){
+        TextureRegion[][] tmp = TextureRegion.split(sheet,sheet.getWidth() / COLS,
+                sheet.getHeight() / ROWS);
+        TextureRegion[] frames = new TextureRegion[COLS * ROWS];
         int index = 0;
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
+        for (int i = 0; i < ROWS; i++) {
+            for (int j = 0; j < COLS; j++) {
                 frames[index++] = tmp[i][j];
             }
         }
 
-        return new Animation<>(frameDuration, frames);
+        return new Animation<>(0.025f, frames);
     }
 
 
@@ -61,46 +59,70 @@ public class Weapon {
         stateTime += delta;
         update(delta);
         if (isIdling){
-            sprite.setRegion(idleAnimation.getKeyFrame(stateTime,true));
+            sprite.setRotation(calculateAngle());
         }
-        else {
-            sprite.setRegion(movingAnimation.getKeyFrame(stateTime, true));
-            sprite.flip(true,false);
-        }
-        //sprite.setRotation((spriteCenter.angleDeg(mouse)));
+        sprite.setRegion(idleAnimation.getKeyFrame(stateTime,true));
         sprite.draw(batch);
     }
 
     public void update(float delta){
+        mouse.x =Gdx.graphics.getHeight() - Gdx.input.getX();
+        mouse.y=Gdx.graphics.getHeight() - Gdx.input.getY();
         //If mouse is pressed while sprite is Idling: start attack
         if (Gdx.input.justTouched() && isIdling){
-            mouse.x = Gdx.input.getX();
-            mouse.y =Gdx.graphics.getHeight() - Gdx.input.getY();
-            isIdling=false;
-            //Reset size for move animation
-            sprite.setSize(68f,9f);
-
+            targetX = Gdx.input.getX();
+            if (targetX < idlePos.x){
+                //Input Not Listened
+                isIdling=true;
+            }
+            else {
+                targetY =Gdx.graphics.getHeight() - Gdx.input.getY();
+                isIdling = false;
+            }
         }
         if (!isIdling){
             //moveFireball
-            shootTowards(mouse.x - sprite.getWidth(), mouse.y - sprite.getHeight());
-            if (position.x != mouse.x && position.y != mouse.y) {
-                position.add(velocity.x*delta, velocity.y*delta);
-                sprite.setPosition(position.x, position.y);
-            }
-            else{
-                sprite.setBounds(idlePos.x,idlePos.y,10f,26f);
-                isIdling=true;
+            shootTowards(targetX , targetY);
+            position.add(velocity.x*delta, velocity.y * delta);
+            sprite.setPosition(position.x, position.y);
+            if (sprite.getX() > Gdx.graphics.getWidth() || sprite.getY() <= 0f
+                    || sprite.getY() > Gdx.graphics.getHeight()){
+                setIdle();
             }
         }
-
     }
-
     private void shootTowards(float targetX, float targetY){
-        //Get normal direction vertex to the wanted position and sets speed
-        velocity.set(targetX - position.x, targetY - position.y).nor().scl(Math.min(position.dst(targetX,targetY),speedMax));
+        velocity.set(targetX - idlePos.x, targetY - idlePos.y).nor().scl(speedMax);
+    }
+    public boolean hits(Enemy e){
+        boolean hasHit = false;
+        if (sprite.getBoundingRectangle().overlaps(e.hitBox)){
+            hasHit=true;
+            setIdle();
+        }
+        return hasHit;
     }
 
+    public void setIdle(){
+        isIdling=true;
+        sprite.setPosition(x,y);
+        position.set(x,y);
+    }
+    public void stop(SpriteBatch batch, float delta){
+        stateTime=delta;
+        sprite.draw(batch);
+    }
+    private float calculateAngle(){
+        float scale= 120f/Gdx.graphics.getHeight();
+        float angle=-70f + scale*mouse.y;
+        if (mouse.y<=10f){
+            angle=-70f;
+        }
+        if (mouse.y==Gdx.graphics.getHeight()){
+            angle=50f;
+        }
+        return angle;
+    }
 }
 
 

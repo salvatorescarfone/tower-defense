@@ -10,7 +10,7 @@ public class Tower extends Drawable{
 
     public Tower(float x, float y) {
         super(x,y,325f,628f);
-        towerLife=1000;
+        towerLife=1000000;
         img = new Texture("tower.png");
         lastDamageTime= TimeUtils.nanoTime();
     }
