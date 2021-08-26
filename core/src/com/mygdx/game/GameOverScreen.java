@@ -69,7 +69,10 @@ public class GameOverScreen implements Screen {
         scoreTextWidth = game.width /2f;
     }
     private String createStr(String str,int score){
-        return str.concat(Integer.toString(score));
+        StringBuilder sb= new StringBuilder();
+        sb.append(str);
+        sb.append(score);
+        return sb.toString();
     }
 
     private void setLastScore(int lastScore){

@@ -23,16 +23,16 @@ import java.util.Iterator;
 public class GameScreen implements Screen {
     final MainGame game;
     Array<Enemy> enemies;
-    boolean hasEnemy;
+    private boolean hasEnemy;
     Texture background;
     Texture pauseText;
     BitmapFont lifeTxt;
     Tower tower;
     Hero hero;
     Weapon weapon;
-    boolean paused;
-    long pauseTime;
-    long timeOfDeath;
+    private boolean paused;
+    private long pauseTime;
+    private long timeOfDeath;
     /*Constructor method for the GameScreen*/
     public GameScreen(final MainGame game){
         //draw hit box borders
@@ -165,11 +165,12 @@ public class GameScreen implements Screen {
         game.shapeRenderer.rect(r.x,r.y,r.width, r.height);
     }
     private String createStr(int life, int score){
-        String str= "Life: ";
-        str= str.concat(Integer.toString(life));
-        str = str.concat(" Score: ");
-        str = str.concat(Integer.toString(score));
-        return str;
+        StringBuilder sb = new StringBuilder();
+        sb.append("Life: ");
+        sb.append(life);
+        sb.append(" Score: ");
+        sb.append(score);
+        return sb.toString();
     }
 }
 
