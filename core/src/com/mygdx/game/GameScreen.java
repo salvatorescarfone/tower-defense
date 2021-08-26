@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -33,6 +35,7 @@ public class GameScreen implements Screen {
     private boolean paused;
     private long pauseTime;
     private long timeOfDeath;
+
     /*Constructor method for the GameScreen*/
     public GameScreen(final MainGame game){
         //draw hit box borders
@@ -40,12 +43,12 @@ public class GameScreen implements Screen {
         pauseTime=0;
         this.game=game;
         pauseText = new Texture("GameScreen/Pause.png");
-        tower = new Tower(50f, 0f);    //Tower Constructor, creates texture, life, hit-box of tower
+        tower = new Tower(50f, 18f);    //Tower Constructor, creates texture, life, hit-box of tower
         lifeTxt = new BitmapFont();
         lifeTxt.setColor(Color.WHITE);
         lifeTxt.setFixedWidthGlyphs(".2f");
-        background = new Texture("backgrounds/white.png");
-        hero = new Hero(280f, 385f);
+        background = new Texture("backgrounds/background.png");
+        hero = new Hero(280f, 402f);
         weapon = new Weapon(280 + hero.width*1.5f,385f + hero.height/2f);
         enemies = new Array<>();
         paused=false;
@@ -57,12 +60,12 @@ public class GameScreen implements Screen {
     }
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(0, 0, 0, 0);
+        ScreenUtils.clear(255, 255, 255, 0);
         game.camera.update();
         game.batch.setProjectionMatrix(game.camera.combined);
         game.batch.begin();
 
-        //game.batch.draw(background, 0, 0);
+        game.batch.draw(background, 0, 0);
         if (paused){
             if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
                 paused=false;
@@ -74,7 +77,7 @@ public class GameScreen implements Screen {
             }
             hero.stop(game.batch,delta);
             weapon.stop(game.batch,delta);
-            game.batch.draw(pauseText, game.width/2f - pauseText.getWidth()/2f, game.height/2f - pauseText.getHeight());
+            game.batch.draw(pauseText, game.width/2f - pauseText.getWidth()/2f, game.height/2f - pauseText.getHeight()/2f);
         }
         else{
             if (!hasEnemy){
@@ -117,20 +120,25 @@ public class GameScreen implements Screen {
                 this.dispose();
                 game.setScreen(new GameOverScreen(game));
             }
+
+            //Pause if SpaceBar is pressed
             if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
                 paused=true;
                 //Start counting pause time
                 pauseTime=TimeUtils.nanoTime();
             }
+
+            //Go back to main menu pressing ESC
+            if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+                this.dispose();
+                game.setScreen(new MainMenuScreen(game));
+            }
+
             hero.animate(game.batch,11f);
             weapon.draw(game.batch, delta);
         }
         lifeTxt.draw(game.batch, createStr(tower.towerLife,game.score), 250, 660);
         tower.draw(game.batch);
-        /*Debug code to exit game early*/
-        if (Gdx.input.isKeyJustPressed(Input.Keys.Q)){
-            Gdx.app.exit();
-        }
 
         game.batch.end();
         //important!!! without this hit boxes and textures won't be aligned

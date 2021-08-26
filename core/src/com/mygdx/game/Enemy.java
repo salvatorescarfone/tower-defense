@@ -11,7 +11,7 @@ public class Enemy extends Animatable{
     long lastEnemyDamage;
     int select;
     public Enemy(int i, boolean isMainMenu) {
-        super("animations/archer/running.atlas", Gdx.graphics.getWidth(),0, 68f, 60f);
+        super("animations/archer/running.atlas", Gdx.graphics.getWidth(),7f, 68f, 60f);
         this.select=i;
         if (isMainMenu){
             this.hitBox.y=60f;

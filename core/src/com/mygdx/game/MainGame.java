@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
  *
  */
 public class MainGame extends Game {
+
 		Music music;
 		int score = 0;			//Total Score of the game in process
 		SpriteBatch batch;
@@ -22,19 +23,16 @@ public class MainGame extends Game {
 		ShapeRenderer shapeRenderer;
 		OrthographicCamera camera;
 		ExtendViewport viewport;
-		//Graphics.DisplayMode display;
 		float width;
 		float height;
+
 		/*Create a MainGame*/
 		public void create() {
 			width = Gdx.graphics.getWidth();
 			height = Gdx.graphics.getHeight();
 			batch = new SpriteBatch();
 			shapeRenderer = new ShapeRenderer();
-			//display = Gdx.graphics.getDisplayMode();
-			//Gdx.graphics.setFullscreenMode(display);
-			//width= display.width;
-			//height=display.height;
+
 			// Use LibGDX's default Arial font.
 			font = new BitmapFont();
 			camera = new OrthographicCamera();
@@ -43,9 +41,9 @@ public class MainGame extends Game {
 			//music = Gdx.audio.newMusic(Gdx.files.internal(""));
 			//music.play();
 			//music.setLooping(true);
+
 			//Set The First Screen to MainMenu!
 			this.setScreen(new MainMenuScreen(this));
-
 		}
 		public void render() {
 			/* Without this call, the Screen that you set in the create()
