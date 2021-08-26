@@ -14,7 +14,7 @@ public class Enemy extends Animatable{
         super("animations/archer/running.atlas", Gdx.graphics.getWidth(),7f, 68f, 60f);
         this.select=i;
         if (isMainMenu){
-            this.hitBox.y=60f;
+            this.hitBox.y=6f;
         }
         if (select ==0){
             this.atkPower=500;
@@ -49,7 +49,8 @@ public class Enemy extends Animatable{
 
     public void EnemyMovement(Tower t) {
         if (this.isDead()){
-            this.hitBox.x=this.hitBox.x;
+            //Do nothing...
+            //this.hitBox.x=this.hitBox.x;
         }
         else {
             if (this.select == 0) {

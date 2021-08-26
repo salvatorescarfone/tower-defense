@@ -22,6 +22,7 @@ import java.util.Iterator;
  * spawned on screen.
  */
 
+
 public class GameScreen implements Screen {
     final MainGame game;
     Array<Enemy> enemies;
@@ -60,7 +61,7 @@ public class GameScreen implements Screen {
     }
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(255, 255, 255, 0);
+        ScreenUtils.clear(0,0,0,1);
         game.camera.update();
         game.batch.setProjectionMatrix(game.camera.combined);
         game.batch.begin();

@@ -15,7 +15,6 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
  *
  */
 public class MainGame extends Game {
-
 		Music music;
 		int score = 0;			//Total Score of the game in process
 		SpriteBatch batch;

@@ -34,14 +34,14 @@ public class MainMenuScreen implements Screen {
     public MainMenuScreen(final MainGame game){
         this.game=game;
         optionsButton = new MyButton("Buttons/options_active.png", "Buttons/options_inactive.png",
-                game.width - OPTION_BUTTON_WIDTH,OPTION_BUTTON_Y,OPTION_BUTTON_WIDTH,OPTION_BUTTON_HEIGHT, game.width,
+                game.width - OPTION_BUTTON_WIDTH,game.height-OPTION_BUTTON_HEIGHT,OPTION_BUTTON_WIDTH,OPTION_BUTTON_HEIGHT, game.width,
                 game.height);
         startText= new GlyphLayout();
         game.font.setColor(Color.BLACK);
-        startText.setText(game.font, "Welcome to Tower Defense, click or tap anywhere to begin!\n" +
+        startText.setText(game.font, "Welcome to Tower Defense, click anywhere to begin!\n" +
                 "                                  Press Q to exit");
-        tower = new Tower(60f, 0f);
-        hero = new Hero((game.width/2f) - (57f/2f),60f);
+        tower = new Tower(50f, 15f);
+        hero = new Hero((game.width/2f) - (57f/2f),6f);
         enemy = new Enemy (MathUtils.random(0,1),true);
         title = new Texture("backgrounds/MainMenuTitle.png");
         background = new Texture("backgrounds/main_menu_background.png");

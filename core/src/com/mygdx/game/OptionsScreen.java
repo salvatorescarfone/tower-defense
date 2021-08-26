@@ -21,6 +21,7 @@ public class OptionsScreen implements Screen {
     Texture background;
     private final float BUTTONS_WIDTH=150f;
     private final float BUTTONS_HEIGHT=50f;
+    private final float ALL_BUTTONS_HEIGHT=234f;
 
     public OptionsScreen(final MainGame game){
         this.game=game;
@@ -65,8 +66,13 @@ public class OptionsScreen implements Screen {
             game.setScreen(new MainMenuScreen(game));
         }
         if (Gdx.input.getX() < game.width/2f + BUTTONS_WIDTH*.5f && Gdx.input.getX() > game.width/2f - BUTTONS_WIDTH/2f
-                && game.height - Gdx.input.getY() < game.height/2f - BUTTONS_HEIGHT*1.5f -20f  && game.height - Gdx.input.getY() > game.height/2f - BUTTONS_HEIGHT*2.5f -20f  /*&& game.music.isPlaying()*/) {
+                && game.height - Gdx.input.getY() < game.height/2f - BUTTONS_HEIGHT*1.5f -20f  && game.height - Gdx.input.getY() > game.height/2f - BUTTONS_HEIGHT*2.5f -20f /*&& game.music.isPlaying()*/) {
             game.batch.draw(musicOnActive, game.width / 2f - BUTTONS_WIDTH / 2f, game.height / 2f - BUTTONS_HEIGHT * 2.5f - 20f, BUTTONS_WIDTH, BUTTONS_HEIGHT);
+            if(Gdx.input.justTouched()){
+                //stopMusic on click
+                Gdx.app.exit();
+                this.dispose();
+            }
         }
         else {
             game.batch.draw(musicOnInactive, game.width / 2f - BUTTONS_WIDTH / 2f, game.height / 2f - BUTTONS_HEIGHT * 2.5f - 20f, BUTTONS_WIDTH, BUTTONS_HEIGHT);

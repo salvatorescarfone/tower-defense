@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 public class Weapon {
+    final float GROUND_HEIGHT = 22f;
     final int COLS = 60;
     final int ROWS = 1;
     Animation<TextureRegion> idleAnimation;
@@ -82,7 +83,7 @@ public class Weapon {
             position.add(velocity.x*delta, velocity.y * delta);
             sprite.setPosition(position.x, position.y);
             if (sprite.getX() > Gdx.graphics.getWidth() || sprite.getX() <=0
-                    || sprite.getY() <= 0f || sprite.getY() > Gdx.graphics.getHeight()){
+                    || sprite.getY() <= GROUND_HEIGHT || sprite.getY() > Gdx.graphics.getHeight()){
                 setIdle();
             }
         }
