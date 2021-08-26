@@ -9,8 +9,6 @@ import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -79,6 +77,13 @@ public class GameScreen implements Screen {
             hero.stop(game.batch,delta);
             weapon.stop(game.batch,delta);
             game.batch.draw(pauseText, game.width/2f - pauseText.getWidth()/2f, game.height/2f - pauseText.getHeight()/2f);
+            //Go back to main menu pressing ESC
+            if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+                this.dispose();
+                game.score=0;
+                game.setScreen(new MainMenuScreen(game));
+            }
+
         }
         else{
             if (!hasEnemy){
@@ -127,12 +132,6 @@ public class GameScreen implements Screen {
                 paused=true;
                 //Start counting pause time
                 pauseTime=TimeUtils.nanoTime();
-            }
-
-            //Go back to main menu pressing ESC
-            if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
-                this.dispose();
-                game.setScreen(new MainMenuScreen(game));
             }
 
             hero.animate(game.batch,11f);
