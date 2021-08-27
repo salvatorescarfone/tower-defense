@@ -1,8 +1,10 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
@@ -52,6 +54,11 @@ public class GameScreen implements Screen {
         enemies = new Array<>();
         paused=false;
         timeOfDeath=0;
+        game.music = Gdx.audio.newMusic(Gdx.files.internal("Musics_Fx/in_game.mp3"));
+        if(game.musicOn){
+            game.music.setLooping(true);
+            game.music.play();
+        }
     }
     public void spawnEnemy(){
         Enemy enemy = new Enemy(MathUtils.random(0,1),false);
@@ -81,11 +88,15 @@ public class GameScreen implements Screen {
             if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
                 this.dispose();
                 game.score=0;
+                game.music.stop();
+                game.music = Gdx.audio.newMusic(Gdx.files.internal("Musics_Fx/menu.mp3"));
                 game.setScreen(new MainMenuScreen(game));
             }
 
         }
         else{
+            if(game.musicOn)
+                game.music.play();
             if (!hasEnemy){
                 spawnEnemy();
                 hasEnemy=true;
@@ -124,6 +135,7 @@ public class GameScreen implements Screen {
             }
             if (tower.towerLife == 0){
                 this.dispose();
+                game.music.stop();
                 game.setScreen(new GameOverScreen(game));
             }
 
@@ -132,6 +144,7 @@ public class GameScreen implements Screen {
                 paused=true;
                 //Start counting pause time
                 pauseTime=TimeUtils.nanoTime();
+                game.music.pause();
             }
 
             hero.animate(game.batch,11f);

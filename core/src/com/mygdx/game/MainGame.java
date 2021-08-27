@@ -24,6 +24,7 @@ public class MainGame extends Game {
 		ExtendViewport viewport;
 		float width;
 		float height;
+		boolean musicOn = true;
 
 		/*Create a MainGame*/
 		public void create() {
@@ -37,10 +38,7 @@ public class MainGame extends Game {
 			camera = new OrthographicCamera();
 			camera.setToOrtho(false,width, height);
 			viewport = new ExtendViewport(width, height,camera);
-			//music = Gdx.audio.newMusic(Gdx.files.internal(""));
-			//music.play();
-			//music.setLooping(true);
-
+			music = Gdx.audio.newMusic(Gdx.files.internal("Musics_Fx/menu.mp3"));
 			//Set The First Screen to MainMenu!
 			this.setScreen(new MainMenuScreen(this));
 		}
@@ -54,7 +52,7 @@ public class MainGame extends Game {
 		public void dispose() {
 			batch.dispose();
 			font.dispose();
-			//music.dispose();
+			music.dispose();
 			shapeRenderer.dispose();
 		}
 		public void resize(int width, int height){

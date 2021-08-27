@@ -45,6 +45,11 @@ public class MainMenuScreen implements Screen {
         enemy = new Enemy (MathUtils.random(0,1),true);
         title = new Texture("backgrounds/MainMenuTitle.png");
         background = new Texture("backgrounds/main_menu_background.png");
+
+        if(!game.music.isPlaying() && game.musicOn){
+            game.music.play();
+            game.music.setLooping(true);
+        }
     }
     /*Method called when this Screen becomes the current screen for a game*/
     @Override
@@ -82,6 +87,7 @@ public class MainMenuScreen implements Screen {
         }
         else if(!optionsButton.isActive() && Gdx.input.justTouched()){
             this.dispose();
+            game.music.stop();
             game.setScreen(new GameScreen(game));
         }
 
