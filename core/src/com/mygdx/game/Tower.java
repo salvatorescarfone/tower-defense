@@ -7,7 +7,7 @@ public class Tower extends Drawable{
 
     long lastDamageTime;
     int towerLife;
-
+    Texture img;
     public Tower(float x, float y) {
         super(x,y,325f,628f);
         towerLife=10000;
@@ -23,5 +23,8 @@ public class Tower extends Drawable{
         else {
             towerLife = 0;
         }
+    }
+    public void dispose(){
+        this.img.dispose();
     }
 }

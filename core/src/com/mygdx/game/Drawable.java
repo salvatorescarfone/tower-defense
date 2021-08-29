@@ -12,13 +12,12 @@ import com.badlogic.gdx.math.Rectangle;
 public class Drawable {
 
     Rectangle hitBox;
-    Texture img;
-
     Drawable(float x, float y, float width, float height){
         hitBox = new Rectangle(x,y,width,height);
     }
 
-    public void draw(SpriteBatch batch){
-        batch.draw(this.img, this.hitBox.x, this.hitBox.y, this.hitBox.width, this.hitBox.height);
+    public void draw(SpriteBatch batch, Texture img){
+        batch.draw(img, this.hitBox.x, this.hitBox.y, this.hitBox.width, this.hitBox.height);
     }
+
 }

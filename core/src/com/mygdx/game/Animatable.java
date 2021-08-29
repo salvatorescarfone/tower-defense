@@ -34,4 +34,7 @@ public class Animatable extends Drawable{
         batch.draw(animation.getKeyFrame(elapsedTime, currentlyLooping), hitBox.x, hitBox.y);
 
     }
+    void dispose(){
+        this.textureAtlas.dispose();
+    }
 }

@@ -16,9 +16,7 @@ public class Hero extends Animatable{
     public void Idle(){
         this.currentAtlasUrl = "animations/hero/hero_idle.atlas";
     }
-
     public void Death(){
         this.currentAtlasUrl = "animations/hero/hero_death.atlas";
     }
-
 }

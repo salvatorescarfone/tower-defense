@@ -16,7 +16,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
  */
 
 public class GameOverScreen implements Screen {
-    final MainGame game;
+    final MainGame GAME;
     Texture gameOver;
     Preferences pref;
     Texture background;
@@ -32,13 +32,13 @@ public class GameOverScreen implements Screen {
     private static final float BUTTON_WIDTH=150f;
     private static final float BUTTON_HEIGHT=50f;
     public GameOverScreen (final MainGame game){
-        this.game = game;
+        this.GAME = game;
         newGameButton= new MyButton("GameOverScreen/NewGame_Active.png","GameOverScreen/NewGame_Inactive.png",
-                game.width/2f - BUTTON_WIDTH/2f, game.height/2f - BUTTON_HEIGHT/2f, BUTTON_WIDTH,BUTTON_HEIGHT,
-                game.width, game.height);
+                GAME.width/2f - BUTTON_WIDTH/2f, GAME.height/2f - BUTTON_HEIGHT/2f, BUTTON_WIDTH,BUTTON_HEIGHT,
+                GAME.width, GAME.height);
         quitGameButton= new MyButton("GameOverScreen/QuitGame_Active.png", "GameOverScreen/QuitGame_Inactive.png",
-                game.width/2f - BUTTON_WIDTH/2f, game.height/2f - BUTTON_HEIGHT*1.5f - 10f, BUTTON_WIDTH,
-                BUTTON_HEIGHT, game.width, game.height);
+                GAME.width/2f - BUTTON_WIDTH/2f, GAME.height/2f - BUTTON_HEIGHT*1.5f - 10f, BUTTON_WIDTH,
+                BUTTON_HEIGHT, GAME.width, GAME.height);
         gameOver = new Texture("GameOverScreen/GameOver.png");
         pref = Gdx.app.getPreferences("highScore");
         background = new Texture("GameOverScreen/Stars.png");
@@ -50,28 +50,28 @@ public class GameOverScreen implements Screen {
             personalBest = pref.getInteger("pb");
         }
         if (!pref.contains("lastScore")){
-            this.setLastScore(game.score);
+            this.setLastScore(GAME.score);
             lastScore = 0;
         }
         else{
             lastScore = pref.getInteger("lastScore");
             //Set This current score as lastScore for next game
-            this.setLastScore(game.score);
+            this.setLastScore(GAME.score);
         }
-        if (game.score > personalBest){
-            setHighScore(game.score);
+        if (GAME.score > personalBest){
+            setHighScore(GAME.score);
         }
-        game.font.setColor(Color.WHITE);
-        actualScoreText= new GlyphLayout(game.font,createStr("Your Score: ",game.score));
-        personalBestText = new GlyphLayout(game.font,createStr("Previous Personal Best: ",personalBest));
-        lastScoreText = new GlyphLayout(game.font,createStr("Last Score: ",lastScore));
-        scoreTextHeight = game.height - gameOver.getHeight() - 10f;
-        scoreTextWidth = game.width /2f;
+        GAME.font.setColor(Color.WHITE);
+        actualScoreText= new GlyphLayout(GAME.font,createStr("Your Score: ",GAME.score));
+        personalBestText = new GlyphLayout(GAME.font,createStr("Previous Personal Best: ",personalBest));
+        lastScoreText = new GlyphLayout(GAME.font,createStr("Last Score: ",lastScore));
+        scoreTextHeight = GAME.height - gameOver.getHeight() - 10f;
+        scoreTextWidth = GAME.width /2f;
 
-        game.music = Gdx.audio.newMusic(Gdx.files.internal("Music/game_over.wav"));
-        game.music.setVolume(0.2f);
-        if(game.musicOn)
-            game.music.play();
+        GAME.music = Gdx.audio.newMusic(Gdx.files.internal("Music/game_over.wav"));
+        GAME.music.setVolume(0.2f);
+        if(GAME.musicOn)
+            GAME.music.play();
     }
     private String createStr(String str,int score){
         StringBuilder sb= new StringBuilder();
@@ -97,24 +97,24 @@ public class GameOverScreen implements Screen {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0, 0);
-        game.batch.setProjectionMatrix(game.camera.combined);
-        game.camera.update();
-        game.batch.begin();
-        game.batch.draw(background,0,0,game.width,game.height);
-        game.batch.draw(gameOver, game.width/2f - gameOver.getWidth()/2f, game.height - gameOver.getHeight(), gameOver.getWidth(),gameOver.getHeight());
-        game.font.draw(game.batch,actualScoreText,(scoreTextWidth -  actualScoreText.width / 3f), (scoreTextHeight + actualScoreText.height / 3f));
-        game.font.draw(game.batch,personalBestText,scoreTextWidth - personalBestText.width / 3f,scoreTextHeight - actualScoreText.height -20f - lastScoreText.height + personalBestText.height /3f);
-        game.font.draw(game.batch,lastScoreText,scoreTextWidth - lastScoreText.width / 3f,scoreTextHeight - actualScoreText.height -10f + lastScoreText.height /3f);
+        GAME.batch.setProjectionMatrix(GAME.camera.combined);
+        GAME.camera.update();
+        GAME.batch.begin();
+        GAME.batch.draw(background,0,0, GAME.width, GAME.height);
+        GAME.batch.draw(gameOver, GAME.width/2f - gameOver.getWidth()/2f, GAME.height - gameOver.getHeight(), gameOver.getWidth(),gameOver.getHeight());
+        GAME.font.draw(GAME.batch,actualScoreText,(scoreTextWidth -  actualScoreText.width / 3f), (scoreTextHeight + actualScoreText.height / 3f));
+        GAME.font.draw(GAME.batch,personalBestText,scoreTextWidth - personalBestText.width / 3f,scoreTextHeight - actualScoreText.height -20f - lastScoreText.height + personalBestText.height /3f);
+        GAME.font.draw(GAME.batch,lastScoreText,scoreTextWidth - lastScoreText.width / 3f,scoreTextHeight - actualScoreText.height -10f + lastScoreText.height /3f);
         /*Draw new Game Button Centered on the screen and set Input response*/
-        newGameButton.draw(game.batch);
+        newGameButton.draw(GAME.batch);
         if (newGameButton.isActive() && Gdx.input.justTouched()){
             this.dispose();
-            game.score=0;
-            game.music = Gdx.audio.newMusic(Gdx.files.internal("Music/menu.mp3"));
-            game.setScreen(new MainMenuScreen(game));
+            GAME.score=0;
+            GAME.music = Gdx.audio.newMusic(Gdx.files.internal("Music/menu.mp3"));
+            GAME.setScreen(new MainMenuScreen(GAME));
         }
         /*Draw quit Button below new Game Button and set Input response*/
-        quitGameButton.draw(game.batch);
+        quitGameButton.draw(GAME.batch);
         if (quitGameButton.isActive() && Gdx.input.justTouched()){
             if (Gdx.input.justTouched()){
                 this.dispose();
@@ -125,7 +125,7 @@ public class GameOverScreen implements Screen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.Q)){
             Gdx.app.exit();
         }
-        game.batch.end();
+        GAME.batch.end();
     }
     @Override
     public void dispose() {

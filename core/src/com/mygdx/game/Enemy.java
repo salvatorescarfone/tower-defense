@@ -3,7 +3,6 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.utils.TimeUtils;
-import jdk.tools.jaotc.Main;
 
 public class Enemy extends Animatable{
 
@@ -66,6 +65,7 @@ public class Enemy extends Animatable{
         if (this.isDead()){
             //Do nothing...
             //this.hitBox.x=this.hitBox.x;
+
         }
         else {
             if (this.select == 0) {
@@ -155,6 +155,13 @@ public class Enemy extends Animatable{
         this.attackFx.stop();
         this.deathFx.stop();
         this.hitFx.stop();
+    }
+    public void dispose(){
+        super.dispose();
+        attackFx.dispose();
+        deathFx.dispose();
+        hitFx.dispose();
+        secondaryHitFx.dispose();
     }
 
 }

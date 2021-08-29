@@ -1,16 +1,12 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -24,7 +20,7 @@ import java.util.Iterator;
 
 
 public class GameScreen implements Screen {
-    final MainGame game;
+    final MainGame GAME;
     Array<Enemy> enemies;
     private boolean hasEnemy;
     Texture background;
@@ -39,10 +35,10 @@ public class GameScreen implements Screen {
 
     /*Constructor method for the GameScreen*/
     public GameScreen(final MainGame game){
+        this.GAME =game;
         //draw hit box borders
         hasEnemy=false;
         pauseTime=0;
-        this.game=game;
         pauseText = new Texture("GameScreen/Pause.png");
         tower = new Tower(50f, 18f);    //Tower Constructor, creates texture, life, hit-box of tower
         lifeTxt = new BitmapFont();
@@ -54,10 +50,10 @@ public class GameScreen implements Screen {
         enemies = new Array<>();
         paused=false;
         timeOfDeath=0;
-        game.music = Gdx.audio.newMusic(Gdx.files.internal("Music/in_game.mp3"));
-        if(game.musicOn){
-            game.music.setLooping(true);
-            game.music.play();
+        GAME.music = Gdx.audio.newMusic(Gdx.files.internal("Music/in_game.mp3"));
+        if(GAME.musicOn){
+            GAME.music.setLooping(true);
+            GAME.music.play();
         }
     }
     public void spawnEnemy(){
@@ -67,11 +63,11 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0,0,0,1);
-        game.camera.update();
-        game.batch.setProjectionMatrix(game.camera.combined);
-        game.batch.begin();
+        GAME.camera.update();
+        GAME.batch.setProjectionMatrix(GAME.camera.combined);
+        GAME.batch.begin();
 
-        game.batch.draw(background, 0, 0);
+        GAME.batch.draw(background, 0, 0);
         if (paused){
             if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
                 paused=false;
@@ -79,25 +75,25 @@ public class GameScreen implements Screen {
                 pauseTime = TimeUtils.nanoTime() - pauseTime;
             }
             for (Enemy enemy: enemies){
-                enemy.stop(game.batch,delta);
+                enemy.stop(GAME.batch,delta);
                 enemy.stopSounds();
             }
-            hero.stop(game.batch,delta);
-            weapon.stop(game.batch,delta);
-            game.batch.draw(pauseText, game.width/2f - pauseText.getWidth()/2f, game.height/2f - pauseText.getHeight()/2f);
+            hero.stop(GAME.batch,delta);
+            weapon.stop(GAME.batch,delta);
+            GAME.batch.draw(pauseText, GAME.width/2f - pauseText.getWidth()/2f, GAME.height/2f - pauseText.getHeight()/2f);
             //Go back to main menu pressing ESC
             if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
                 this.dispose();
-                game.score=0;
-                game.music.stop();
-                game.music = Gdx.audio.newMusic(Gdx.files.internal("Music/menu.mp3"));
-                game.setScreen(new MainMenuScreen(game));
+                GAME.score=0;
+                GAME.music.stop();
+                GAME.music = Gdx.audio.newMusic(Gdx.files.internal("Music/menu.mp3"));
+                GAME.setScreen(new MainMenuScreen(GAME));
             }
 
         }
         else{
-            if(game.musicOn)
-                game.music.play();
+            if(GAME.musicOn)
+                GAME.music.play();
             if (!hasEnemy){
                 spawnEnemy();
                 hasEnemy=true;
@@ -106,19 +102,19 @@ public class GameScreen implements Screen {
             for (Enemy enemy: enemies){
                 enemy.EnemyMovement(tower);
                 if (!enemy.isDead()) {
-                    enemy.animate(game.batch, 11f);
+                    enemy.animate(GAME.batch, 11f);
                 }
                 else{
-                    enemy.animate(game.batch, 5f);
+                    enemy.animate(GAME.batch, 5f);
                 }
                 if (weapon.hits(enemy)){
                     enemy.gotHit();
                     if (enemy.isDead() && timeOfDeath ==0){
                         if (enemy.select==0){//archer
-                            game.score+=5;
+                            GAME.score+=5;
                         }
                         else{
-                            game.score+=10;//rogue knight
+                            GAME.score+=10;//rogue knight
                         }
                         timeOfDeath=TimeUtils.millis();
                     }
@@ -136,11 +132,11 @@ public class GameScreen implements Screen {
             }
             if (tower.towerLife == 0){
                 this.dispose();
-                game.music.stop();
+                GAME.music.stop();
                 for(Enemy en : enemies){
                     en.stopSounds();
                 }
-                game.setScreen(new GameOverScreen(game));
+                GAME.setScreen(new GameOverScreen(GAME));
             }
 
             //Pause if SpaceBar is pressed
@@ -148,27 +144,16 @@ public class GameScreen implements Screen {
                 paused=true;
                 //Start counting pause time
                 pauseTime=TimeUtils.nanoTime();
-                game.music.pause();
+                GAME.music.pause();
             }
 
-            hero.animate(game.batch,11f);
-            weapon.draw(game.batch, delta);
+            hero.animate(GAME.batch,11f);
+            weapon.draw(GAME.batch, delta);
         }
-        lifeTxt.draw(game.batch, createStr(tower.towerLife,game.score), 250, 660);
-        tower.draw(game.batch);
+        lifeTxt.draw(GAME.batch, createStr(tower.towerLife, GAME.score), 250, 660);
+        tower.draw(GAME.batch, tower.img);
 
-        game.batch.end();
-        //important!!! without this hit boxes and textures won't be aligned
-        /*game.shapeRenderer.setProjectionMatrix(game.camera.combined);
-        game.shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        game.shapeRenderer.setColor(0,0,0,0);
-        drawHitBox(hero.hitBox);
-        for (Enemy enemy: enemies){
-            drawHitBox(enemy.hitBox);
-        }
-        drawHitBox(tower.hitBox);
-        drawHitBox(weapon.sprite.getBoundingRectangle());
-        game.shapeRenderer.end();*/
+        GAME.batch.end();
     }
     @Override
     public void resize(int width, int height) { }
@@ -184,10 +169,12 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
         background.dispose();
-
-    }
-    public void drawHitBox(Rectangle r){
-        game.shapeRenderer.rect(r.x,r.y,r.width, r.height);
+        weapon.dispose();
+        for (Enemy e: enemies){
+            e.dispose();
+        }
+        tower.dispose();
+        hero.dispose();
     }
     private String createStr(int life, int score){
         StringBuilder sb = new StringBuilder();

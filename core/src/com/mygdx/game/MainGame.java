@@ -6,7 +6,6 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 /* Main app that contains graphics elements for the game: from design, camera, background
@@ -18,7 +17,6 @@ public class MainGame extends Game {
 		int score = 0;			//Total Score of the game in process
 		SpriteBatch batch;
 		BitmapFont font;
-		ShapeRenderer shapeRenderer;
 		OrthographicCamera camera;
 		ExtendViewport viewport;
 		float width;
@@ -30,7 +28,6 @@ public class MainGame extends Game {
 			width = Gdx.graphics.getWidth();
 			height = Gdx.graphics.getHeight();
 			batch = new SpriteBatch();
-			shapeRenderer = new ShapeRenderer();
 
 			// Use LibGDX's default Arial font.
 			font = new BitmapFont();
@@ -52,7 +49,6 @@ public class MainGame extends Game {
 			batch.dispose();
 			font.dispose();
 			music.dispose();
-			shapeRenderer.dispose();
 		}
 		public void resize(int width, int height){
 			viewport.update(width,height,true);

@@ -15,7 +15,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
  */
 
 public class MainMenuScreen implements Screen {
-    final MainGame game;
+    final MainGame GAME;
     MyButton optionsButton;
     Texture background;
     Hero hero;
@@ -23,33 +23,31 @@ public class MainMenuScreen implements Screen {
     Tower tower;
     Texture title;
 
-    //private static final float START_TEXT_HEIGHT=game.height;
     private static final float OPTION_BUTTON_WIDTH=50f;
     private static final float OPTION_BUTTON_HEIGHT=49f;
-    private static final float OPTION_BUTTON_Y=0f;
     //Used to display click to Start on Screen
     final GlyphLayout startText;
 
     /*Constructor for the MainMenu*/
     public MainMenuScreen(final MainGame game){
-        this.game=game;
+        this.GAME =game;
         optionsButton = new MyButton("Buttons/options_active.png", "Buttons/options_inactive.png",
-                game.width - OPTION_BUTTON_WIDTH,game.height-OPTION_BUTTON_HEIGHT,OPTION_BUTTON_WIDTH,OPTION_BUTTON_HEIGHT, game.width,
-                game.height);
+                GAME.width - OPTION_BUTTON_WIDTH,GAME.height-OPTION_BUTTON_HEIGHT,OPTION_BUTTON_WIDTH,OPTION_BUTTON_HEIGHT, GAME.width,
+                GAME.height);
         startText= new GlyphLayout();
-        game.font.setColor(Color.BLACK);
-        startText.setText(game.font, "Welcome to Tower Defense, click anywhere to begin!\n" +
+        GAME.font.setColor(Color.BLACK);
+        startText.setText(GAME.font, "Welcome to Tower Defense, click anywhere to begin!\n" +
                 "                                  Press Q to exit");
         tower = new Tower(50f, 15f);
-        hero = new Hero((game.width/2f) - (57f/2f),6f);
+        hero = new Hero((GAME.width/2f) - (57f/2f),6f);
         enemy = new Enemy (MathUtils.random(0,1),true);
         title = new Texture("backgrounds/MainMenuTitle.png");
         background = new Texture("backgrounds/main_menu_background.png");
 
-        game.music.setVolume(0.2f);
-        if(!game.music.isPlaying() && game.musicOn){
-            game.music.play();
-            game.music.setLooping(true);
+        GAME.music.setVolume(0.2f);
+        if(!GAME.music.isPlaying() && GAME.musicOn){
+            GAME.music.play();
+            GAME.music.setLooping(true);
         }
     }
     /*Method called when this Screen becomes the current screen for a game*/
@@ -57,21 +55,19 @@ public class MainMenuScreen implements Screen {
     public void show() { }
     /*Called when the Screen is resized.*/
     @Override
-    public void resize(int width, int height) {
-        game.resize(width,height);
-    }
+    public void resize(int width, int height) { }
     /*Renders all the graphics for the main Menu*/
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0, 1);
-        game.batch.setProjectionMatrix(game.camera.combined);
-        game.camera.update();
-        game.batch.begin();
-        game.batch.draw(background,0,0,game.width,game.height);
-        game.batch.draw(tower.img,tower.hitBox.x,tower.hitBox.y,tower.hitBox.width,tower.hitBox.height);
-        game.batch.draw(title,game.width/2f - title.getWidth()/2f,game.height/2f - title.getHeight()/2f, title.getWidth(),title.getHeight());
-        hero.animate(game.batch,11f);
-        enemy.animate(game.batch,11f);
+        GAME.batch.setProjectionMatrix(GAME.camera.combined);
+        GAME.camera.update();
+        GAME.batch.begin();
+        GAME.batch.draw(background,0,0, GAME.width, GAME.height);
+        GAME.batch.draw(tower.img,tower.hitBox.x,tower.hitBox.y,tower.hitBox.width,tower.hitBox.height);
+        GAME.batch.draw(title, GAME.width/2f - title.getWidth()/2f, GAME.height/2f - title.getHeight()/2f, title.getWidth(),title.getHeight());
+        hero.animate(GAME.batch,11f);
+        enemy.animate(GAME.batch,11f);
 
         if (!enemy.hitBox.overlaps(hero.hitBox)){
                 enemy.hitBox.x -=enemy.runSpeed;
@@ -80,16 +76,16 @@ public class MainMenuScreen implements Screen {
             enemy.Idle();
         }
         //Drawing options buttons and input management for accessing menus
-        game.font.draw(game.batch,startText,(game.width/2f -  startText.width / 2), (game.height - startText.height / 3));
-        optionsButton.draw(game.batch);
+        GAME.font.draw(GAME.batch,startText,(GAME.width/2f -  startText.width / 2), (GAME.height - startText.height / 3));
+        optionsButton.draw(GAME.batch);
         if (optionsButton.isActive() && Gdx.input.justTouched()){
             this.dispose();
-            game.setScreen(new OptionsScreen(game));
+            GAME.setScreen(new OptionsScreen(GAME));
         }
         else if(!optionsButton.isActive() && Gdx.input.justTouched()){
             this.dispose();
-            game.music.stop();
-            game.setScreen(new GameScreen(game));
+            GAME.music.stop();
+            GAME.setScreen(new GameScreen(GAME));
         }
 
         //Close game if Q is pressed
@@ -98,7 +94,7 @@ public class MainMenuScreen implements Screen {
             Gdx.app.exit();
         }
 
-        game.batch.end();
+        GAME.batch.end();
     }
     /*Called when this screen should release all resources*/
     @Override
@@ -106,6 +102,9 @@ public class MainMenuScreen implements Screen {
         optionsButton.dispose();
         title.dispose();
         background.dispose();
+        tower.dispose();
+        enemy.dispose();
+        hero.dispose();
     }
     /*Called when the Screen is paused, usually when it's not visible*/
     @Override

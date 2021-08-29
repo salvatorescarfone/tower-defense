@@ -9,7 +9,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 public class OptionsScreen implements Screen {
 
-    final MainGame game;
+    final MainGame GAME;
     MyButton quitGameButton;
     MyButton quitMenuButton;
     MyButton howToPlayButton;
@@ -21,21 +21,19 @@ public class OptionsScreen implements Screen {
     Texture background;
     private final float BUTTONS_WIDTH=150f;
     private final float BUTTONS_HEIGHT=50f;
-    private final float ALL_BUTTONS_HEIGHT=234f;
-
     public OptionsScreen(final MainGame game){
-        this.game=game;
-        game.font.setColor(Color.WHITE);
+        this.GAME =game;
+        GAME.font.setColor(Color.WHITE);
         quitGameButton= new MyButton("OptionsScreen/QuitGame_Active.png","OptionsScreen/QuitGame_Inactive.png",
-                game.width/2f - BUTTONS_WIDTH/2f,game.height/2f - BUTTONS_HEIGHT/2f,BUTTONS_WIDTH,BUTTONS_HEIGHT,
-                game.width,game.height);
+                GAME.width/2f - BUTTONS_WIDTH/2f,GAME.height/2f - BUTTONS_HEIGHT/2f,BUTTONS_WIDTH,BUTTONS_HEIGHT,
+                GAME.width,GAME.height);
         quitMenuButton= new MyButton("OptionsScreen/QuitMenu_Active.png", "OptionsScreen/QuitMenu_Inactive.png",
-                game.width / 2f - BUTTONS_WIDTH / 2f, game.height/2f - BUTTONS_HEIGHT * 1.5f - 10f, BUTTONS_WIDTH,
-                BUTTONS_HEIGHT,game.width,game.height);
+                GAME.width / 2f - BUTTONS_WIDTH / 2f, GAME.height/2f - BUTTONS_HEIGHT * 1.5f - 10f, BUTTONS_WIDTH,
+                BUTTONS_HEIGHT,GAME.width,GAME.height);
         howToPlayButton= new MyButton("OptionsScreen/HowToPlay_Active.png","OptionsScreen/HowToPlay_Inactive.png",
-                game.width / 2f - BUTTONS_WIDTH / 2f, game.height / 2f - BUTTONS_HEIGHT * 3.5f - 30f, BUTTONS_WIDTH,
-                BUTTONS_HEIGHT, game.width, game.height);
-        optionsText=new GlyphLayout(game.font,"Game Created by Salvatore Scarfone and Massimo Gianotti, version 1.0");
+                GAME.width / 2f - BUTTONS_WIDTH / 2f, GAME.height / 2f - BUTTONS_HEIGHT * 3.5f - 30f, BUTTONS_WIDTH,
+                BUTTONS_HEIGHT, GAME.width, GAME.height);
+        optionsText=new GlyphLayout(GAME.font,"Game Created by Salvatore Scarfone and Massimo Gianotti, version 1.0");
         background = new Texture("OptionsScreen/Stars.png");
         musicOffActive = new Texture ("OptionsScreen/MusicOFF_Active.png");
         musicOffInactive = new Texture ("OptionsScreen/MusicOFF_Inactive.png");
@@ -49,59 +47,59 @@ public class OptionsScreen implements Screen {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0,0,0,0);
-        game.batch.setProjectionMatrix(game.camera.combined);
-        game.camera.update();
-        game.batch.begin();
-        game.batch.draw(background,0f,0f, game.width, game.height);
-        game.font.draw(game.batch,optionsText,game.width/2f - optionsText.width/2f, game.height - optionsText.height/3f);
-        quitGameButton.draw(game.batch);
+        GAME.batch.setProjectionMatrix(GAME.camera.combined);
+        GAME.camera.update();
+        GAME.batch.begin();
+        GAME.batch.draw(background,0f,0f, GAME.width, GAME.height);
+        GAME.font.draw(GAME.batch,optionsText, GAME.width/2f - optionsText.width/2f, GAME.height - optionsText.height/3f);
+        quitGameButton.draw(GAME.batch);
         if (quitGameButton.isActive() && Gdx.input.justTouched()){
             Gdx.app.exit();
             this.dispose();
         }
 
-        quitMenuButton.draw(game.batch);
+        quitMenuButton.draw(GAME.batch);
         if (quitMenuButton.isActive() && Gdx.input.justTouched()){
             this.dispose();
-            game.setScreen(new MainMenuScreen(game));
+            GAME.setScreen(new MainMenuScreen(GAME));
         }
 
-        if(game.music.isPlaying()){
-            game.batch.draw(musicOnInactive, game.width / 2f - BUTTONS_WIDTH / 2f, game.height / 2f - BUTTONS_HEIGHT * 2.5f - 20f, BUTTONS_WIDTH, BUTTONS_HEIGHT);
-            if (Gdx.input.getX() < game.width/2f + BUTTONS_WIDTH*.5f && Gdx.input.getX() > game.width/2f - BUTTONS_WIDTH/2f
-                    && game.height - Gdx.input.getY() < game.height/2f - BUTTONS_HEIGHT*1.5f -20f  && game.height - Gdx.input.getY() > game.height/2f - BUTTONS_HEIGHT*2.5f -20f) {
-                game.batch.draw(musicOnActive, game.width / 2f - BUTTONS_WIDTH / 2f, game.height / 2f - BUTTONS_HEIGHT * 2.5f - 20f, BUTTONS_WIDTH, BUTTONS_HEIGHT);
+        if(GAME.music.isPlaying()){
+            GAME.batch.draw(musicOnInactive, GAME.width / 2f - BUTTONS_WIDTH / 2f, GAME.height / 2f - BUTTONS_HEIGHT * 2.5f - 20f, BUTTONS_WIDTH, BUTTONS_HEIGHT);
+            if (Gdx.input.getX() < GAME.width/2f + BUTTONS_WIDTH*.5f && Gdx.input.getX() > GAME.width/2f - BUTTONS_WIDTH/2f
+                    && GAME.height - Gdx.input.getY() < GAME.height/2f - BUTTONS_HEIGHT*1.5f -20f  && GAME.height - Gdx.input.getY() > GAME.height/2f - BUTTONS_HEIGHT*2.5f -20f) {
+                GAME.batch.draw(musicOnActive, GAME.width / 2f - BUTTONS_WIDTH / 2f, GAME.height / 2f - BUTTONS_HEIGHT * 2.5f - 20f, BUTTONS_WIDTH, BUTTONS_HEIGHT);
 
                 if(Gdx.input.justTouched()){
                     //music:off (active)
-                    game.musicOn = false;
-                    game.music.stop();
-                    game.batch.draw(musicOffActive, game.width / 2f - BUTTONS_WIDTH / 2f, game.height / 2f - BUTTONS_HEIGHT * 2.5f - 20f, BUTTONS_WIDTH, BUTTONS_HEIGHT);
+                    GAME.musicOn = false;
+                    GAME.music.stop();
+                    GAME.batch.draw(musicOffActive, GAME.width / 2f - BUTTONS_WIDTH / 2f, GAME.height / 2f - BUTTONS_HEIGHT * 2.5f - 20f, BUTTONS_WIDTH, BUTTONS_HEIGHT);
 
                 }
             }
         }
-        else if (Gdx.input.getX() < game.width/2f + BUTTONS_WIDTH*.5f && Gdx.input.getX() > game.width/2f - BUTTONS_WIDTH/2f
-                && game.height - Gdx.input.getY() < game.height/2f - BUTTONS_HEIGHT*1.5f -20f  && game.height - Gdx.input.getY() > game.height/2f - BUTTONS_HEIGHT*2.5f -20f){
-            game.batch.draw(musicOffActive, game.width / 2f - BUTTONS_WIDTH / 2f, game.height / 2f - BUTTONS_HEIGHT * 2.5f - 20f, BUTTONS_WIDTH, BUTTONS_HEIGHT);
+        else if (Gdx.input.getX() < GAME.width/2f + BUTTONS_WIDTH*.5f && Gdx.input.getX() > GAME.width/2f - BUTTONS_WIDTH/2f
+                && GAME.height - Gdx.input.getY() < GAME.height/2f - BUTTONS_HEIGHT*1.5f -20f  && GAME.height - Gdx.input.getY() > GAME.height/2f - BUTTONS_HEIGHT*2.5f -20f){
+            GAME.batch.draw(musicOffActive, GAME.width / 2f - BUTTONS_WIDTH / 2f, GAME.height / 2f - BUTTONS_HEIGHT * 2.5f - 20f, BUTTONS_WIDTH, BUTTONS_HEIGHT);
             if(Gdx.input.justTouched()){
                 //music:on (active)
-                game.musicOn = true;
-                game.music.play();
-                game.music.setLooping(true);
-                game.batch.draw(musicOnActive, game.width / 2f - BUTTONS_WIDTH / 2f, game.height / 2f - BUTTONS_HEIGHT * 2.5f - 20f, BUTTONS_WIDTH, BUTTONS_HEIGHT);
+                GAME.musicOn = true;
+                GAME.music.play();
+                GAME.music.setLooping(true);
+                GAME.batch.draw(musicOnActive, GAME.width / 2f - BUTTONS_WIDTH / 2f, GAME.height / 2f - BUTTONS_HEIGHT * 2.5f - 20f, BUTTONS_WIDTH, BUTTONS_HEIGHT);
             }
         }
         else
-            game.batch.draw(musicOffInactive, game.width / 2f - BUTTONS_WIDTH / 2f, game.height / 2f - BUTTONS_HEIGHT * 2.5f - 20f, BUTTONS_WIDTH, BUTTONS_HEIGHT);
+            GAME.batch.draw(musicOffInactive, GAME.width / 2f - BUTTONS_WIDTH / 2f, GAME.height / 2f - BUTTONS_HEIGHT * 2.5f - 20f, BUTTONS_WIDTH, BUTTONS_HEIGHT);
 
 
-        howToPlayButton.draw(game.batch);
+        howToPlayButton.draw(GAME.batch);
         if (howToPlayButton.isActive() && Gdx.input.justTouched()){
             this.dispose();
-            game.setScreen(new HowToPlayScreen(game));
+            GAME.setScreen(new HowToPlayScreen(GAME));
         }
-        game.batch.end();
+        GAME.batch.end();
     }
 
     @Override

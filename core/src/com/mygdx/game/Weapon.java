@@ -133,6 +133,9 @@ public class Weapon {
         }
         return angle;
     }
+    public void dispose(){
+        castFx.dispose();
+    }
 }
 
 
