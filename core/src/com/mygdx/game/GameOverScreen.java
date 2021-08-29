@@ -67,6 +67,11 @@ public class GameOverScreen implements Screen {
         lastScoreText = new GlyphLayout(game.font,createStr("Last Score: ",lastScore));
         scoreTextHeight = game.height - gameOver.getHeight() - 10f;
         scoreTextWidth = game.width /2f;
+
+        game.music = Gdx.audio.newMusic(Gdx.files.internal("Music/game_over.wav"));
+        game.music.setVolume(0.2f);
+        if(game.musicOn)
+            game.music.play();
     }
     private String createStr(String str,int score){
         StringBuilder sb= new StringBuilder();
@@ -105,6 +110,7 @@ public class GameOverScreen implements Screen {
         if (newGameButton.isActive() && Gdx.input.justTouched()){
             this.dispose();
             game.score=0;
+            game.music = Gdx.audio.newMusic(Gdx.files.internal("Music/menu.mp3"));
             game.setScreen(new MainMenuScreen(game));
         }
         /*Draw quit Button below new Game Button and set Input response*/
@@ -115,7 +121,7 @@ public class GameOverScreen implements Screen {
                 Gdx.app.exit();
             }
         }
-        /*Debug to exit game*/
+        /*Exit game*/
         if (Gdx.input.isKeyJustPressed(Input.Keys.Q)){
             Gdx.app.exit();
         }

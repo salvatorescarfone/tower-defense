@@ -1,7 +1,9 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.utils.TimeUtils;
+import jdk.tools.jaotc.Main;
 
 public class Enemy extends Animatable{
 
@@ -10,21 +12,34 @@ public class Enemy extends Animatable{
     int runSpeed = 3;
     long lastEnemyDamage;
     int select;
+    Music attackFx;
+    Music hitFx;
+    Music deathFx;
+    Music secondaryHitFx;
+
     public Enemy(int i, boolean isMainMenu) {
         super("animations/archer/running.atlas", Gdx.graphics.getWidth(),7f, 68f, 60f);
         this.select=i;
         if (isMainMenu){
             this.hitBox.y=6f;
         }
-        if (select ==0){
+
+        //same hit and death sound for both enemies
+        this.hitFx = Gdx.audio.newMusic(Gdx.files.internal("SoundFx/damaged_enemy.mp3"));
+        this.secondaryHitFx = Gdx.audio.newMusic(Gdx.files.internal("SoundFx/damaged_enemy.mp3"));
+        this.deathFx = Gdx.audio.newMusic(Gdx.files.internal("SoundFx/enemy_death.mp3"));
+
+        if (select ==0){//archer
             this.atkPower=500;
             this.life=3;
+            this.attackFx = Gdx.audio.newMusic(Gdx.files.internal("SoundFx/arrow.mp3"));
+            this.attackFx.setVolume(1f);
         }
         else{
             this.currentAtlasUrl=("animations/knight/running.atlas");
             this.atkPower = 200;
             this.life=5;
-
+            this.attackFx = Gdx.audio.newMusic(Gdx.files.internal("SoundFx/swoosh.mp3"));
         }
     }
 
@@ -54,18 +69,22 @@ public class Enemy extends Animatable{
         }
         else {
             if (this.select == 0) {
-                if (this.hitBox.x <= t.hitBox.x + t.hitBox.width + 200f && !this.isDead()) {
+                if (this.hitBox.x <= t.hitBox.x + t.hitBox.width + 200f && !this.isDead()) {//archer
                     this.runSpeed = 0;
                     this.Attack();
                     this.LoopAttack();
                     this.doDamage(t);
+                    this.attackFx.setLooping(true);
+                    this.attackFx.play();
                 } else
                     hitBox.x -= runSpeed;
             } else {
-                if (this.hitBox.x <= 247f && !this.isDead()) {
+                if (this.hitBox.x <= 247f && !this.isDead()) {//rogue knight
                     this.runSpeed = 0;
                     this.Attack();
                     this.doDamage(t);
+                    this.attackFx.setLooping(true);
+                    this.attackFx.play();
                 } else {
                     hitBox.x -= runSpeed;
                 }
@@ -82,6 +101,9 @@ public class Enemy extends Animatable{
         }
     }
     private void Death(){
+        this.hitFx.stop();
+        this.attackFx.stop();
+        this.deathFx.play();
         if (this.select==0) {
             this.currentAtlasUrl = "animations/archer/death.atlas";
             this.hitBox.height=30f;
@@ -115,7 +137,10 @@ public class Enemy extends Animatable{
         if (this.life!=0){
             this.life--;
         }
-        //Sound reproduction..
+
+        if(this.hitFx.isPlaying())
+            this.hitFx.stop();
+        this.hitFx.play();
     }
     public boolean isDead(){
         boolean isDead=false;
@@ -124,6 +149,12 @@ public class Enemy extends Animatable{
             this.Death();
         }
         return isDead;
+    }
+
+    public void stopSounds(){
+        this.attackFx.stop();
+        this.deathFx.stop();
+        this.hitFx.stop();
     }
 
 }

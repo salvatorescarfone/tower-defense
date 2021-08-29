@@ -38,7 +38,7 @@ public class MainGame extends Game {
 			camera = new OrthographicCamera();
 			camera.setToOrtho(false,width, height);
 			viewport = new ExtendViewport(width, height,camera);
-			music = Gdx.audio.newMusic(Gdx.files.internal("Musics_Fx/menu.mp3"));
+			music = Gdx.audio.newMusic(Gdx.files.internal("Music/menu.mp3"));
 			//Set The First Screen to MainMenu!
 			this.setScreen(new MainMenuScreen(this));
 		}

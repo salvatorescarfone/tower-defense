@@ -54,7 +54,7 @@ public class GameScreen implements Screen {
         enemies = new Array<>();
         paused=false;
         timeOfDeath=0;
-        game.music = Gdx.audio.newMusic(Gdx.files.internal("Musics_Fx/in_game.mp3"));
+        game.music = Gdx.audio.newMusic(Gdx.files.internal("Music/in_game.mp3"));
         if(game.musicOn){
             game.music.setLooping(true);
             game.music.play();
@@ -80,6 +80,7 @@ public class GameScreen implements Screen {
             }
             for (Enemy enemy: enemies){
                 enemy.stop(game.batch,delta);
+                enemy.stopSounds();
             }
             hero.stop(game.batch,delta);
             weapon.stop(game.batch,delta);
@@ -89,7 +90,7 @@ public class GameScreen implements Screen {
                 this.dispose();
                 game.score=0;
                 game.music.stop();
-                game.music = Gdx.audio.newMusic(Gdx.files.internal("Musics_Fx/menu.mp3"));
+                game.music = Gdx.audio.newMusic(Gdx.files.internal("Music/menu.mp3"));
                 game.setScreen(new MainMenuScreen(game));
             }
 
@@ -113,11 +114,11 @@ public class GameScreen implements Screen {
                 if (weapon.hits(enemy)){
                     enemy.gotHit();
                     if (enemy.isDead() && timeOfDeath ==0){
-                        if (enemy.select==0){
+                        if (enemy.select==0){//archer
                             game.score+=5;
                         }
                         else{
-                            game.score+=10;
+                            game.score+=10;//rogue knight
                         }
                         timeOfDeath=TimeUtils.millis();
                     }
@@ -136,6 +137,9 @@ public class GameScreen implements Screen {
             if (tower.towerLife == 0){
                 this.dispose();
                 game.music.stop();
+                for(Enemy en : enemies){
+                    en.stopSounds();
+                }
                 game.setScreen(new GameOverScreen(game));
             }
 

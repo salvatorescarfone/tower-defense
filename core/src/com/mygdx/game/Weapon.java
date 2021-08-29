@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -25,6 +26,7 @@ public class Weapon {
     float targetX;
     float targetY;
     final float speedMax = 600f;
+    Music castFx = Gdx.audio.newMusic(Gdx.files.internal("SoundFx/fireball_cast.mp3"));
 
     public Weapon(float x, float y){
         this.x=x;
@@ -80,11 +82,14 @@ public class Weapon {
         if (!isIdling){
             //moveFireball
             shootTowards(targetX , targetY);
+            this.castFx.play();
             position.add(velocity.x*delta, velocity.y * delta);
             sprite.setPosition(position.x, position.y);
             if (sprite.getX() > Gdx.graphics.getWidth() || sprite.getX() <=0
                     || sprite.getY() <= GROUND_HEIGHT || sprite.getY() > Gdx.graphics.getHeight()){
                 setIdle();
+                if(this.castFx.isPlaying())
+                    this.castFx.stop();
             }
         }
     }
@@ -96,6 +101,8 @@ public class Weapon {
         if (sprite.getBoundingRectangle().overlaps(e.hitBox)){
             hasHit=true;
             setIdle();
+            if(this.castFx.isPlaying())
+                this.castFx.stop();
         }
         return hasHit;
     }

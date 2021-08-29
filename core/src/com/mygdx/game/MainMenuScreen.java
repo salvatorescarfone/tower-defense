@@ -46,6 +46,7 @@ public class MainMenuScreen implements Screen {
         title = new Texture("backgrounds/MainMenuTitle.png");
         background = new Texture("backgrounds/main_menu_background.png");
 
+        game.music.setVolume(0.2f);
         if(!game.music.isPlaying() && game.musicOn){
             game.music.play();
             game.music.setLooping(true);
