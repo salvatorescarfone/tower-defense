@@ -23,8 +23,8 @@ public class MainMenuScreen implements Screen {
     Tower tower;
     Texture title;
 
-    private static final float OPTION_BUTTON_WIDTH=70f;
-    private static final float OPTION_BUTTON_HEIGHT=70f;
+    private static final float OPTION_BUTTON_WIDTH=50f;
+    private static final float OPTION_BUTTON_HEIGHT=49f;
     //Used to display click to Start on Screen
     final GlyphLayout startText;
 
