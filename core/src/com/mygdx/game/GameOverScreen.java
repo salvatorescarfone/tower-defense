@@ -16,29 +16,26 @@ import com.badlogic.gdx.utils.ScreenUtils;
  */
 
 public class GameOverScreen implements Screen {
-    final MainGame GAME;
-    Texture gameOver;
-    Preferences pref;
-    Texture background;
-    MyButton newGameButton;
-    MyButton quitGameButton;
-    int personalBest;
-    int lastScore;
-    float scoreTextWidth;
-    float scoreTextHeight;
-    final GlyphLayout actualScoreText;
-    final GlyphLayout personalBestText;
-    final GlyphLayout lastScoreText;
-    private static final float BUTTON_WIDTH=150f;
-    private static final float BUTTON_HEIGHT=50f;
-    public GameOverScreen (final MainGame game){
-        this.GAME = game;
-        newGameButton= new MyButton("GameOverScreen/NewGame_Active.png","GameOverScreen/NewGame_Inactive.png",
-                GAME.width/2f - BUTTON_WIDTH/2f, GAME.height/2f - BUTTON_HEIGHT/2f, BUTTON_WIDTH,BUTTON_HEIGHT,
-                GAME.width, GAME.height);
-        quitGameButton= new MyButton("GameOverScreen/QuitGame_Active.png", "GameOverScreen/QuitGame_Inactive.png",
-                GAME.width/2f - BUTTON_WIDTH/2f, GAME.height/2f - BUTTON_HEIGHT*1.5f - 10f, BUTTON_WIDTH,
-                BUTTON_HEIGHT, GAME.width, GAME.height);
+    private MainGame game;
+    private AbstractGameObjectFactory creator ;
+    private Texture gameOver;
+    private Preferences pref;
+    private Texture background;
+    private MyButton newGameButton;
+    private MyButton quitGameButton;
+    private int personalBest;
+    private int lastScore;
+    private float scoreTextWidth;
+    private float scoreTextHeight;
+    private GlyphLayout actualScoreText;
+    private GlyphLayout personalBestText;
+    private GlyphLayout lastScoreText;
+
+    public GameOverScreen(){
+        creator = new GameObjectFactory();
+        this.game = (MainGame)MainGame.getInstance();
+        newGameButton= creator.createButton("newgame");
+        quitGameButton= creator.createButton("quitgame");
         gameOver = new Texture("GameOverScreen/GameOver.png");
         pref = Gdx.app.getPreferences("highScore");
         background = new Texture("GameOverScreen/Stars.png");
@@ -50,28 +47,23 @@ public class GameOverScreen implements Screen {
             personalBest = pref.getInteger("pb");
         }
         if (!pref.contains("lastScore")){
-            this.setLastScore(GAME.score);
+            this.setLastScore(game.getScore());
             lastScore = 0;
         }
         else{
             lastScore = pref.getInteger("lastScore");
-            //Set This current score as lastScore for next game
-            this.setLastScore(GAME.score);
+            this.setLastScore(game.getScore());
         }
-        if (GAME.score > personalBest){
-            setHighScore(GAME.score);
+        if (game.getScore() > personalBest){
+            setHighScore(game.getScore());
         }
-        GAME.font.setColor(Color.WHITE);
-        actualScoreText= new GlyphLayout(GAME.font,createStr("Your Score: ",GAME.score));
-        personalBestText = new GlyphLayout(GAME.font,createStr("Previous Personal Best: ",personalBest));
-        lastScoreText = new GlyphLayout(GAME.font,createStr("Last Score: ",lastScore));
-        scoreTextHeight = GAME.height - gameOver.getHeight() - 10f;
-        scoreTextWidth = GAME.width /2f;
+        actualScoreText= creator.createText(createStr("Your Score: ", game.getScore()),"white");
+        personalBestText =creator.createText(createStr("Previous Personal Best: ",personalBest),"white");
+        lastScoreText = creator.createText(createStr("Last Score: ", lastScore), "white");
+        scoreTextHeight = game.getHeight() - gameOver.getHeight() - 10f;
+        scoreTextWidth = game.getWidth() /2f;
 
-        GAME.music = Gdx.audio.newMusic(Gdx.files.internal("Music/game_over.wav"));
-        GAME.music.setVolume(0.2f);
-        if(GAME.musicOn)
-            GAME.music.play();
+
     }
     private String createStr(String str,int score){
         StringBuilder sb= new StringBuilder();
@@ -84,12 +76,11 @@ public class GameOverScreen implements Screen {
         pref.putInteger("lastScore",lastScore);
         pref.flush();
     }
-    /*Used if a personal best was never set before (first game on device)*/
+
     private void setHighScore(){
         pref.putInteger("pb",0);
-        pref.flush();       //flush method makes changes in pref definitive
+        pref.flush();
     }
-    /*Used to overwrite the score in case the user made a new high score*/
     private void setHighScore(int highScore){
         pref.putInteger("pb",highScore);
         pref.flush();
@@ -97,35 +88,23 @@ public class GameOverScreen implements Screen {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0, 0);
-        GAME.batch.setProjectionMatrix(GAME.camera.combined);
-        GAME.camera.update();
-        GAME.batch.begin();
-        GAME.batch.draw(background,0,0, GAME.width, GAME.height);
-        GAME.batch.draw(gameOver, GAME.width/2f - gameOver.getWidth()/2f, GAME.height - gameOver.getHeight(), gameOver.getWidth(),gameOver.getHeight());
-        GAME.font.draw(GAME.batch,actualScoreText,(scoreTextWidth -  actualScoreText.width / 3f), (scoreTextHeight + actualScoreText.height / 3f));
-        GAME.font.draw(GAME.batch,personalBestText,scoreTextWidth - personalBestText.width / 3f,scoreTextHeight - actualScoreText.height -20f - lastScoreText.height + personalBestText.height /3f);
-        GAME.font.draw(GAME.batch,lastScoreText,scoreTextWidth - lastScoreText.width / 3f,scoreTextHeight - actualScoreText.height -10f + lastScoreText.height /3f);
-        /*Draw new Game Button Centered on the screen and set Input response*/
-        newGameButton.draw(GAME.batch);
-        if (newGameButton.isActive() && Gdx.input.justTouched()){
-            this.dispose();
-            GAME.score=0;
-            GAME.music = Gdx.audio.newMusic(Gdx.files.internal("Music/menu.mp3"));
-            GAME.setScreen(new MainMenuScreen(GAME));
-        }
-        /*Draw quit Button below new Game Button and set Input response*/
-        quitGameButton.draw(GAME.batch);
-        if (quitGameButton.isActive() && Gdx.input.justTouched()){
-            if (Gdx.input.justTouched()){
-                this.dispose();
-                Gdx.app.exit();
-            }
-        }
-        /*Exit game*/
+        game.getBatch().setProjectionMatrix(game.getCamera().combined);
+        game.getCamera().update();
+        game.getBatch().begin();
+
+        game.getBatch().draw(background,0,0, game.getWidth(), game.getHeight());
+        game.getBatch().draw(gameOver, game.getWidth() /2f - gameOver.getWidth()/2f, game.getHeight() - gameOver.getHeight(), gameOver.getWidth(),gameOver.getHeight());
+        game.getFont().draw(game.getBatch(),actualScoreText,(scoreTextWidth -  actualScoreText.width / 3f), (scoreTextHeight + actualScoreText.height / 3f));
+        game.getFont().draw(game.getBatch(),personalBestText,scoreTextWidth - personalBestText.width / 3f,scoreTextHeight - actualScoreText.height -20f - lastScoreText.height + personalBestText.height /3f);
+        game.getFont().draw(game.getBatch(),lastScoreText,scoreTextWidth - lastScoreText.width / 3f,scoreTextHeight - actualScoreText.height -10f + lastScoreText.height /3f);
+
+        newGameButton.act(game.getBatch());
+        quitGameButton.act(game.getBatch());
         if (Gdx.input.isKeyJustPressed(Input.Keys.Q)){
             Gdx.app.exit();
         }
-        GAME.batch.end();
+
+        game.getBatch().end();
     }
     @Override
     public void dispose() {
@@ -144,7 +123,14 @@ public class GameOverScreen implements Screen {
     public void resume() { }
 
     @Override
-    public void hide() { }
+    public void hide() {
+        this.dispose();
+    }
     @Override
-    public void show() { }
+    public void show() {
+        game.setMusic(Gdx.audio.newMusic(Gdx.files.internal("Music/game_over.wav")));
+        game.getMusic().setVolume(0.2f);
+        if(game.isMusicOn())
+            game.getMusic().play();
+    }
 }

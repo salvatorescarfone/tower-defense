@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
-public class Weapon {
+public class FireBall {
     final float GROUND_HEIGHT = 22f;
     final int COLS = 60;
     final int ROWS = 1;
@@ -28,7 +28,7 @@ public class Weapon {
     final float speedMax = 600f;
     Music castFx = Gdx.audio.newMusic(Gdx.files.internal("SoundFx/fireball_cast.mp3"));
 
-    public Weapon(float x, float y){
+    public FireBall(float x, float y){
         this.x=x;
         this.y=y;
         idleAnimation = createAnimation(new Texture("animations/fireball/idle_flipped.png"));

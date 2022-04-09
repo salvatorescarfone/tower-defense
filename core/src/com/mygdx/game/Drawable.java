@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
 
-public class Drawable {
+public abstract class Drawable {
 
     Rectangle hitBox;
     Drawable(float x, float y, float width, float height){

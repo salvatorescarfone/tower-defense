@@ -4,19 +4,47 @@ package com.mygdx.game;
  *
  */
 
-public class Hero extends Animatable{
-    float width;
-    float height;
-    Hero(float x, float y) {
-        super("animations/hero/hero_idle.atlas", x, y, 57f, 86f);//Hitbox not drawn on character
-        width=57f;
-        height=86f;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+public class Hero extends Animatable{
+    private Preferences heroSkin;
+    Hero(String deathAtlas, float x, float y, float width, float height) {
+        super("animations/hero/hero_idle.atlas", x, y, width, height);
+        heroSkin = Gdx.app.getPreferences("heroSkin");
+        if (!heroSkin.contains("idle")){
+            heroSkin.putString("idle","animations/hero/hero_idle.atlas" );
+            heroSkin.putString("death",deathAtlas);
+            heroSkin.putFloat("x",x);
+            heroSkin.putFloat("y",y);
+            heroSkin.putFloat("width",width);
+            heroSkin.putFloat("height",height);
+            heroSkin.flush();
+        }
+        this.currentAtlasUrl= heroSkin.getString("idle");
     }
     public void Idle(){
-        this.currentAtlasUrl = "animations/hero/hero_idle.atlas";
+        this.currentAtlasUrl = heroSkin.getString("idle");
     }
     public void Death(){
-        this.currentAtlasUrl = "animations/hero/hero_death.atlas";
+        this.currentAtlasUrl = heroSkin.getString("death");
+    }
+
+    public void changeSkin(String idleAtlas, String deathAtlas, float x, float y, float width, float height){
+        heroSkin.putString("idle",idleAtlas );
+        heroSkin.putString("death",deathAtlas);
+        heroSkin.putFloat("x",x);
+        heroSkin.putFloat("y",y);
+        heroSkin.putFloat("width",width);
+        heroSkin.putFloat("height",height);
+        heroSkin.flush();
+        this.hitBox.x=x;
+        this.hitBox.y=y;
+        this.hitBox.width=width;
+        this.hitBox.height=height;
+    }
+    public void act(SpriteBatch batch){
+        this.animate(batch, 11f);
     }
 }

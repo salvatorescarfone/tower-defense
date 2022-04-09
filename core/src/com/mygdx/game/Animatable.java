@@ -8,7 +8,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.*;
 
 
-public class Animatable extends Drawable{
+public abstract class Animatable extends Drawable{
 
     TextureAtlas textureAtlas;
     Animation<TextureRegion> animation;

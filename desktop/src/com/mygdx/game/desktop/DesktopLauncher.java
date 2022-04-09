@@ -11,6 +11,7 @@ public class DesktopLauncher {
 		config.setWindowedMode(1280,680);
 		config.setResizable(false);
 		config.setWindowIcon("GameScreen/game_icon.png");
-		new Lwjgl3Application(new MainGame(),config);
+		new Lwjgl3Application(MainGame.getInstance(),config);
 	}
 }
+

@@ -14,8 +14,10 @@ public class MyButton {
     float screenWidth;
     float screenHeight;
     boolean mouseIsHovering;
+    private DoBehaviour db;
 
-    public MyButton(String active, String inactive, float x, float y, float width, float height, float screenWidth, float screenHeight) {
+    public MyButton(String active, String inactive, float x, float y, float width, float height,
+                    float screenWidth, float screenHeight, DoBehaviour db) {
         this.active = new Texture(active);
         this.inactive = new Texture(inactive);
         this.width = width;
@@ -24,11 +26,12 @@ public class MyButton {
         this.y=y;
         this.screenWidth=screenWidth;
         this.screenHeight=screenHeight;
+        this.db = db;
     }
     //Handles button drawing and listens for mouse hovering
     public void draw(SpriteBatch batch){
         if (Gdx.input.getX() < this.x + this.width && Gdx.input.getX() > this.x
-            && this.screenHeight - Gdx.input.getY() < this.y + this.height && this.screenHeight - Gdx.input.getY() > this.y){
+                && this.screenHeight - Gdx.input.getY() < this.y + this.height && this.screenHeight - Gdx.input.getY() > this.y){
             batch.draw(this.active,this.x,this.y,this.width,this.height);
             mouseIsHovering=true;
         }
@@ -46,5 +49,14 @@ public class MyButton {
         active.dispose();
         inactive.dispose();
     }
+    public void act(SpriteBatch batch){
+        this.draw(batch);
+        if (this.isActive() && Gdx.input.justTouched()){
+            db.buttonClicked();
+        }
+    }
 
+    public DoBehaviour getDb() {
+        return db;
+    }
 }
