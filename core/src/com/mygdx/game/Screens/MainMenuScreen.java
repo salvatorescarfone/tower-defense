@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package com.mygdx.game.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -6,6 +6,8 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.mygdx.game.GameObjects.*;
+import com.mygdx.game.MainGame.MainGame;
 
 /* This is the First Screen that the User is met with. It's the MainMenuScreen. In here are rendered all
  * graphics for the main menu and the user is met with instructions on how to start the game (click
@@ -53,7 +55,7 @@ public class MainMenuScreen implements Screen {
         game.getCamera().update();
         game.getBatch().begin();
         game.getBatch().draw(background,0,0, game.getWidth(), game.getHeight());
-        game.getBatch().draw(tower.img,tower.hitBox.x,tower.hitBox.y,tower.hitBox.width,tower.hitBox.height);
+        game.getBatch().draw(tower.getImg(),tower.hitBox.x,tower.hitBox.y,tower.hitBox.width,tower.hitBox.height);
         game.getBatch().draw(title, game.getWidth() /2f - title.getWidth()/2f, game.getHeight() /2f - title.getHeight()/2f, title.getWidth(),title.getHeight());
         game.getFont().draw(game.getBatch(),startText,(game.getWidth() /2f -  startText.width / 2), (game.getHeight() - startText.height / 3));
 

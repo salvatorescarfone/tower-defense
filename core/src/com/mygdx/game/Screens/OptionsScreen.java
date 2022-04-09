@@ -1,9 +1,14 @@
-package com.mygdx.game;
+package com.mygdx.game.Screens;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.mygdx.game.GameObjects.AbstractGameObjectFactory;
+import com.mygdx.game.GameObjects.GameObjectFactory;
+import com.mygdx.game.GameObjects.MyButton;
+import com.mygdx.game.GameObjects.MyMusicButton;
+import com.mygdx.game.MainGame.MainGame;
 
 public class OptionsScreen implements Screen {
 

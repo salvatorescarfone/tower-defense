@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package com.mygdx.game.GameObjects;
 
 /*Main class Regarding the Character that will be used by the user to fight enemies.
  *

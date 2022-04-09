@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package com.mygdx.game.MainGame;
 
 import com.badlogic.gdx.utils.TimeUtils;
 

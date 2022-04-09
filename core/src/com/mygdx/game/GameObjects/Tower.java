@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package com.mygdx.game.GameObjects;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -27,4 +27,17 @@ public class Tower extends Drawable{
     public void dispose(){
         this.img.dispose();
     }
+
+    public int getTowerLife() {
+        return towerLife;
+    }
+
+    public void setTowerLife(int towerLife) {
+        this.towerLife = towerLife;
+    }
+
+    public Texture getImg() {
+        return img;
+    }
+
 }

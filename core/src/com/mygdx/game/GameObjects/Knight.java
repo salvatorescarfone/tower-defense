@@ -1,9 +1,10 @@
-package com.mygdx.game;
+package com.mygdx.game.GameObjects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.mygdx.game.MainGame.MainGame;
 
 public class Knight extends Enemy {
     public Knight() {

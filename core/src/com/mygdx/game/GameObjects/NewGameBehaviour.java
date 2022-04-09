@@ -1,6 +1,7 @@
-package com.mygdx.game;
+package com.mygdx.game.GameObjects;
 
 import com.badlogic.gdx.Gdx;
+import com.mygdx.game.Screens.MainMenuScreen;
 
 public class NewGameBehaviour implements DoBehaviour{
     @Override

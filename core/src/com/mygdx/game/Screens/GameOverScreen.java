@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package com.mygdx.game.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -7,6 +7,10 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.mygdx.game.GameObjects.AbstractGameObjectFactory;
+import com.mygdx.game.GameObjects.GameObjectFactory;
+import com.mygdx.game.GameObjects.MyButton;
+import com.mygdx.game.MainGame.MainGame;
 
 /* This Class is used whenever the player loses a game. Here are shown a Game Over Screen and in this State of the
  * game a new Libgdx Preference is initialized. The Preference is used to save the score of the game locally on the

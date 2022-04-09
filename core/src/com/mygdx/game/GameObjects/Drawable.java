@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package com.mygdx.game.GameObjects;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 public abstract class Drawable {
 
-    Rectangle hitBox;
+    public Rectangle hitBox;
     Drawable(float x, float y, float width, float height){
         hitBox = new Rectangle(x,y,width,height);
     }

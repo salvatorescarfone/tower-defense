@@ -1,10 +1,14 @@
-package com.mygdx.game;
+package com.mygdx.game.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.mygdx.game.GameObjects.AbstractGameObjectFactory;
+import com.mygdx.game.GameObjects.GameObjectFactory;
+import com.mygdx.game.GameObjects.MyButton;
+import com.mygdx.game.MainGame.MainGame;
 
 public class HowToPlayScreen implements Screen {
     private MainGame game;

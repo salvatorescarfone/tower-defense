@@ -1,8 +1,9 @@
-package com.mygdx.game;
+package com.mygdx.game.GameObjects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.game.MainGame.MainGame;
 
 public class MyMusicButton extends MyButton{
     private Texture offActive;

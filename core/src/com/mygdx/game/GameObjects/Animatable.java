@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package com.mygdx.game.GameObjects;
 
 
 import com.badlogic.gdx.Gdx;
@@ -19,20 +19,20 @@ public abstract class Animatable extends Drawable{
         this.textureAtlas = new TextureAtlas(Gdx.files.internal(this.currentAtlasUrl));
     }
     //add method visibility
-    void animate(SpriteBatch batch, float fps){
+    public void animate(SpriteBatch batch, float fps){
         elapsedTime += Gdx.graphics.getDeltaTime();
-        this.dispose();
+        this.textureAtlas.dispose();
         this.textureAtlas = new TextureAtlas(Gdx.files.internal(this.currentAtlasUrl));
         animation = new Animation<TextureRegion>(1f/fps, textureAtlas.getRegions());
         batch.draw(animation.getKeyFrame(elapsedTime, currentlyLooping), hitBox.x, hitBox.y);
     }
-    void stop(SpriteBatch batch, float delta){
+    public void stop(SpriteBatch batch, float delta){
         elapsedTime=delta;
         animation = new Animation<TextureRegion>(1f, textureAtlas.getRegions());
         batch.draw(animation.getKeyFrame(elapsedTime, currentlyLooping), hitBox.x, hitBox.y);
 
     }
-    void dispose(){
+    public void dispose(){
         this.textureAtlas.dispose();
     }
 }

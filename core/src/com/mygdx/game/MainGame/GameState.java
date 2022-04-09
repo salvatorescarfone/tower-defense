@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package com.mygdx.game.MainGame;
 
 public abstract class GameState {
     MainGame game = (MainGame) MainGame.getInstance();

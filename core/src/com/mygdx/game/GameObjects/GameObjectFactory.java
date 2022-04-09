@@ -1,9 +1,10 @@
-package com.mygdx.game;
+package com.mygdx.game.GameObjects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.MathUtils;
+import com.mygdx.game.MainGame.MainGame;
 
 public class GameObjectFactory extends AbstractGameObjectFactory{
     @Override

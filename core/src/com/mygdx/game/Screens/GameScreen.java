@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package com.mygdx.game.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -7,6 +7,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.mygdx.game.GameObjects.*;
+import com.mygdx.game.MainGame.MainGame;
+import com.mygdx.game.MainGame.PauseState;
 
 import java.util.Iterator;
 
@@ -87,13 +90,12 @@ public class GameScreen implements Screen {
                     Enemy e = iterator.next();
                     if (e.isDead()) {
                         iterator.remove();
-                        e.dispose();
                         hasEnemy = false;
                     }
                 }
                 timeOfDeath=0;
             }
-            if (tower.towerLife == 0){
+            if (tower.getTowerLife() == 0){
                 game.getMusic().stop();
                 for(Enemy en : enemies){
                     en.stopSounds();
@@ -110,8 +112,8 @@ public class GameScreen implements Screen {
             hero.act(game.getBatch());
             weapon.draw(game.getBatch(), delta);
         }
-        game.getFont().draw(game.getBatch(),creator.createText( createStr(tower.towerLife, game.getScore()),"white"), 250f, 660f);
-        tower.draw(game.getBatch(), tower.img);
+        game.getFont().draw(game.getBatch(),creator.createText( createStr(tower.getTowerLife(), game.getScore()),"white"), 250f, 660f);
+        tower.draw(game.getBatch(), tower.getImg());
 
         game.getBatch().end();
     }
@@ -131,9 +133,7 @@ public class GameScreen implements Screen {
         }
     }
     @Override
-    public void hide() {
-        this.dispose();
-    }
+    public void hide() {}
 
     @Override
     public void dispose() {

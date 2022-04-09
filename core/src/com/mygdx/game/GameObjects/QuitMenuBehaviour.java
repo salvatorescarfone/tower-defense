@@ -1,4 +1,6 @@
-package com.mygdx.game;
+package com.mygdx.game.GameObjects;
+
+import com.mygdx.game.Screens.MainMenuScreen;
 
 public class QuitMenuBehaviour implements DoBehaviour{
     @Override

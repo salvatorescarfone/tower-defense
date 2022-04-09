@@ -1,9 +1,10 @@
-package com.mygdx.game;
+package com.mygdx.game.GameObjects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.mygdx.game.MainGame.MainGame;
 
 public class Archer extends Enemy{
 
@@ -88,7 +89,7 @@ public class Archer extends Enemy{
         if (!this.isDead()) {
             this.animate(batch, 11f);
         } else {
-            this.animate(batch, 5f);
+            this.animate(batch, 0.05f);
         }
         if (weapon.hits(this)) {
             this.gotHit();
