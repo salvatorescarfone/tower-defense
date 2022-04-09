@@ -65,7 +65,8 @@ public class MainMenuScreen implements Screen {
         optionsButton.act(game.getBatch());
         if(!optionsButton.isActive() && Gdx.input.justTouched()){
             game.getMusic().stop();
-            game.setScreen(game.getGameScreen());
+            game.setScreen(new GameScreen());
+            this.dispose();
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.Q)){
             Gdx.app.exit();

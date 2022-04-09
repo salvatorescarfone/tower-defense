@@ -7,6 +7,6 @@ public class NewGameBehaviour implements DoBehaviour{
     public void buttonClicked() {
         game.setScore(0);
         game.setMusic(Gdx.audio.newMusic(Gdx.files.internal("Music/menu.mp3")));
-        game.setScreen(game.getMainMenuScreen());
+        game.setScreen(new MainMenuScreen());
     }
 }

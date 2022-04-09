@@ -68,7 +68,8 @@ public class GameScreen implements Screen {
                 game.setScore(0);
                 game.getMusic().stop();
                 game.setMusic(Gdx.audio.newMusic(Gdx.files.internal("Music/menu.mp3")));
-                game.setScreen(game.getMainMenuScreen());
+                this.dispose();
+                game.setScreen(new MainMenuScreen());
             }
 
         }
@@ -98,7 +99,8 @@ public class GameScreen implements Screen {
                 for(Enemy en : enemies){
                     en.stopSounds();
                 }
-                game.setScreen(game.getGameOverScreen());
+                this.dispose();
+                game.setScreen(new GameOverScreen());
             }
 
             if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){

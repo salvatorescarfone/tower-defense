@@ -4,6 +4,6 @@ public class OptionsBehaviour implements DoBehaviour{
 
     @Override
     public void buttonClicked() {
-        game.setScreen(game.getOptionsScreen());
+        game.setScreen(new OptionsScreen());
     }
 }

@@ -31,52 +31,6 @@ public class MainGame extends Game {
 	private GameState currentState;
 	private long pauseTime;
 	private boolean paused;
-	private Screen mainMenuScreen;
-	private Screen optionsScreen;
-	private Screen howToPlayScreen;
-	private Screen gameOverScreen;
-	private Screen gameScreen;
-
-	public Screen getMainMenuScreen() {
-		return mainMenuScreen;
-	}
-
-	public void setMainMenuScreen(Screen mainMenuScreen) {
-		this.mainMenuScreen = mainMenuScreen;
-	}
-
-	public Screen getOptionsScreen() {
-		return optionsScreen;
-	}
-
-	public void setOptionsScreen(Screen optionsScreen) {
-		this.optionsScreen = optionsScreen;
-	}
-
-	public Screen getHowToPlayScreen() {
-		return howToPlayScreen;
-	}
-
-	public void setHowToPlayScreen(Screen howToPlayScreen) {
-		this.howToPlayScreen = howToPlayScreen;
-	}
-
-	public Screen getGameOverScreen() {
-		return gameOverScreen;
-	}
-
-	public void setGameOverScreen(Screen gameOverScreen) {
-		this.gameOverScreen = gameOverScreen;
-	}
-
-	public Screen getGameScreen() {
-		return gameScreen;
-	}
-
-	public void setGameScreen(Screen gameScreen) {
-		this.gameScreen = gameScreen;
-	}
-
 
 	public long getPauseTime() {
 		return pauseTime;
@@ -192,7 +146,6 @@ public class MainGame extends Game {
 
 	/*Create a MainGame*/
 	public void create() {
-		mainMenuScreen = new MainMenuScreen();
 		paused=false;
 		pauseTime=0;
 		runningState = new RunningState();
@@ -206,7 +159,7 @@ public class MainGame extends Game {
 		camera.setToOrtho(false,width, height);
 		viewport = new ExtendViewport(width, height,camera);
 		music = Gdx.audio.newMusic(Gdx.files.internal("Music/menu.mp3"));
-		setScreen(mainMenuScreen);
+		setScreen(new MainMenuScreen());
 	}
 	private MainGame(){
 		super();
