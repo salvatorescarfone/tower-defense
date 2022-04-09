@@ -28,7 +28,7 @@ public class HowToPlayScreen implements Screen {
 
         game.getBatch().draw(background,0f,0f, game.getWidth(), game.getHeight());
 
-        backButton.act(game.getBatch());
+        backButton.act(game.getBatch(), this);
         if (Gdx.input.isKeyJustPressed(Input.Keys.Q)){
             Gdx.app.exit();
         }

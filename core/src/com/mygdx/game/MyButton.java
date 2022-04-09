@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -49,9 +50,10 @@ public class MyButton {
         active.dispose();
         inactive.dispose();
     }
-    public void act(SpriteBatch batch){
+    public void act(SpriteBatch batch, Screen actualScreen){
         this.draw(batch);
         if (this.isActive() && Gdx.input.justTouched()){
+            actualScreen.dispose();
             db.buttonClicked();
         }
     }

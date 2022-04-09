@@ -1,8 +1,6 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -39,10 +37,10 @@ public class OptionsScreen implements Screen {
         game.getBatch().begin();
         game.getBatch().draw(background,0f,0f, game.getWidth(), game.getHeight());
         game.getFont().draw(game.getBatch(),optionsText, game.getWidth() /2f - optionsText.width/2f, game.getHeight() - optionsText.height/3f);
-        quitGameButton.act(game.getBatch());
-        quitMenuButton.act(game.getBatch());
+        quitGameButton.act(game.getBatch(), this);
+        quitMenuButton.act(game.getBatch(), this);
         musicButton.act(game.getBatch());
-        howToPlayButton.act(game.getBatch());
+        howToPlayButton.act(game.getBatch(), this);
         game.getBatch().end();
     }
 

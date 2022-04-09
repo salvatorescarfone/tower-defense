@@ -26,8 +26,6 @@ public class Archer extends Enemy{
     @Override
     public void movement(Tower t) {
         if (this.isDead()){
-            //Do nothing...
-            //this.hitBox.x=this.hitBox.x;
 
         }
         else {

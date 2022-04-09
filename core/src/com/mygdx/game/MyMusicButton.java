@@ -8,9 +8,6 @@ public class MyMusicButton extends MyButton{
     private Texture offActive;
     private Texture offInactive;
     private boolean playing;
-    public boolean isPlaying() {
-        return playing;
-    }
 
     public void setPlaying(boolean playing) {
         this.playing = playing;

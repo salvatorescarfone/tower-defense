@@ -3,9 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -89,6 +87,7 @@ public class GameScreen implements Screen {
                     Enemy e = iterator.next();
                     if (e.isDead()) {
                         iterator.remove();
+                        e.dispose();
                         hasEnemy = false;
                     }
                 }
@@ -124,7 +123,7 @@ public class GameScreen implements Screen {
     public void resume() { }
     @Override
     public void show() {
-
+        game.getMusic().dispose();
         game.setMusic(Gdx.audio.newMusic(Gdx.files.internal("Music/in_game.mp3")));
         if(game.isMusicOn()){
             game.getMusic().setLooping(true);

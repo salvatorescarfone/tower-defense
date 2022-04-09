@@ -3,7 +3,6 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -24,7 +23,6 @@ public class MainMenuScreen implements Screen {
     private Texture title;
     private GlyphLayout startText;
 
-    /*Constructor for the MainMenu*/
     public MainMenuScreen(){
         this.game=(MainGame)MainGame.getInstance();
         creator = new GameObjectFactory();
@@ -41,7 +39,7 @@ public class MainMenuScreen implements Screen {
     @Override
     public void show() {
         game.getMusic().setVolume(0.2f);
-        if(!game.getMusic().isPlaying() && game.isMusicOn()){
+        if(!game.getMusic().isPlaying() && game.isMusicOn()) {
             game.getMusic().play();
             game.getMusic().setLooping(true);
         }
@@ -54,7 +52,6 @@ public class MainMenuScreen implements Screen {
         game.getBatch().setProjectionMatrix(game.getCamera().combined);
         game.getCamera().update();
         game.getBatch().begin();
-
         game.getBatch().draw(background,0,0, game.getWidth(), game.getHeight());
         game.getBatch().draw(tower.img,tower.hitBox.x,tower.hitBox.y,tower.hitBox.width,tower.hitBox.height);
         game.getBatch().draw(title, game.getWidth() /2f - title.getWidth()/2f, game.getHeight() /2f - title.getHeight()/2f, title.getWidth(),title.getHeight());
@@ -62,11 +59,11 @@ public class MainMenuScreen implements Screen {
 
         hero.act(game.getBatch());
         enemy.act(game.getBatch(), 11f,tower.hitBox);
-        optionsButton.act(game.getBatch());
+        optionsButton.act(game.getBatch(), this);
         if(!optionsButton.isActive() && Gdx.input.justTouched()){
             game.getMusic().stop();
-            game.setScreen(new GameScreen());
             this.dispose();
+            game.setScreen(new GameScreen());
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.Q)){
             Gdx.app.exit();

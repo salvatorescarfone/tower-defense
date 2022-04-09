@@ -7,6 +7,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 public class Hero extends Animatable{
     private Preferences heroSkin;
@@ -26,6 +27,7 @@ public class Hero extends Animatable{
     }
     public void Idle(){
         this.currentAtlasUrl = heroSkin.getString("idle");
+        this.textureAtlas = new TextureAtlas(Gdx.files.internal(currentAtlasUrl));
     }
     public void Death(){
         this.currentAtlasUrl = heroSkin.getString("death");

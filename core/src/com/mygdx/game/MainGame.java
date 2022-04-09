@@ -2,22 +2,15 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
-import java.applet.Applet;
-
-/* Main app that contains graphics elements for the game: from design, camera, background
- * and more.
- *
- */
 public class MainGame extends Game {
 	private Music music;
-	private int score = 0;			//Total Score of the game in process
+	private int score = 0;
 	private SpriteBatch batch;
 	private BitmapFont font;
 	private OrthographicCamera camera;
@@ -35,116 +28,73 @@ public class MainGame extends Game {
 	public long getPauseTime() {
 		return pauseTime;
 	}
-
 	public void setPauseTime(long pauseTime) {
 		this.pauseTime = pauseTime;
 	}
-
 	public boolean isPaused() {
 		return paused;
 	}
-
 	public void setPaused(boolean paused) {
 		this.paused = paused;
 	}
-
 	public Music getMusic() {
 		return music;
 	}
-
 	public void setMusic(Music music) {
 		this.music = music;
 	}
-
 	public GameState getRunningState() {
 		return runningState;
 	}
-
 	public void setRunningState(GameState runningState) {
 		this.runningState = runningState;
 	}
-
 	public GameState getPauseState() {
 		return pauseState;
 	}
-
 	public void setPauseState(GameState pauseState) {
 		this.pauseState = pauseState;
 	}
-
 	public GameState getCurrentState() {
 		return currentState;
 	}
-
 	public void setCurrentState(GameState currentState) {
 		this.currentState = currentState;
 	}
-
 	public int getScore() {
 		return score;
 	}
-
 	public void setScore(int score) {
 		this.score = score;
 	}
-
 	public SpriteBatch getBatch() {
 		return batch;
 	}
-
-	public void setBatch(SpriteBatch batch) {
-		this.batch = batch;
-	}
-
 	public BitmapFont getFont() {
 		return font;
 	}
-
-	public void setFont(BitmapFont font) {
-		this.font = font;
-	}
-
 	public OrthographicCamera getCamera() {
 		return camera;
 	}
-
-	public void setCamera(OrthographicCamera camera) {
-		this.camera = camera;
-	}
-
-	public ExtendViewport getViewport() {
-		return viewport;
-	}
-
-	public void setViewport(ExtendViewport viewport) {
-		this.viewport = viewport;
-	}
-
 	public float getWidth() {
 		return width;
 	}
-
 	public void setWidth(float width) {
 		this.width = width;
 	}
-
 	public float getHeight() {
 		return height;
 	}
-
 	public void setHeight(float height) {
 		this.height = height;
 	}
-
 	public boolean isMusicOn() {
 		return musicOn;
 	}
-
 	public void setMusicOn(boolean musicOn) {
 		this.musicOn = musicOn;
 	}
 
-	/*Create a MainGame*/
 	public void create() {
 		paused=false;
 		pauseTime=0;
@@ -174,20 +124,13 @@ public class MainGame extends Game {
 		/* Without this call, the Screen that you set in the create()
 		 * method will not be rendered if you override the render method in your Game class!
 		 */
-		super.render(); // important!
+		super.render();
 	}
-	//Disposing of heavy objects
 	public void dispose() {
 		batch.dispose();
 		font.dispose();
 		music.dispose();
 	}
-	/*
-	public void reset(){
-		gameScreen.dispose();
-		gameScreen = new GameScreen(this);
-	}
-*/
 	public void resize(int width, int height){
 		viewport.update(width,height,true);
 		camera.setToOrtho(false,width,height);
