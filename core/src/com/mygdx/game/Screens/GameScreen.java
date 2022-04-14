@@ -63,7 +63,9 @@ public class GameScreen implements Screen {
             }
             hero.stop(game.getBatch(),delta);
             weapon.stop(game.getBatch(),delta);
-            game.getBatch().draw(pauseText, game.getWidth() /2f - pauseText.getWidth()/2f, game.getHeight() /2f - pauseText.getHeight()/2f);
+            //metodo di libGDX
+            game.getBatch().draw(pauseText, game.getWidth() /2f -
+                    pauseText.getWidth()/2f, game.getHeight() /2f - pauseText.getHeight()/2f);
 
             if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
                 game.setScore(0);
@@ -75,6 +77,11 @@ public class GameScreen implements Screen {
 
         }
         else{
+            if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
+                game.getCurrentState().pause();
+                game.getMusic().pause();
+            }
+
             if(game.isMusicOn())
                 game.getMusic().play();
             if (!hasEnemy){
@@ -102,11 +109,6 @@ public class GameScreen implements Screen {
                 }
                 this.dispose();
                 game.setScreen(new GameOverScreen());
-            }
-
-            if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-                game.getCurrentState().pause();
-                game.getMusic().pause();
             }
 
             hero.act(game.getBatch());

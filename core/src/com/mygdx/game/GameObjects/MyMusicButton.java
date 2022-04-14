@@ -51,17 +51,16 @@ public class MyMusicButton extends MyButton{
         inactive.dispose();
 
     }
-    public void act(SpriteBatch batch){
-        this.draw(batch);
+    public void act(MainGame game){
+        this.draw(game.getBatch());
         if (this.isActive() && Gdx.input.justTouched()) {
-            MainGame game = (MainGame) MainGame.getInstance();
             if (game.isMusicOn()) {
                 this.setPlaying(false);
-                getDb().buttonClicked();
+                getDb().buttonClicked(game);
             }
             else{
                 this.setPlaying(true);
-                getDb().buttonClicked();
+                getDb().buttonClicked(game);
             }
         }
     }

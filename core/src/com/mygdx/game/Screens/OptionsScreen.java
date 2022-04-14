@@ -42,10 +42,10 @@ public class OptionsScreen implements Screen {
         game.getBatch().begin();
         game.getBatch().draw(background,0f,0f, game.getWidth(), game.getHeight());
         game.getFont().draw(game.getBatch(),optionsText, game.getWidth() /2f - optionsText.width/2f, game.getHeight() - optionsText.height/3f);
-        quitGameButton.act(game.getBatch(), this);
-        quitMenuButton.act(game.getBatch(), this);
-        musicButton.act(game.getBatch());
-        howToPlayButton.act(game.getBatch(), this);
+        quitGameButton.act(game, this);
+        quitMenuButton.act(game, this);
+        musicButton.act(game);
+        howToPlayButton.act(game, this);
         game.getBatch().end();
     }
 

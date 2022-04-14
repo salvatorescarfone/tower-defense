@@ -61,7 +61,7 @@ public class MainMenuScreen implements Screen {
 
         hero.act(game.getBatch());
         enemy.act(game.getBatch(), 11f,tower.hitBox);
-        optionsButton.act(game.getBatch(), this);
+        optionsButton.act(game, this);
         if(!optionsButton.isActive() && Gdx.input.justTouched()){
             game.getMusic().stop();
             this.dispose();

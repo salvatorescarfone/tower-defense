@@ -101,8 +101,8 @@ public class GameOverScreen implements Screen {
         game.getFont().draw(game.getBatch(),personalBestText,scoreTextWidth - personalBestText.width / 3f,scoreTextHeight - actualScoreText.height -20f - lastScoreText.height + personalBestText.height /3f);
         game.getFont().draw(game.getBatch(),lastScoreText,scoreTextWidth - lastScoreText.width / 3f,scoreTextHeight - actualScoreText.height -10f + lastScoreText.height /3f);
 
-        newGameButton.act(game.getBatch(), this);
-        quitGameButton.act(game.getBatch(), this);
+        newGameButton.act(game, this);
+        quitGameButton.act(game, this);
         if (Gdx.input.isKeyJustPressed(Input.Keys.Q)){
             Gdx.app.exit();
         }
